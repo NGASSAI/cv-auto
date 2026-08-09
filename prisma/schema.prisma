@@ -1,0 +1,227 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Utilisateur {
+  id             String        @id @default(cuid())
+  nom            String?
+  email          String        @unique
+  motDePasse     String?
+  emailVerifieLe DateTime?
+  image          String?
+  creeLe         DateTime      @default(now())
+  misAJourLe     DateTime      @updatedAt
+  abonnement     Abonnement?
+  comptes        CompteOAuth[]
+  cvs            CV[]
+  sessions       Session[]
+
+  @@map("utilisateurs")
+  role     Role             @default(UTILISATEUR)
+  demandes DemandePremium[]
+}
+
+model CompteOAuth {
+  id                  String      @id @default(cuid())
+  utilisateurId       String
+  fournisseur         String
+  fournisseurCompteId String
+  refreshToken        String?
+  accessToken         String?
+  expiresAt           Int?
+  tokenType           String?
+  scope               String?
+  idToken             String?
+  utilisateur         Utilisateur @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+
+  @@unique([fournisseur, fournisseurCompteId])
+  @@map("comptes_oauth")
+}
+
+model Session {
+  id            String      @id @default(cuid())
+  sessionToken  String      @unique
+  utilisateurId String
+  expire        DateTime
+  utilisateur   Utilisateur @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Abonnement {
+  id                   String           @id @default(cuid())
+  utilisateurId        String           @unique
+  plan                 PlanAbonnement   @default(GRATUIT)
+  statut               StatutAbonnement @default(ACTIF)
+  stripeCustomerId     String?          @unique
+  stripeSubscriptionId String?          @unique
+  dateDebut            DateTime?
+  dateFin              DateTime?
+  creeLe               DateTime         @default(now())
+  misAJourLe           DateTime         @updatedAt
+  utilisateur          Utilisateur      @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+
+  @@map("abonnements")
+}
+
+model CV {
+  id            String                    @id @default(cuid())
+  utilisateurId String
+  titre         String                    @default("Mon CV")
+  templateId    String                    @default("classique")
+  couleurAccent String                    @default("#2563eb")
+  police        String                    @default("inter")
+  estPublic     Boolean                   @default(false)
+  slugPublic    String?                   @unique
+  creeLe        DateTime                  @default(now())
+  misAJourLe    DateTime                  @updatedAt
+  utilisateur   Utilisateur               @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+  informations  InformationsPersonnelles?
+  sections      Section[]
+
+  @@map("cvs")
+}
+
+model InformationsPersonnelles {
+  id         String  @id @default(cuid())
+  cvId       String  @unique
+  prenom     String?
+  nom        String?
+  titrePoste String?
+  email      String?
+  telephone  String?
+  adresse    String?
+  photoUrl   String?
+  resume     String?
+  cv         CV      @relation(fields: [cvId], references: [id], onDelete: Cascade)
+
+  @@map("informations_personnelles")
+}
+
+model Section {
+  id         String        @id @default(cuid())
+  cvId       String
+  type       TypeSection
+  titre      String
+  ordre      Int
+  estVisible Boolean       @default(true)
+  items      ItemSection[]
+  cv         CV            @relation(fields: [cvId], references: [id], onDelete: Cascade)
+
+  @@index([cvId])
+  @@map("sections")
+}
+
+model ItemSection {
+  id          String    @id @default(cuid())
+  sectionId   String
+  ordre       Int
+  titre       String?
+  sousTitre   String?
+  lieu        String?
+  dateDebut   DateTime?
+  dateFin     DateTime?
+  description String?
+  donneesJson Json?
+  section     Section   @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+
+  @@index([sectionId])
+  @@map("items_section")
+}
+
+enum StatutAbonnement {
+  ACTIF
+  EN_ATTENTE
+  ANNULE
+  EXPIRE
+}
+
+enum PlanAbonnement {
+  GRATUIT
+  MENSUEL
+  ANNUEL
+}
+
+enum TypeSection {
+  EXPERIENCE
+  FORMATION
+  COMPETENCES
+  LANGUES
+  CENTRES_INTERET
+  CERTIFICATIONS
+  PROJETS
+  PERSONNALISEE
+}
+model TokenReinitialisation {
+  id            String   @id @default(cuid())
+  email         String
+  token         String   @unique
+  expireLe      DateTime
+  creeLe        DateTime @default(now())
+
+  @@index([email])
+  @@index([token])
+  @@map("tokens_reinitialisation")
+}
+
+// ============================================
+// RÔLES
+// ============================================
+
+enum Role {
+  UTILISATEUR
+  ADMIN
+}
+
+// Ajout du champ role sur le modèle Utilisateur existant :
+// role Role @default(UTILISATEUR)
+
+// ============================================
+// DEMANDES PREMIUM
+// ============================================
+
+enum StatutDemande {
+  EN_ATTENTE
+  APPROUVEE
+  REFUSEE
+}
+
+model DemandePremium {
+  id            String         @id @default(cuid())
+  utilisateurId String
+  statut        StatutDemande  @default(EN_ATTENTE)
+  message       String?        @db.Text // note optionnelle laissée par l'utilisateur
+  noteAdmin     String?        @db.Text // raison d'un refus, par exemple
+  creeLe        DateTime       @default(now())
+  traiteLe      DateTime?
+
+  utilisateur Utilisateur @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+
+  @@index([utilisateurId])
+  @@index([statut])
+  @@map("demandes_premium")
+}
+
+// ============================================
+// TEMPLATES DE CV (gérés par l'admin, sans redéploiement)
+// ============================================
+
+model Template {
+  id          String   @id @default(cuid())
+  cle         String   @unique // identifiant technique, ex: "classique", "moderne-01"
+  nom         String   // nom affiché, ex: "Classique"
+  estPremium  Boolean  @default(false)
+  estActif    Boolean  @default(true) // permet de masquer un template sans le supprimer
+  ordre       Int      @default(0)
+  apercuUrl   String?  // image de prévisualisation
+
+  creeLe      DateTime @default(now())
+  misAJourLe  DateTime @updatedAt
+
+  @@map("templates")
+}

@@ -1,26 +1,90 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================
+   PALETTE — CV Builder
+   Concept "Le dossier professionnel"
+   ============================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.5rem;
+
+  /* Fond / texte de base */
+  --background: #FAF8F3;      /* Papier */
+  --foreground: #161B22;      /* Encre */
+
+  /* Card / popover */
+  --card: #FFFFFF;
+  --card-foreground: #161B22;
+  --popover: #FFFFFF;
+  --popover-foreground: #161B22;
+
+  /* Accent principal (CTA, focus) */
+  --primary: #E8992D;         /* Safran */
+  --primary-foreground: #161B22;
+
+  /* Accent secondaire (validation, liens) */
+  --secondary: #2D5A4A;       /* Sceau */
+  --secondary-foreground: #FAF8F3;
+
+  /* Éléments discrets (fonds de champs, séparateurs) */
+  --muted: #F0EDE5;
+  --muted-foreground: #3D4B5C; /* Ardoise */
+
+  --accent: #F0EDE5;
+  --accent-foreground: #161B22;
+
+  /* Erreurs */
+  --destructive: #C1443A;     /* Alerte */
+  --destructive-foreground: #FAF8F3;
+
+  /* Bordures / inputs / focus ring */
+  --border: #E4E0D6;
+  --input: #E4E0D6;
+  --ring: #E8992D;
 }
 
+/* ============================================
+   TYPOGRAPHIE
+   ============================================ */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Polices — reliées aux variables définies dans layout.tsx */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
 }
