@@ -64,8 +64,6 @@ export function CarteCV({ id, titre, misAJourLe, onSupprime }: CarteCVProps) {
     <>
       <div className="group relative bg-card border border-border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
         <Link href={`/editor/${id}`} className="block">
-          {/* Aperçu miniature — placeholder pour l'instant, sera remplacé
-              par un vrai rendu du CV une fois l'éditeur construit */}
           <div className="aspect-3/4 bg-muted flex items-center justify-center">
             <span className="text-xs text-muted-foreground font-mono">
               Aperçu à venir
@@ -91,6 +89,7 @@ export function CarteCV({ id, titre, misAJourLe, onSupprime }: CarteCVProps) {
             />
             <DropdownMenuContent align="end">
               <DropdownMenuItem
+                closeOnClick
                 render={
                   <Link href={`/editor/${id}`}>
                     <Pencil className="w-4 h-4" />
@@ -100,7 +99,8 @@ export function CarteCV({ id, titre, misAJourLe, onSupprime }: CarteCVProps) {
               />
               <DropdownMenuItem
                 variant="destructive"
-                onSelect={() => setDialogueOuvert(true)}
+                closeOnClick
+                onClick={() => setDialogueOuvert(true)}
               >
                 <Trash2 className="w-4 h-4" />
                 Supprimer
