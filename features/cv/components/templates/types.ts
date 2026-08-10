@@ -33,6 +33,8 @@ export interface ProprietesTemplate {
   sections: SectionCVAffichage[];
   couleurAccent: string;
   police: string;
+    alignementTexte: string;
+  tailleTexte: string;
 }
 
 export function formaterPeriode(dateDebut: string | null, dateFin: string | null): string {
@@ -45,4 +47,22 @@ export function formaterPeriode(dateDebut: string | null, dateFin: string | null
 
   const fin = new Date(dateFin).toLocaleDateString("fr-FR", optionsFormat);
   return `${debut} — ${fin}`;
+}
+export function classeAlignement(alignement: string): string {
+  const correspondances: Record<string, string> = {
+    gauche: "text-left",
+    centre: "text-center",
+    droite: "text-right",
+    justifie: "text-justify",
+  };
+  return correspondances[alignement] ?? "text-left";
+}
+
+export function tailleResume(taille: string): string {
+  const correspondances: Record<string, string> = {
+    petite: "text-xs",
+    moyenne: "text-sm",
+    grande: "text-base",
+  };
+  return correspondances[taille] ?? "text-sm";
 }

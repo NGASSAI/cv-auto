@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SelecteurPolice } from "@/features/cv/components/editor/selecteur-police";
+import { SelecteurMiseEnForme } from "@/features/cv/components/editor/selecteur-mise-en-forme";
 import {
   Dialog,
   DialogContent,
@@ -51,6 +52,10 @@ export function PanneauDesign({ estPremium }: PanneauDesignProps) {
             <p className="text-sm font-medium mb-3">Police</p>
             <SelecteurPolice estPremium={estPremium} />
           </div>
+          <div>
+            <p className="text-sm font-medium mb-3">Mise en forme du texte</p>
+            <SelecteurMiseEnForme estPremium={estPremium} />
+          </div>    
         </div>
       </DialogContent>
     </Dialog>

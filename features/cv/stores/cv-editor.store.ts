@@ -38,6 +38,8 @@ export interface CVEditeur {
   templateId: string;
   couleurAccent: string;
   police: string;
+  alignementTexte: string;
+  tailleTexte: string;
   informations: InformationsEditeur;
   sections: SectionEditeur[];
 }
@@ -59,6 +61,8 @@ interface EtatEditeurCV {
   changerTemplate: (templateId: string) => void;
   changerCouleur: (couleurAccent: string) => void;
   changerPolice: (police: string) => void;
+  changerAlignement: (alignementTexte: string) => void;
+  changerTailleTexte: (tailleTexte: string) => void;
 
   ajouterSection: (section: SectionEditeur) => void;
   mettreAJourTitreSection: (sectionId: string, titre: string) => void;
@@ -190,6 +194,29 @@ export const useEditeurCVStore = create<EtatEditeurCV>((set, get) => ({
     sauvegarderSurServeur(
       `/api/cv/${cv.id}`,
       { police },
+      () => set({ statutSauvegarde: "inactif" }),
+      () => set({ statutSauvegarde: "erreur" })
+    );
+  },
+  changerAlignement: (alignementTexte) => {
+    const { cv } = get();
+    if (!cv) return;
+    set({ cv: { ...cv, alignementTexte }, statutSauvegarde: "sauvegarde" });
+    sauvegarderSurServeur(
+      `/api/cv/${cv.id}`,
+      { alignementTexte },
+      () => set({ statutSauvegarde: "inactif" }),
+      () => set({ statutSauvegarde: "erreur" })
+    );
+  },
+
+  changerTailleTexte: (tailleTexte) => {
+    const { cv } = get();
+    if (!cv) return;
+    set({ cv: { ...cv, tailleTexte }, statutSauvegarde: "sauvegarde" });
+    sauvegarderSurServeur(
+      `/api/cv/${cv.id}`,
+      { tailleTexte },
       () => set({ statutSauvegarde: "inactif" }),
       () => set({ statutSauvegarde: "erreur" })
     );

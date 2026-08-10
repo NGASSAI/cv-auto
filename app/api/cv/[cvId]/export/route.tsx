@@ -32,15 +32,17 @@ export async function GET(
     }));
     
  const buffer = await renderToBuffer(
-  <ComposantPdf
-    informations={cv.informations ?? {
-      prenom: null, nom: null, titrePoste: null, email: null,
-      telephone: null, adresse: null, photoUrl: null, resume: null,
-    }}
-    sections={sectionsFormatees}
-    couleurAccent={cv.couleurAccent}
-    police={cv.police}
-  />
+ <ComposantPdf
+  informations={cv.informations ?? {
+    prenom: null, nom: null, titrePoste: null, email: null,
+    telephone: null, adresse: null, photoUrl: null, resume: null,
+  }}
+  sections={sectionsFormatees}
+  couleurAccent={cv.couleurAccent}
+  police={cv.police}
+  alignementTexte={cv.alignementTexte}
+  tailleTexte={cv.tailleTexte}
+/>
 );
  
     const nomFichier = `${cv.titre.replace(/[^a-z0-9]/gi, "_")}.pdf`;

@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   photoWrap: { marginTop: -40, marginLeft: 36, marginBottom: 8 },
   photo: { width: 76, height: 76, borderRadius: 38, border: "3px solid white" },
   contenu: { paddingHorizontal: 36, paddingTop: 16 },
-  resume: { fontSize: 9.5, color: "#3D4B5C", marginBottom: 20, lineHeight: 1.5, maxWidth: 380 },
+resume: { color: "#3D4B5C", marginBottom: 20, lineHeight: 1.5, maxWidth: 380 },
   section: { marginBottom: 12 },
   sectionTitreRow: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 10 },
   trait: { width: 18, height: 1 },
@@ -36,8 +36,18 @@ function formaterPeriodePdf(dateDebut: string | null, dateFin: string | null): s
   if (!dateFin) return `${debut} — Présent`;
   return `${debut} — ${new Date(dateFin).toLocaleDateString("fr-FR", options)}`;
 }
+function alignementPdf(alignement: string): "left" | "center" | "right" | "justify" {
+  const correspondances: Record<string, "left" | "center" | "right" | "justify"> = {
+    gauche: "left", centre: "center", droite: "right", justifie: "justify",
+  };
+  return correspondances[alignement] ?? "left";
+}
 
-export function ElegantPdf({ informations, sections, couleurAccent }: ProprietesTemplate) {
+function taillePdf(taille: string): number {
+  const correspondances: Record<string, number> = { petite: 8.5, moyenne: 10, grande: 11.5 };
+  return correspondances[taille] ?? 10;
+}
+export function ElegantPdf({ informations, sections, couleurAccent, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
 
   return (
@@ -60,7 +70,11 @@ export function ElegantPdf({ informations, sections, couleurAccent }: Proprietes
             )}
 
         <View style={styles.contenu}>
-          {informations.resume && <Text style={styles.resume}>{informations.resume}</Text>}
+          {informations.resume && (
+  <Text style={[styles.resume, { textAlign: alignementPdf(alignementTexte), fontSize: taillePdf(tailleTexte) }]}>
+    {informations.resume}
+  </Text>
+)}
 
           {sections.filter((s) => s.estVisible).map((section) => (
             <View key={section.id} style={styles.section}>

@@ -144,6 +144,8 @@ export const CVScalarFieldEnum = {
   templateId: 'templateId',
   couleurAccent: 'couleurAccent',
   police: 'police',
+  alignementTexte: 'alignementTexte',
+  tailleTexte: 'tailleTexte',
   estPublic: 'estPublic',
   slugPublic: 'slugPublic',
   creeLe: 'creeLe',

@@ -2,10 +2,11 @@ import Image from "next/image";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { ProprietesTemplate, formaterPeriode } from "@/features/cv/components/templates/types";
 import { obtenirVariableCssPolice } from "@/features/cv/lib/registre-polices";
+import { classeAlignement, tailleResume } from "@/features/cv/components/templates/types";
 
 const TYPES_COLONNE_LATERALE = ["COMPETENCES", "LANGUES", "CENTRES_INTERET", "CERTIFICATIONS"];
 
-export function TemplateModerne({ informations, sections, couleurAccent, police }: ProprietesTemplate) {
+export function TemplateModerne({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
 
   const sectionsVisibles = sections.filter((s) => s.estVisible);
@@ -74,7 +75,7 @@ export function TemplateModerne({ informations, sections, couleurAccent, police 
 
       <main className="flex-1 pt-5 px-7 pb-7">
         {informations.resume && (
-          <p className="text-xs leading-relaxed mb-6 text-[#3D4B5C]">{informations.resume}</p>
+          <p className={`${tailleResume(tailleTexte)} leading-relaxed ${classeAlignement(alignementTexte)} italic mb-7 text-[#3D4B5C] px-4`}>{informations.resume}</p>
         )}
 
         <div className="space-y-4">

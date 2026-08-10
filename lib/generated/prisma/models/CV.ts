@@ -31,6 +31,8 @@ export type CVMinAggregateOutputType = {
   templateId: string | null
   couleurAccent: string | null
   police: string | null
+  alignementTexte: string | null
+  tailleTexte: string | null
   estPublic: boolean | null
   slugPublic: string | null
   creeLe: Date | null
@@ -44,6 +46,8 @@ export type CVMaxAggregateOutputType = {
   templateId: string | null
   couleurAccent: string | null
   police: string | null
+  alignementTexte: string | null
+  tailleTexte: string | null
   estPublic: boolean | null
   slugPublic: string | null
   creeLe: Date | null
@@ -57,6 +61,8 @@ export type CVCountAggregateOutputType = {
   templateId: number
   couleurAccent: number
   police: number
+  alignementTexte: number
+  tailleTexte: number
   estPublic: number
   slugPublic: number
   creeLe: number
@@ -72,6 +78,8 @@ export type CVMinAggregateInputType = {
   templateId?: true
   couleurAccent?: true
   police?: true
+  alignementTexte?: true
+  tailleTexte?: true
   estPublic?: true
   slugPublic?: true
   creeLe?: true
@@ -85,6 +93,8 @@ export type CVMaxAggregateInputType = {
   templateId?: true
   couleurAccent?: true
   police?: true
+  alignementTexte?: true
+  tailleTexte?: true
   estPublic?: true
   slugPublic?: true
   creeLe?: true
@@ -98,6 +108,8 @@ export type CVCountAggregateInputType = {
   templateId?: true
   couleurAccent?: true
   police?: true
+  alignementTexte?: true
+  tailleTexte?: true
   estPublic?: true
   slugPublic?: true
   creeLe?: true
@@ -184,6 +196,8 @@ export type CVGroupByOutputType = {
   templateId: string
   couleurAccent: string
   police: string
+  alignementTexte: string
+  tailleTexte: string
   estPublic: boolean
   slugPublic: string | null
   creeLe: Date
@@ -218,6 +232,8 @@ export type CVWhereInput = {
   templateId?: Prisma.StringFilter<"CV"> | string
   couleurAccent?: Prisma.StringFilter<"CV"> | string
   police?: Prisma.StringFilter<"CV"> | string
+  alignementTexte?: Prisma.StringFilter<"CV"> | string
+  tailleTexte?: Prisma.StringFilter<"CV"> | string
   estPublic?: Prisma.BoolFilter<"CV"> | boolean
   slugPublic?: Prisma.StringNullableFilter<"CV"> | string | null
   creeLe?: Prisma.DateTimeFilter<"CV"> | Date | string
@@ -234,6 +250,8 @@ export type CVOrderByWithRelationInput = {
   templateId?: Prisma.SortOrder
   couleurAccent?: Prisma.SortOrder
   police?: Prisma.SortOrder
+  alignementTexte?: Prisma.SortOrder
+  tailleTexte?: Prisma.SortOrder
   estPublic?: Prisma.SortOrder
   slugPublic?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
@@ -254,6 +272,8 @@ export type CVWhereUniqueInput = Prisma.AtLeast<{
   templateId?: Prisma.StringFilter<"CV"> | string
   couleurAccent?: Prisma.StringFilter<"CV"> | string
   police?: Prisma.StringFilter<"CV"> | string
+  alignementTexte?: Prisma.StringFilter<"CV"> | string
+  tailleTexte?: Prisma.StringFilter<"CV"> | string
   estPublic?: Prisma.BoolFilter<"CV"> | boolean
   creeLe?: Prisma.DateTimeFilter<"CV"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"CV"> | Date | string
@@ -269,6 +289,8 @@ export type CVOrderByWithAggregationInput = {
   templateId?: Prisma.SortOrder
   couleurAccent?: Prisma.SortOrder
   police?: Prisma.SortOrder
+  alignementTexte?: Prisma.SortOrder
+  tailleTexte?: Prisma.SortOrder
   estPublic?: Prisma.SortOrder
   slugPublic?: Prisma.SortOrderInput | Prisma.SortOrder
   creeLe?: Prisma.SortOrder
@@ -288,6 +310,8 @@ export type CVScalarWhereWithAggregatesInput = {
   templateId?: Prisma.StringWithAggregatesFilter<"CV"> | string
   couleurAccent?: Prisma.StringWithAggregatesFilter<"CV"> | string
   police?: Prisma.StringWithAggregatesFilter<"CV"> | string
+  alignementTexte?: Prisma.StringWithAggregatesFilter<"CV"> | string
+  tailleTexte?: Prisma.StringWithAggregatesFilter<"CV"> | string
   estPublic?: Prisma.BoolWithAggregatesFilter<"CV"> | boolean
   slugPublic?: Prisma.StringNullableWithAggregatesFilter<"CV"> | string | null
   creeLe?: Prisma.DateTimeWithAggregatesFilter<"CV"> | Date | string
@@ -300,6 +324,8 @@ export type CVCreateInput = {
   templateId?: string
   couleurAccent?: string
   police?: string
+  alignementTexte?: string
+  tailleTexte?: string
   estPublic?: boolean
   slugPublic?: string | null
   creeLe?: Date | string
@@ -316,6 +342,8 @@ export type CVUncheckedCreateInput = {
   templateId?: string
   couleurAccent?: string
   police?: string
+  alignementTexte?: string
+  tailleTexte?: string
   estPublic?: boolean
   slugPublic?: string | null
   creeLe?: Date | string
@@ -330,6 +358,8 @@ export type CVUpdateInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -346,6 +376,8 @@ export type CVUncheckedUpdateInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -361,6 +393,8 @@ export type CVCreateManyInput = {
   templateId?: string
   couleurAccent?: string
   police?: string
+  alignementTexte?: string
+  tailleTexte?: string
   estPublic?: boolean
   slugPublic?: string | null
   creeLe?: Date | string
@@ -373,6 +407,8 @@ export type CVUpdateManyMutationInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -386,6 +422,8 @@ export type CVUncheckedUpdateManyInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -409,6 +447,8 @@ export type CVCountOrderByAggregateInput = {
   templateId?: Prisma.SortOrder
   couleurAccent?: Prisma.SortOrder
   police?: Prisma.SortOrder
+  alignementTexte?: Prisma.SortOrder
+  tailleTexte?: Prisma.SortOrder
   estPublic?: Prisma.SortOrder
   slugPublic?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
@@ -422,6 +462,8 @@ export type CVMaxOrderByAggregateInput = {
   templateId?: Prisma.SortOrder
   couleurAccent?: Prisma.SortOrder
   police?: Prisma.SortOrder
+  alignementTexte?: Prisma.SortOrder
+  tailleTexte?: Prisma.SortOrder
   estPublic?: Prisma.SortOrder
   slugPublic?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
@@ -435,6 +477,8 @@ export type CVMinOrderByAggregateInput = {
   templateId?: Prisma.SortOrder
   couleurAccent?: Prisma.SortOrder
   police?: Prisma.SortOrder
+  alignementTexte?: Prisma.SortOrder
+  tailleTexte?: Prisma.SortOrder
   estPublic?: Prisma.SortOrder
   slugPublic?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
@@ -526,6 +570,8 @@ export type CVCreateWithoutUtilisateurInput = {
   templateId?: string
   couleurAccent?: string
   police?: string
+  alignementTexte?: string
+  tailleTexte?: string
   estPublic?: boolean
   slugPublic?: string | null
   creeLe?: Date | string
@@ -540,6 +586,8 @@ export type CVUncheckedCreateWithoutUtilisateurInput = {
   templateId?: string
   couleurAccent?: string
   police?: string
+  alignementTexte?: string
+  tailleTexte?: string
   estPublic?: boolean
   slugPublic?: string | null
   creeLe?: Date | string
@@ -584,6 +632,8 @@ export type CVScalarWhereInput = {
   templateId?: Prisma.StringFilter<"CV"> | string
   couleurAccent?: Prisma.StringFilter<"CV"> | string
   police?: Prisma.StringFilter<"CV"> | string
+  alignementTexte?: Prisma.StringFilter<"CV"> | string
+  tailleTexte?: Prisma.StringFilter<"CV"> | string
   estPublic?: Prisma.BoolFilter<"CV"> | boolean
   slugPublic?: Prisma.StringNullableFilter<"CV"> | string | null
   creeLe?: Prisma.DateTimeFilter<"CV"> | Date | string
@@ -596,6 +646,8 @@ export type CVCreateWithoutInformationsInput = {
   templateId?: string
   couleurAccent?: string
   police?: string
+  alignementTexte?: string
+  tailleTexte?: string
   estPublic?: boolean
   slugPublic?: string | null
   creeLe?: Date | string
@@ -611,6 +663,8 @@ export type CVUncheckedCreateWithoutInformationsInput = {
   templateId?: string
   couleurAccent?: string
   police?: string
+  alignementTexte?: string
+  tailleTexte?: string
   estPublic?: boolean
   slugPublic?: string | null
   creeLe?: Date | string
@@ -640,6 +694,8 @@ export type CVUpdateWithoutInformationsInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -655,6 +711,8 @@ export type CVUncheckedUpdateWithoutInformationsInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -668,6 +726,8 @@ export type CVCreateWithoutSectionsInput = {
   templateId?: string
   couleurAccent?: string
   police?: string
+  alignementTexte?: string
+  tailleTexte?: string
   estPublic?: boolean
   slugPublic?: string | null
   creeLe?: Date | string
@@ -683,6 +743,8 @@ export type CVUncheckedCreateWithoutSectionsInput = {
   templateId?: string
   couleurAccent?: string
   police?: string
+  alignementTexte?: string
+  tailleTexte?: string
   estPublic?: boolean
   slugPublic?: string | null
   creeLe?: Date | string
@@ -712,6 +774,8 @@ export type CVUpdateWithoutSectionsInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -727,6 +791,8 @@ export type CVUncheckedUpdateWithoutSectionsInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -740,6 +806,8 @@ export type CVCreateManyUtilisateurInput = {
   templateId?: string
   couleurAccent?: string
   police?: string
+  alignementTexte?: string
+  tailleTexte?: string
   estPublic?: boolean
   slugPublic?: string | null
   creeLe?: Date | string
@@ -752,6 +820,8 @@ export type CVUpdateWithoutUtilisateurInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -766,6 +836,8 @@ export type CVUncheckedUpdateWithoutUtilisateurInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -780,6 +852,8 @@ export type CVUncheckedUpdateManyWithoutUtilisateurInput = {
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   couleurAccent?: Prisma.StringFieldUpdateOperationsInput | string
   police?: Prisma.StringFieldUpdateOperationsInput | string
+  alignementTexte?: Prisma.StringFieldUpdateOperationsInput | string
+  tailleTexte?: Prisma.StringFieldUpdateOperationsInput | string
   estPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   slugPublic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -824,6 +898,8 @@ export type CVSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
   templateId?: boolean
   couleurAccent?: boolean
   police?: boolean
+  alignementTexte?: boolean
+  tailleTexte?: boolean
   estPublic?: boolean
   slugPublic?: boolean
   creeLe?: boolean
@@ -841,6 +917,8 @@ export type CVSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions
   templateId?: boolean
   couleurAccent?: boolean
   police?: boolean
+  alignementTexte?: boolean
+  tailleTexte?: boolean
   estPublic?: boolean
   slugPublic?: boolean
   creeLe?: boolean
@@ -855,6 +933,8 @@ export type CVSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions
   templateId?: boolean
   couleurAccent?: boolean
   police?: boolean
+  alignementTexte?: boolean
+  tailleTexte?: boolean
   estPublic?: boolean
   slugPublic?: boolean
   creeLe?: boolean
@@ -869,13 +949,15 @@ export type CVSelectScalar = {
   templateId?: boolean
   couleurAccent?: boolean
   police?: boolean
+  alignementTexte?: boolean
+  tailleTexte?: boolean
   estPublic?: boolean
   slugPublic?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
 }
 
-export type CVOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "utilisateurId" | "titre" | "templateId" | "couleurAccent" | "police" | "estPublic" | "slugPublic" | "creeLe" | "misAJourLe", ExtArgs["result"]["cV"]>
+export type CVOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "utilisateurId" | "titre" | "templateId" | "couleurAccent" | "police" | "alignementTexte" | "tailleTexte" | "estPublic" | "slugPublic" | "creeLe" | "misAJourLe", ExtArgs["result"]["cV"]>
 export type CVInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   utilisateur?: boolean | Prisma.UtilisateurDefaultArgs<ExtArgs>
   informations?: boolean | Prisma.CV$informationsArgs<ExtArgs>
@@ -903,6 +985,8 @@ export type $CVPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     templateId: string
     couleurAccent: string
     police: string
+    alignementTexte: string
+    tailleTexte: string
     estPublic: boolean
     slugPublic: string | null
     creeLe: Date
@@ -1339,6 +1423,8 @@ export interface CVFieldRefs {
   readonly templateId: Prisma.FieldRef<"CV", 'String'>
   readonly couleurAccent: Prisma.FieldRef<"CV", 'String'>
   readonly police: Prisma.FieldRef<"CV", 'String'>
+  readonly alignementTexte: Prisma.FieldRef<"CV", 'String'>
+  readonly tailleTexte: Prisma.FieldRef<"CV", 'String'>
   readonly estPublic: Prisma.FieldRef<"CV", 'Boolean'>
   readonly slugPublic: Prisma.FieldRef<"CV", 'String'>
   readonly creeLe: Prisma.FieldRef<"CV", 'DateTime'>

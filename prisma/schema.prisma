@@ -76,6 +76,8 @@ model CV {
   templateId    String                    @default("classique")
   couleurAccent String                    @default("#2563eb")
   police        String                    @default("inter")
+  alignementTexte  String  @default("gauche")   // gauche | centre | droite | justifie
+  tailleTexte      String  @default("moyenne")  // petite | moyenne | grande
   estPublic     Boolean                   @default(false)
   slugPublic    String?                   @unique
   creeLe        DateTime                  @default(now())

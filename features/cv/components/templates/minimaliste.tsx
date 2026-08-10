@@ -1,10 +1,11 @@
 import { Mail, Phone, MapPin } from "lucide-react";
 import { ProprietesTemplate, formaterPeriode } from "@/features/cv/components/templates/types";
 import { obtenirVariableCssPolice } from "@/features/cv/lib/registre-polices";
+import { classeAlignement, tailleResume } from "@/features/cv/components/templates/types";
 
 const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET"];
 
-export function TemplateMinimaliste({ informations, sections, couleurAccent, police }: ProprietesTemplate) {
+export function TemplateMinimaliste({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
 
   return (
@@ -40,7 +41,7 @@ export function TemplateMinimaliste({ informations, sections, couleurAccent, pol
       </header>
 
       {informations.resume && (
-        <p className="text-sm leading-relaxed mb-10 text-[#161B22]/80 max-w-md font-light">
+        <p className={`${tailleResume(tailleTexte)} leading-relaxed ${classeAlignement(alignementTexte)} italic mb-7 text-[#3D4B5C] px-4`}>
           {informations.resume}
         </p>
       )}

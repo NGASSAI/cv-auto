@@ -14,11 +14,13 @@ export function ApercuLive() {
   return (
     <div className="w-full max-w-600px mx-auto shadow-xl">
       <ComposantTemplate
-        informations={cv.informations}
-        sections={cv.sections}
-        couleurAccent={cv.couleurAccent}
-        police={cv.police}
-      />
+  informations={cv.informations}
+  sections={cv.sections}
+  couleurAccent={cv.couleurAccent}
+  police={cv.police}
+  alignementTexte={cv.alignementTexte}
+  tailleTexte={cv.tailleTexte}
+/>
     </div>
   );
 }

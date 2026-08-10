@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   asideSectionTitre: { fontSize: 8, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 },
   asideBadge: { fontSize: 7.5, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8, backgroundColor: "rgba(255,255,255,0.15)", marginBottom: 4, alignSelf: "flex-start" },
   main: { flex: 1, paddingTop: 18, paddingHorizontal: 24, paddingBottom: 24 },
-  resume: { fontSize: 9.5, color: "#3D4B5C", marginBottom: 18, lineHeight: 1.4 },
+  resume: { color: "#3D4B5C", marginBottom: 18, lineHeight: 1.4 },
   section: { marginBottom: 12 },
   sectionTitre: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, paddingBottom: 4, marginBottom: 10 },
   item: { marginBottom: 10 },
@@ -33,8 +33,19 @@ function formaterPeriodePdf(dateDebut: string | null, dateFin: string | null): s
   if (!dateFin) return `${debut} — Présent`;
   return `${debut} — ${new Date(dateFin).toLocaleDateString("fr-FR", options)}`;
 }
+function alignementPdf(alignement: string): "left" | "center" | "right" | "justify" {
+  const correspondances: Record<string, "left" | "center" | "right" | "justify"> = {
+    gauche: "left", centre: "center", droite: "right", justifie: "justify",
+  };
+  return correspondances[alignement] ?? "left";
+}
 
-export function ModernePdf({ informations, sections, couleurAccent }: ProprietesTemplate) {
+function taillePdf(taille: string): number {
+  const correspondances: Record<string, number> = { petite: 8.5, moyenne: 10, grande: 11.5 };
+  return correspondances[taille] ?? 10;
+}
+
+export function ModernePdf({ informations, sections, couleurAccent, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
   const sectionsVisibles = sections.filter((s) => s.estVisible);
   const sectionsLaterales = sectionsVisibles.filter((s) => TYPES_COLONNE_LATERALE.includes(s.type));
@@ -70,7 +81,11 @@ export function ModernePdf({ informations, sections, couleurAccent }: Proprietes
         </View>
 
         <View style={styles.main}>
-          {informations.resume && <Text style={styles.resume}>{informations.resume}</Text>}
+          {informations.resume && (
+  <Text style={[styles.resume, { textAlign: alignementPdf(alignementTexte), fontSize: taillePdf(tailleTexte) }]}>
+    {informations.resume}
+  </Text>
+)}
 
           {sectionsPrincipales.map((section) => (
             <View key={section.id} style={styles.section}>

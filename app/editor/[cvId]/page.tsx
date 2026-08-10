@@ -44,6 +44,8 @@ export default async function PageEditeur({
   templateId: cv.templateId,
   couleurAccent: cv.couleurAccent,
   police: cv.police,
+   alignementTexte: cv.alignementTexte,
+tailleTexte: cv.tailleTexte,
   informations: cv.informations
       ? {
           prenom: cv.informations.prenom,

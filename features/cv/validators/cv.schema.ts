@@ -26,7 +26,9 @@ export const schemaMiseAJourCV = z.object({
     .string()
     .regex(/^#[0-9A-Fa-f]{6}$/, "Couleur invalide")
     .optional(),
-  police: z.string().optional(),
+police: z.string().optional(),
+  alignementTexte: z.enum(["gauche", "centre", "droite", "justifie"]).optional(),
+  tailleTexte: z.enum(["petite", "moyenne", "grande"]).optional(),
 });
 
 export type DonneesMiseAJourCV = z.infer<typeof schemaMiseAJourCV>;

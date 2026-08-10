@@ -113,13 +113,14 @@ export function FormulaireItem({
           </Label>
         </div>
 
-        <Textarea
-          placeholder="Description des missions, réalisations..."
-          rows={3}
-          value={item.description ?? ""}
-          onChange={(e) => gererChangement("description", e.target.value)}
-        />
+       <Textarea
+  placeholder="Description des missions, réalisations... (Entrée pour un retour à la ligne)"
+  rows={4}
+  value={item.description ?? ""}
+  onChange={(e) => gererChangement("description", e.target.value)}
+  onKeyDown={(e) => e.stopPropagation()}
+/>
       </div>
     </div>
   );
-}
+}   

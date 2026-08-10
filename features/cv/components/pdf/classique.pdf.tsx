@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   poste: { fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#3D4B5C" },
   contactRow: { flexDirection: "row", justifyContent: "center", gap: 10, marginTop: 8 },
   contactItem: { fontSize: 9, color: "#3D4B5C" },
-  resume: { fontSize: 10, textAlign: "center", fontStyle: "italic", color: "#3D4B5C", marginBottom: 20, paddingHorizontal: 20 },
+resume: { fontStyle: "italic", color: "#3D4B5C", marginBottom: 20, paddingHorizontal: 20 },
   section: { marginBottom: 12 },
   sectionTitre: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, paddingBottom: 4, marginBottom: 8 },
   item: { marginBottom: 10, paddingLeft: 8 },
@@ -35,8 +35,18 @@ function formaterPeriodePdf(dateDebut: string | null, dateFin: string | null): s
   if (!dateFin) return `${debut} — Présent`;
   return `${debut} — ${new Date(dateFin).toLocaleDateString("fr-FR", options)}`;
 }
+function alignementPdf(alignement: string): "left" | "center" | "right" | "justify" {
+  const correspondances: Record<string, "left" | "center" | "right" | "justify"> = {
+    gauche: "left", centre: "center", droite: "right", justifie: "justify",
+  };
+  return correspondances[alignement] ?? "left";
+}
 
-export function ClassiquePdf({ informations, sections, couleurAccent }: ProprietesTemplate) {
+function taillePdf(taille: string): number {
+  const correspondances: Record<string, number> = { petite: 8.5, moyenne: 10, grande: 11.5 };
+  return correspondances[taille] ?? 10;
+}
+export function ClassiquePdf({ informations, sections, couleurAccent, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
 
   return (
@@ -52,7 +62,11 @@ export function ClassiquePdf({ informations, sections, couleurAccent }: Propriet
           </View>
         </View>
 
-        {informations.resume && <Text style={styles.resume}>{informations.resume}</Text>}
+        {informations.resume && (
+  <Text style={[styles.resume, { textAlign: alignementPdf(alignementTexte), fontSize: taillePdf(tailleTexte) }]}>
+    {informations.resume}
+  </Text>
+)}
 
         {sections.filter((s) => s.estVisible).map((section) => (
           <View key={section.id} style={styles.section}>
