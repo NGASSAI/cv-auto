@@ -23,6 +23,7 @@ model Utilisateur {
 
   @@map("utilisateurs")
   role     Role             @default(UTILISATEUR)
+  estSuspendu Boolean @default(false)
   demandes DemandePremium[]
 }
 

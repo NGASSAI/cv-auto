@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { prisma } from "@/shared/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { authOptions } from "@/shared/lib/auth";
@@ -13,15 +14,24 @@ export default async function LayoutDashboard({
 
   // Double sécurité en plus du middleware : si jamais le middleware
   // était contourné ou mal configuré, cette vérification bloque quand même l'accès.
-  if (!session) {
+if (!session) {
     redirect("/connexion");
+  }
+
+  const utilisateurFrais = await prisma.utilisateur.findUnique({
+    where: { id: session.user.id },
+    select: { estSuspendu: true },
+  });
+
+  if (utilisateurFrais?.estSuspendu) {
+    redirect("/compte-suspendu");
   }
 
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/dashboard" className="font-display text-xl italic text-secondary">
+          <Link href="/" className="font-display text-xl italic text-secondary">
             CV Builder
           </Link>
 

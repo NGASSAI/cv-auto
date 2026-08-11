@@ -4,11 +4,12 @@ import { TableauUtilisateurs } from "@/features/admin/components/tableau-utilisa
 export default async function PageAdminUtilisateurs() {
   const utilisateurs = await listerUtilisateurs();
 
-  const utilisateursSerialisables = utilisateurs.map((u) => ({
+ const utilisateursSerialisables = utilisateurs.map((u) => ({
     id: u.id,
     nom: u.nom,
     email: u.email,
     role: u.role,
+    estSuspendu: u.estSuspendu,
     creeLe: u.creeLe.toISOString(),
     _count: u._count,
     abonnement: u.abonnement,

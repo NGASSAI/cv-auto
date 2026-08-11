@@ -25,7 +25,7 @@ export default async function LayoutAdmin({
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link href="/admin" className="font-display text-xl italic text-secondary">
+          <Link href="/" className="font-display text-xl italic text-secondary">
             CV Builder <span className="text-xs font-mono not-italic text-primary align-top">ADMIN</span>
           </Link>
 

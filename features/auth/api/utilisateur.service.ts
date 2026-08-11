@@ -61,13 +61,17 @@ export async function verifierIdentifiants(email: string, motDePasse: string) {
     return null;
   }
 
-  const motDePasseValide = await verifierMotDePasse(
+ const motDePasseValide = await verifierMotDePasse(
     motDePasse,
     utilisateur.motDePasse
   );
 
   if (!motDePasseValide) {
     return null;
+  }
+
+  if (utilisateur.estSuspendu) {
+    throw new Error("COMPTE_SUSPENDU");
   }
 
   // Synchronisation du rôle admin à chaque connexion

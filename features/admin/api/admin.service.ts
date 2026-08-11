@@ -73,11 +73,12 @@ export async function traiterDemandePremium(
 export async function listerUtilisateurs() {
   return prisma.utilisateur.findMany({
     orderBy: { creeLe: "desc" },
-    select: {
+   select: {
       id: true,
       nom: true,
       email: true,
       role: true,
+      estSuspendu: true,
       creeLe: true,
       _count: { select: { cvs: true } },
       abonnement: { select: { plan: true, statut: true } },
@@ -110,6 +111,25 @@ export async function togglerPremium(utilisateurId: string, activer: boolean) {
       statut: activer ? "ACTIF" : "ANNULE",
       dateDebut: activer ? new Date() : undefined,
     },
+  });
+}
+
+export async function togglerSuspension(utilisateurId: string, suspendre: boolean) {
+  const utilisateur = await prisma.utilisateur.findUnique({
+    where: { id: utilisateurId },
+  });
+
+  if (!utilisateur) {
+    throw new ErreurAdmin("Utilisateur introuvable");
+  }
+
+  if (utilisateur.role === "ADMIN") {
+    throw new ErreurAdmin("Impossible de suspendre un compte administrateur");
+  }
+
+  await prisma.utilisateur.update({
+    where: { id: utilisateurId },
+    data: { estSuspendu: suspendre },
   });
 }
 

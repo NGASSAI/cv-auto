@@ -34,6 +34,7 @@ export type UtilisateurMinAggregateOutputType = {
   creeLe: Date | null
   misAJourLe: Date | null
   role: $Enums.Role | null
+  estSuspendu: boolean | null
 }
 
 export type UtilisateurMaxAggregateOutputType = {
@@ -46,6 +47,7 @@ export type UtilisateurMaxAggregateOutputType = {
   creeLe: Date | null
   misAJourLe: Date | null
   role: $Enums.Role | null
+  estSuspendu: boolean | null
 }
 
 export type UtilisateurCountAggregateOutputType = {
@@ -58,6 +60,7 @@ export type UtilisateurCountAggregateOutputType = {
   creeLe: number
   misAJourLe: number
   role: number
+  estSuspendu: number
   _all: number
 }
 
@@ -72,6 +75,7 @@ export type UtilisateurMinAggregateInputType = {
   creeLe?: true
   misAJourLe?: true
   role?: true
+  estSuspendu?: true
 }
 
 export type UtilisateurMaxAggregateInputType = {
@@ -84,6 +88,7 @@ export type UtilisateurMaxAggregateInputType = {
   creeLe?: true
   misAJourLe?: true
   role?: true
+  estSuspendu?: true
 }
 
 export type UtilisateurCountAggregateInputType = {
@@ -96,6 +101,7 @@ export type UtilisateurCountAggregateInputType = {
   creeLe?: true
   misAJourLe?: true
   role?: true
+  estSuspendu?: true
   _all?: true
 }
 
@@ -181,6 +187,7 @@ export type UtilisateurGroupByOutputType = {
   creeLe: Date
   misAJourLe: Date
   role: $Enums.Role
+  estSuspendu: boolean
   _count: UtilisateurCountAggregateOutputType | null
   _min: UtilisateurMinAggregateOutputType | null
   _max: UtilisateurMaxAggregateOutputType | null
@@ -214,6 +221,7 @@ export type UtilisateurWhereInput = {
   creeLe?: Prisma.DateTimeFilter<"Utilisateur"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"Utilisateur"> | Date | string
   role?: Prisma.EnumRoleFilter<"Utilisateur"> | $Enums.Role
+  estSuspendu?: Prisma.BoolFilter<"Utilisateur"> | boolean
   abonnement?: Prisma.XOR<Prisma.AbonnementNullableScalarRelationFilter, Prisma.AbonnementWhereInput> | null
   comptes?: Prisma.CompteOAuthListRelationFilter
   cvs?: Prisma.CVListRelationFilter
@@ -231,6 +239,7 @@ export type UtilisateurOrderByWithRelationInput = {
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  estSuspendu?: Prisma.SortOrder
   abonnement?: Prisma.AbonnementOrderByWithRelationInput
   comptes?: Prisma.CompteOAuthOrderByRelationAggregateInput
   cvs?: Prisma.CVOrderByRelationAggregateInput
@@ -251,6 +260,7 @@ export type UtilisateurWhereUniqueInput = Prisma.AtLeast<{
   creeLe?: Prisma.DateTimeFilter<"Utilisateur"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"Utilisateur"> | Date | string
   role?: Prisma.EnumRoleFilter<"Utilisateur"> | $Enums.Role
+  estSuspendu?: Prisma.BoolFilter<"Utilisateur"> | boolean
   abonnement?: Prisma.XOR<Prisma.AbonnementNullableScalarRelationFilter, Prisma.AbonnementWhereInput> | null
   comptes?: Prisma.CompteOAuthListRelationFilter
   cvs?: Prisma.CVListRelationFilter
@@ -268,6 +278,7 @@ export type UtilisateurOrderByWithAggregationInput = {
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  estSuspendu?: Prisma.SortOrder
   _count?: Prisma.UtilisateurCountOrderByAggregateInput
   _max?: Prisma.UtilisateurMaxOrderByAggregateInput
   _min?: Prisma.UtilisateurMinOrderByAggregateInput
@@ -286,6 +297,7 @@ export type UtilisateurScalarWhereWithAggregatesInput = {
   creeLe?: Prisma.DateTimeWithAggregatesFilter<"Utilisateur"> | Date | string
   misAJourLe?: Prisma.DateTimeWithAggregatesFilter<"Utilisateur"> | Date | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"Utilisateur"> | $Enums.Role
+  estSuspendu?: Prisma.BoolWithAggregatesFilter<"Utilisateur"> | boolean
 }
 
 export type UtilisateurCreateInput = {
@@ -298,6 +310,7 @@ export type UtilisateurCreateInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   abonnement?: Prisma.AbonnementCreateNestedOneWithoutUtilisateurInput
   comptes?: Prisma.CompteOAuthCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
@@ -315,6 +328,7 @@ export type UtilisateurUncheckedCreateInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   abonnement?: Prisma.AbonnementUncheckedCreateNestedOneWithoutUtilisateurInput
   comptes?: Prisma.CompteOAuthUncheckedCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
@@ -332,6 +346,7 @@ export type UtilisateurUpdateInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   abonnement?: Prisma.AbonnementUpdateOneWithoutUtilisateurNestedInput
   comptes?: Prisma.CompteOAuthUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
@@ -349,6 +364,7 @@ export type UtilisateurUncheckedUpdateInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   abonnement?: Prisma.AbonnementUncheckedUpdateOneWithoutUtilisateurNestedInput
   comptes?: Prisma.CompteOAuthUncheckedUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
@@ -366,6 +382,7 @@ export type UtilisateurCreateManyInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
 }
 
 export type UtilisateurUpdateManyMutationInput = {
@@ -378,6 +395,7 @@ export type UtilisateurUpdateManyMutationInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UtilisateurUncheckedUpdateManyInput = {
@@ -390,6 +408,7 @@ export type UtilisateurUncheckedUpdateManyInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UtilisateurCountOrderByAggregateInput = {
@@ -402,6 +421,7 @@ export type UtilisateurCountOrderByAggregateInput = {
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  estSuspendu?: Prisma.SortOrder
 }
 
 export type UtilisateurMaxOrderByAggregateInput = {
@@ -414,6 +434,7 @@ export type UtilisateurMaxOrderByAggregateInput = {
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  estSuspendu?: Prisma.SortOrder
 }
 
 export type UtilisateurMinOrderByAggregateInput = {
@@ -426,6 +447,7 @@ export type UtilisateurMinOrderByAggregateInput = {
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  estSuspendu?: Prisma.SortOrder
 }
 
 export type UtilisateurScalarRelationFilter = {
@@ -451,6 +473,10 @@ export type DateTimeFieldUpdateOperationsInput = {
 
 export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type UtilisateurCreateNestedOneWithoutComptesInput = {
@@ -533,6 +559,7 @@ export type UtilisateurCreateWithoutComptesInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   abonnement?: Prisma.AbonnementCreateNestedOneWithoutUtilisateurInput
   cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUtilisateurInput
@@ -549,6 +576,7 @@ export type UtilisateurUncheckedCreateWithoutComptesInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   abonnement?: Prisma.AbonnementUncheckedCreateNestedOneWithoutUtilisateurInput
   cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUtilisateurInput
@@ -581,6 +609,7 @@ export type UtilisateurUpdateWithoutComptesInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   abonnement?: Prisma.AbonnementUpdateOneWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUtilisateurNestedInput
@@ -597,6 +626,7 @@ export type UtilisateurUncheckedUpdateWithoutComptesInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   abonnement?: Prisma.AbonnementUncheckedUpdateOneWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUtilisateurNestedInput
@@ -613,6 +643,7 @@ export type UtilisateurCreateWithoutSessionsInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   abonnement?: Prisma.AbonnementCreateNestedOneWithoutUtilisateurInput
   comptes?: Prisma.CompteOAuthCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
@@ -629,6 +660,7 @@ export type UtilisateurUncheckedCreateWithoutSessionsInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   abonnement?: Prisma.AbonnementUncheckedCreateNestedOneWithoutUtilisateurInput
   comptes?: Prisma.CompteOAuthUncheckedCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
@@ -661,6 +693,7 @@ export type UtilisateurUpdateWithoutSessionsInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   abonnement?: Prisma.AbonnementUpdateOneWithoutUtilisateurNestedInput
   comptes?: Prisma.CompteOAuthUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
@@ -677,6 +710,7 @@ export type UtilisateurUncheckedUpdateWithoutSessionsInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   abonnement?: Prisma.AbonnementUncheckedUpdateOneWithoutUtilisateurNestedInput
   comptes?: Prisma.CompteOAuthUncheckedUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
@@ -693,6 +727,7 @@ export type UtilisateurCreateWithoutAbonnementInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   comptes?: Prisma.CompteOAuthCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUtilisateurInput
@@ -709,6 +744,7 @@ export type UtilisateurUncheckedCreateWithoutAbonnementInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   comptes?: Prisma.CompteOAuthUncheckedCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUtilisateurInput
@@ -741,6 +777,7 @@ export type UtilisateurUpdateWithoutAbonnementInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   comptes?: Prisma.CompteOAuthUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUtilisateurNestedInput
@@ -757,6 +794,7 @@ export type UtilisateurUncheckedUpdateWithoutAbonnementInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   comptes?: Prisma.CompteOAuthUncheckedUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUtilisateurNestedInput
@@ -773,6 +811,7 @@ export type UtilisateurCreateWithoutCvsInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   abonnement?: Prisma.AbonnementCreateNestedOneWithoutUtilisateurInput
   comptes?: Prisma.CompteOAuthCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUtilisateurInput
@@ -789,6 +828,7 @@ export type UtilisateurUncheckedCreateWithoutCvsInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   abonnement?: Prisma.AbonnementUncheckedCreateNestedOneWithoutUtilisateurInput
   comptes?: Prisma.CompteOAuthUncheckedCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUtilisateurInput
@@ -821,6 +861,7 @@ export type UtilisateurUpdateWithoutCvsInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   abonnement?: Prisma.AbonnementUpdateOneWithoutUtilisateurNestedInput
   comptes?: Prisma.CompteOAuthUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUtilisateurNestedInput
@@ -837,6 +878,7 @@ export type UtilisateurUncheckedUpdateWithoutCvsInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   abonnement?: Prisma.AbonnementUncheckedUpdateOneWithoutUtilisateurNestedInput
   comptes?: Prisma.CompteOAuthUncheckedUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUtilisateurNestedInput
@@ -853,6 +895,7 @@ export type UtilisateurCreateWithoutDemandesInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   abonnement?: Prisma.AbonnementCreateNestedOneWithoutUtilisateurInput
   comptes?: Prisma.CompteOAuthCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
@@ -869,6 +912,7 @@ export type UtilisateurUncheckedCreateWithoutDemandesInput = {
   creeLe?: Date | string
   misAJourLe?: Date | string
   role?: $Enums.Role
+  estSuspendu?: boolean
   abonnement?: Prisma.AbonnementUncheckedCreateNestedOneWithoutUtilisateurInput
   comptes?: Prisma.CompteOAuthUncheckedCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
@@ -901,6 +945,7 @@ export type UtilisateurUpdateWithoutDemandesInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   abonnement?: Prisma.AbonnementUpdateOneWithoutUtilisateurNestedInput
   comptes?: Prisma.CompteOAuthUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
@@ -917,6 +962,7 @@ export type UtilisateurUncheckedUpdateWithoutDemandesInput = {
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
   abonnement?: Prisma.AbonnementUncheckedUpdateOneWithoutUtilisateurNestedInput
   comptes?: Prisma.CompteOAuthUncheckedUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
@@ -991,6 +1037,7 @@ export type UtilisateurSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   creeLe?: boolean
   misAJourLe?: boolean
   role?: boolean
+  estSuspendu?: boolean
   abonnement?: boolean | Prisma.Utilisateur$abonnementArgs<ExtArgs>
   comptes?: boolean | Prisma.Utilisateur$comptesArgs<ExtArgs>
   cvs?: boolean | Prisma.Utilisateur$cvsArgs<ExtArgs>
@@ -1009,6 +1056,7 @@ export type UtilisateurSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   creeLe?: boolean
   misAJourLe?: boolean
   role?: boolean
+  estSuspendu?: boolean
 }, ExtArgs["result"]["utilisateur"]>
 
 export type UtilisateurSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1021,6 +1069,7 @@ export type UtilisateurSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   creeLe?: boolean
   misAJourLe?: boolean
   role?: boolean
+  estSuspendu?: boolean
 }, ExtArgs["result"]["utilisateur"]>
 
 export type UtilisateurSelectScalar = {
@@ -1033,9 +1082,10 @@ export type UtilisateurSelectScalar = {
   creeLe?: boolean
   misAJourLe?: boolean
   role?: boolean
+  estSuspendu?: boolean
 }
 
-export type UtilisateurOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nom" | "email" | "motDePasse" | "emailVerifieLe" | "image" | "creeLe" | "misAJourLe" | "role", ExtArgs["result"]["utilisateur"]>
+export type UtilisateurOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nom" | "email" | "motDePasse" | "emailVerifieLe" | "image" | "creeLe" | "misAJourLe" | "role" | "estSuspendu", ExtArgs["result"]["utilisateur"]>
 export type UtilisateurInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   abonnement?: boolean | Prisma.Utilisateur$abonnementArgs<ExtArgs>
   comptes?: boolean | Prisma.Utilisateur$comptesArgs<ExtArgs>
@@ -1066,6 +1116,7 @@ export type $UtilisateurPayload<ExtArgs extends runtime.Types.Extensions.Interna
     creeLe: Date
     misAJourLe: Date
     role: $Enums.Role
+    estSuspendu: boolean
   }, ExtArgs["result"]["utilisateur"]>
   composites: {}
 }
@@ -1503,6 +1554,7 @@ export interface UtilisateurFieldRefs {
   readonly creeLe: Prisma.FieldRef<"Utilisateur", 'DateTime'>
   readonly misAJourLe: Prisma.FieldRef<"Utilisateur", 'DateTime'>
   readonly role: Prisma.FieldRef<"Utilisateur", 'Role'>
+  readonly estSuspendu: Prisma.FieldRef<"Utilisateur", 'Boolean'>
 }
     
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, MessageCircle, Send, Clock, CheckCircle2 } from "lucide-react";
+import { Sparkles, MessageCircle, Phone, Send, Clock, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,6 +22,8 @@ interface BoutonPremiumProps {
 }
 
 const NUMERO_WHATSAPP = "24266817726";
+const NUMERO_TELEPHONE = "+242066817726";
+const LIEN_TEL = `tel:${NUMERO_TELEPHONE}`;
 
 export function BoutonPremium({ statutInitial }: BoutonPremiumProps) {
   const [statut, setStatut] = useState<StatutDemande>(statutInitial);
@@ -100,22 +102,35 @@ export function BoutonPremium({ statutInitial }: BoutonPremiumProps) {
         </DialogHeader>
 
         <div className="space-y-4">
-          <a
-            href={lienWhatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 border border-border rounded-lg p-3 hover:bg-muted transition-colors"
-          >
-            <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
-              <MessageCircle className="w-4 h-4 text-secondary" />
-            </div>
-            <div>
-              <p className="text-sm font-medium">Contacter via WhatsApp</p>
-              <p className="text-xs text-muted-foreground">
-                Réponse rapide, discussion directe
-              </p>
-            </div>
-          </a>
+          <div className="grid grid-cols-2 gap-3">
+            <a
+              href={lienWhatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 border border-border rounded-lg p-3 hover:bg-muted transition-colors"
+            >
+              <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+                <MessageCircle className="w-4 h-4 text-secondary" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Contacter via WhatsApp</p>
+                <p className="text-xs text-muted-foreground">Réponse rapide, discussion directe</p>
+              </div>
+            </a>
+
+            <a
+              href={LIEN_TEL}
+              className="flex items-center gap-3 border border-border rounded-lg p-3 hover:bg-muted transition-colors"
+            >
+              <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+                <Phone className="w-4 h-4 text-secondary" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Appeler l'admin</p>
+                <p className="text-xs text-muted-foreground">{NUMERO_TELEPHONE}</p>
+              </div>
+            </a>
+          </div>
 
           <div className="space-y-2">
             <p className="text-sm font-medium">Ou envoyez une demande ici</p>

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/shared/lib/auth";
 import {
   togglerPremium,
+  togglerSuspension,
   supprimerUtilisateur,
   ErreurAdmin,
 } from "@/features/admin/api/admin.service";
@@ -26,21 +27,25 @@ export async function PATCH(
 
   try {
     const corps = await request.json();
-    const { activerPremium } = corps;
+    const { activerPremium, suspendre } = corps;
 
-    if (typeof activerPremium !== "boolean") {
+    if (typeof activerPremium === "boolean") {
+      await togglerPremium(utilisateurId, activerPremium);
       return NextResponse.json(
-        { erreur: "Paramètre activerPremium invalide" },
-        { status: 400 }
+        { message: activerPremium ? "Premium activé" : "Premium désactivé" },
+        { status: 200 }
       );
     }
 
-    await togglerPremium(utilisateurId, activerPremium);
+    if (typeof suspendre === "boolean") {
+      await togglerSuspension(utilisateurId, suspendre);
+      return NextResponse.json(
+        { message: suspendre ? "Compte suspendu" : "Compte réactivé" },
+        { status: 200 }
+      );
+    }
 
-    return NextResponse.json(
-      { message: activerPremium ? "Premium activé" : "Premium désactivé" },
-      { status: 200 }
-    );
+    return NextResponse.json({ erreur: "Paramètre invalide" }, { status: 400 });
   } catch (erreur) {
     if (erreur instanceof ErreurAdmin) {
       return NextResponse.json({ erreur: erreur.message }, { status: 409 });

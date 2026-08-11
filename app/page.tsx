@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/shared/lib/auth";
 import { listerTemplates } from "@/features/cv/components/templates/registre-templates";
 import type {
   InformationsCVAffichage,
@@ -119,27 +121,32 @@ const ETAPES = [
   { numero: "03", titre: "Téléchargez en PDF", description: "Exportez votre CV prêt à envoyer, à tout moment." },
 ];
 
-export default function PageAccueil() {
+export default async function PageAccueil() {
+  const session = await getServerSession(authOptions);
+  const estConnecte = !!session;
+
   const templates = listerTemplates();
 
   return (
     <div className="min-h-screen bg-papier text-encre">
       {/* En-tête */}
       <header className="flex items-center justify-between px-6 py-5 md:px-12">
-        <span className="font-display text-xl font-semibold" style={{ fontFamily: "var(--font-display)" }}>
+        <Link href="/" className="font-display text-xl font-semibold" style={{ fontFamily: "var(--font-display)" }}>
           CV Auto
-        </span>
-        <nav className="flex items-center gap-4">
-          <Link href="/connexion" className="text-sm font-medium text-ardoise hover:text-encre">
-            Connexion
-          </Link>
-          <Link
-            href="/inscription"
-            className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-white hover:opacity-90"
-          >
-            Créer mon CV
-          </Link>
-        </nav>
+        </Link>
+          <nav className="flex items-center gap-4">
+            {!estConnecte && (
+              <Link href="/connexion" className="text-sm font-medium text-ardoise hover:text-encre">
+                Connexion
+              </Link>
+            )}
+            <Link
+              href="/inscription"
+              className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-white hover:opacity-90"
+            >
+              Créer mon CV
+            </Link>
+          </nav>
       </header>
 
       {/* Hero */}
@@ -160,9 +167,9 @@ export default function PageAccueil() {
           >
             Créer mon CV gratuitement
           </Link>
-          <Link href="#modeles" className="text-sm font-medium text-ardoise underline-offset-4 hover:underline">
+          <a href="#modeles" className="text-sm font-medium text-ardoise underline-offset-4 hover:underline">
             Voir les modèles ↓
-          </Link>
+          </a>
         </div>
       </section>
 

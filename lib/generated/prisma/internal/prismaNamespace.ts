@@ -1289,7 +1289,8 @@ export const UtilisateurScalarFieldEnum = {
   image: 'image',
   creeLe: 'creeLe',
   misAJourLe: 'misAJourLe',
-  role: 'role'
+  role: 'role',
+  estSuspendu: 'estSuspendu'
 } as const
 
 export type UtilisateurScalarFieldEnum = (typeof UtilisateurScalarFieldEnum)[keyof typeof UtilisateurScalarFieldEnum]
@@ -1528,6 +1529,13 @@ export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1566,13 +1574,6 @@ export type EnumStatutAbonnementFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'StatutAbonnement[]'
  */
 export type ListEnumStatutAbonnementFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatutAbonnement[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

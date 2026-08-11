@@ -13,10 +13,18 @@ export default async function PageEditeur({
 }) {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
+ if (!session) {
     redirect("/connexion");
   }
 
+  const utilisateurFrais = await prisma.utilisateur.findUnique({
+    where: { id: session.user.id },
+    select: { estSuspendu: true },
+  });
+
+  if (utilisateurFrais?.estSuspendu) {
+    redirect("/compte-suspendu");
+  }
   const { cvId } = await params;
 
   let cv;

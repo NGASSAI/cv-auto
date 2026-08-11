@@ -39,8 +39,12 @@ export function FormulaireConnexion() {
 
     setEnChargement(false);
 
-    if (resultat?.error) {
-      toast.error("Email ou mot de passe incorrect");
+   if (resultat?.error) {
+      if (resultat.error === "COMPTE_SUSPENDU") {
+        toast.error("Ce compte a été suspendu. Contactez l'administrateur.");
+      } else {
+        toast.error("Email ou mot de passe incorrect");
+      }
       return;
     }
 

@@ -532,10 +532,6 @@ export type CVUncheckedUpdateManyWithoutUtilisateurNestedInput = {
   deleteMany?: Prisma.CVScalarWhereInput | Prisma.CVScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type CVCreateNestedOneWithoutInformationsInput = {
   create?: Prisma.XOR<Prisma.CVCreateWithoutInformationsInput, Prisma.CVUncheckedCreateWithoutInformationsInput>
   connectOrCreate?: Prisma.CVCreateOrConnectWithoutInformationsInput

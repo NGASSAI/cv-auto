@@ -1,7 +1,6 @@
 "use client";
-
 import { useState } from "react";
-import { Sparkles, SparklesIcon as SparklesOff, Trash2 } from "lucide-react";
+import { Ban, Sparkles, SparklesIcon as SparklesOff, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +19,7 @@ interface Utilisateur {
   nom: string | null;
   email: string;
   role: string;
+  estSuspendu: boolean;
   creeLe: string;
   _count: { cvs: number };
   abonnement: { plan: string; statut: string } | null;
@@ -67,6 +67,36 @@ export function TableauUtilisateurs({
                 },
               }
             : u
+        )
+      );
+    } catch {
+      toast.error("Une erreur est survenue");
+    } finally {
+      setEnTraitement(null);
+    }
+  }
+
+  async function togglerSuspension(utilisateur: Utilisateur) {
+    setEnTraitement(utilisateur.id);
+
+    try {
+      const reponse = await fetch(`/api/admin/utilisateurs/${utilisateur.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ suspendre: !utilisateur.estSuspendu }),
+      });
+
+      if (!reponse.ok) {
+        const donnees = await reponse.json();
+        toast.error(donnees.erreur ?? "Impossible de modifier le statut");
+        return;
+      }
+
+      toast.success(utilisateur.estSuspendu ? "Compte réactivé" : "Compte suspendu");
+
+      setUtilisateurs((precedent) =>
+        precedent.map((u) =>
+          u.id === utilisateur.id ? { ...u, estSuspendu: !u.estSuspendu } : u
         )
       );
     } catch {
@@ -145,16 +175,23 @@ export function TableauUtilisateurs({
                       </span>
                     </td>
                     <td className="px-4 py-3">{utilisateur._count.cvs}</td>
-                    <td className="px-4 py-3">
-                      {estPremium || estAdmin ? (
-                        <span className="text-xs px-2 py-1 rounded-full bg-secondary/10 text-secondary font-medium">
-                          Premium
-                        </span>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">Gratuit</span>
-                      )}
+                   <td className="px-4 py-3">
+                      <div className="flex items-center gap-1.5">
+                        {estPremium || estAdmin ? (
+                          <span className="text-xs px-2 py-1 rounded-full bg-secondary/10 text-secondary font-medium">
+                            Premium
+                          </span>
+                        ) : (
+                          <span className="text-xs text-muted-foreground">Gratuit</span>
+                        )}
+                        {utilisateur.estSuspendu && (
+                          <span className="text-xs px-2 py-1 rounded-full bg-destructive/10 text-destructive font-medium">
+                            Suspendu
+                          </span>
+                        )}
+                      </div>
                     </td>
-                    <td className="px-4 py-3">
+                   <td className="px-4 py-3">
                       <div className="flex items-center gap-1.5">
                         <Button
                           size="sm"
@@ -168,6 +205,15 @@ export function TableauUtilisateurs({
                           ) : (
                             <Sparkles className="w-4 h-4" />
                           )}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          disabled={enTraitement === utilisateur.id || estAdmin}
+                          onClick={() => togglerSuspension(utilisateur)}
+                          title={utilisateur.estSuspendu ? "Réactiver le compte" : "Suspendre temporairement"}
+                        >
+                          <Ban className={utilisateur.estSuspendu ? "w-4 h-4 text-primary" : "w-4 h-4"} />
                         </Button>
                         <Button
                           size="sm"

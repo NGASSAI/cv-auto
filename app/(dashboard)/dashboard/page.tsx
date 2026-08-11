@@ -23,6 +23,12 @@ export default async function PageDashboard() {
     ? aAccesPremium(utilisateurAvecAbonnement)
     : false;
 
+  const statutInitial = estPremium
+    ? "APPROUVEE"
+    : derniereDemande?.statut === "EN_ATTENTE"
+    ? "EN_ATTENTE"
+    : null;
+
   const cvsSerialisables = cvs.map((cv) => ({
     id: cv.id,
     titre: cv.titre,
@@ -32,9 +38,7 @@ export default async function PageDashboard() {
   return (
     <div>
       <div className="flex justify-end mb-6">
-        <BoutonPremium
-          statutInitial={estPremium ? "APPROUVEE" : (derniereDemande?.statut ?? null)}
-        />
+        <BoutonPremium statutInitial={statutInitial} />
       </div>
 
       <TableauDeBordCV cvsInitiaux={cvsSerialisables} />
