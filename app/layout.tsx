@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { EnregistreurServiceWorker } from "@/features/pwa/components/enregistreur-service-worker";
+import { InviteInstallation } from "@/features/pwa/components/invite-installation";
 import { Geist, Geist_Mono, Fraunces, Merriweather, Playfair_Display, Manrope, Lora } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
@@ -47,10 +49,25 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "CV Builder",
+  title: "CV Auto",
   description: "Créez un CV professionnel en quelques minutes",
+  icons: {
+    icon: [
+      { url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: "/icons/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "CV Auto",
+  },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#2D5A4A",
+};
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const parametres = await obtenirParametresSite();
 
@@ -66,6 +83,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         {children}
         <Toaster richColors position="top-right" />
+        <EnregistreurServiceWorker />
+        <InviteInstallation />
       </body>
     </html>
   );
