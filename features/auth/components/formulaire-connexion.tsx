@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
@@ -17,7 +18,7 @@ import {
 } from "@/features/auth/validators/auth.schema";
 
 export function FormulaireConnexion() {
-  const router = useRouter();
+
   const [enChargement, setEnChargement] = useState(false);
 
   const {
@@ -31,29 +32,42 @@ export function FormulaireConnexion() {
   async function onSubmit(donnees: DonneesConnexion) {
     setEnChargement(true);
 
-    const resultat = await signIn("credentials", {
-      email: donnees.email,
-      motDePasse: donnees.motDePasse,
-      redirect: false,
-    });
+    try {
+      // Récupérer le rôle de l'utilisateur avant la connexion
+      const reponseRole = await fetch(`/api/auth/role?email=${encodeURIComponent(donnees.email)}`);
+      const donneesRole = await reponseRole.json();
 
-    setEnChargement(false);
-
-   if (resultat?.error) {
-      if (resultat.error === "COMPTE_SUSPENDU") {
-        toast.error("Ce compte a été suspendu. Contactez l'administrateur.");
-      } else {
+      if (!reponseRole.ok) {
         toast.error("Email ou mot de passe incorrect");
+        setEnChargement(false);
+        return;
       }
-      return;
+
+      const callbackUrl = donneesRole.role === "ADMIN" ? "/admin" : "/dashboard";
+
+      const resultat = await signIn("credentials", {
+        email: donnees.email,
+        motDePasse: donnees.motDePasse,
+        redirect: true,
+        callbackUrl,
+      });
+
+      setEnChargement(false);
+
+      if (!resultat?.ok || resultat?.error) {
+        if (resultat?.error === "COMPTE_SUSPENDU") {
+          toast.error("Ce compte a été suspendu. Contactez l'administrateur.");
+        } else {
+          toast.error("Email ou mot de passe incorrect");
+        }
+        return;
+      }
+
+      toast.success("Connexion réussie");
+    } catch (error) {
+      setEnChargement(false);
+      toast.error("Une erreur est survenue lors de la connexion");
     }
-
-    toast.success("Connexion réussie");
-
-    const session = await getSession();
-    const destination = session?.user.role === "ADMIN" ? "/admin" : "/dashboard";
-
-    router.replace(destination);
   }
 
   return (

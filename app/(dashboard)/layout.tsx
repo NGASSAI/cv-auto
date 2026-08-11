@@ -15,8 +15,12 @@ export default async function LayoutDashboard({
 
   // Double sécurité en plus du middleware : si jamais le middleware
   // était contourné ou mal configuré, cette vérification bloque quand même l'accès.
-if (!session) {
+  if (!session) {
     redirect("/connexion");
+  }
+
+  if (session.user.role === "ADMIN") {
+    redirect("/admin");
   }
 
   const utilisateurFrais = await prisma.utilisateur.findUnique({
