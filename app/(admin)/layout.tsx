@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { authOptions } from "@/shared/lib/auth";
 import { NavAdmin } from "@/features/admin/components/nav-admin";
+import { BoutonCreationCV } from "@/features/dashboard/components/bouton-creation-cv";
 import { BoutonDeconnexion } from "@/features/dashboard/components/bouton-deconnexion";
 import { ClocheNotifications } from "@/features/notifications/components/cloche-notifications";
 
@@ -31,6 +32,7 @@ export default async function LayoutAdmin({
           </Link>
 
           <div className="flex items-center gap-2 sm:gap-4">
+            <BoutonCreationCV />
             <ClocheNotifications />
             <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground">
               Retour à l&apos;app
