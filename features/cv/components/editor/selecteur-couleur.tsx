@@ -18,6 +18,7 @@ const COULEURS_DISPONIBLES = [
   { nom: "Ardoise", valeur: "#3D4B5C" },
   { nom: "Nuit", valeur: "#161B22" },
   { nom: "Framboise", valeur: "#A83A5C" },
+   { nom: "Blanc", valeur: "#FFFFFF" },
 ];
 
 export function SelecteurCouleur() {
@@ -34,8 +35,8 @@ export function SelecteurCouleur() {
           type="button"
           title={couleur.nom}
           onClick={() => changerCouleur(couleur.valeur)}
-          className={cn(
-            "w-8 h-8 rounded-full transition-transform hover:scale-110",
+         className={cn(
+            "w-8 h-8 rounded-full transition-transform hover:scale-110 border border-ardoise/20",
             cv.couleurAccent === couleur.valeur && "ring-2 ring-offset-2 ring-foreground"
           )}
           style={{ backgroundColor: couleur.valeur }}

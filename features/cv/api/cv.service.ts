@@ -1,6 +1,36 @@
 import { prisma } from "@/shared/lib/prisma";
-
+import { aAccesPremium } from "@/features/premium/lib/acces-premium";
+import { obtenirTemplate } from "@/features/cv/components/templates/registre-templates";
 export class ErreurCV extends Error {}
+async function verifierAccesPremiumSiNecessaire(
+  utilisateurId: string,
+  donnees: { templateId?: string; police?: string; alignementTexte?: string; tailleTexte?: string }
+) {
+  const utilisateur = await prisma.utilisateur.findUnique({
+    where: { id: utilisateurId },
+    select: { role: true, abonnement: { select: { statut: true } } },
+  });
+
+  if (!utilisateur) {
+    throw new ErreurCV("Utilisateur introuvable");
+  }
+
+  const estPremium = aAccesPremium(utilisateur);
+  if (estPremium) return;
+
+  if (donnees.templateId && obtenirTemplate(donnees.templateId).estPremium) {
+    throw new ErreurCV("Ce template est réservé aux comptes Premium");
+  }
+  if (donnees.police && donnees.police !== "geist") {
+    throw new ErreurCV("Le choix de la police est réservé aux comptes Premium");
+  }
+  if (donnees.alignementTexte && donnees.alignementTexte !== "gauche") {
+    throw new ErreurCV("L'alignement du texte est réservé aux comptes Premium");
+  }
+  if (donnees.tailleTexte && donnees.tailleTexte !== "moyenne") {
+    throw new ErreurCV("La taille du texte est réservée aux comptes Premium");
+  }
+}
 
 /**
  * Récupère tous les CV d'un utilisateur, triés du plus récent au plus ancien.
@@ -42,6 +72,10 @@ export async function recupererCVComplet(cvId: string, utilisateurId: string) {
     throw new ErreurCV("Vous n'avez pas accès à ce CV");
   }
 
+  await verifierAccesPremiumSiNecessaire(utilisateurId, {
+    templateId: cv.templateId,
+  });
+
   return cv;
 }
 
@@ -80,9 +114,33 @@ export async function mettreAJourCV(
     throw new ErreurCV("Vous n'avez pas accès à ce CV");
   }
 
+  if (donnees.templateId) {
+    await verifierAccesPremiumSiNecessaire(utilisateurId, {
+      templateId: donnees.templateId,
+    });
+  }
+
+  const miseAJour: {
+    titre?: string;
+    templateId?: string;
+    couleurAccent?: string;
+  } = {};
+
+  if (donnees.titre !== undefined) {
+    miseAJour.titre = donnees.titre;
+  }
+
+  if (donnees.templateId !== undefined) {
+    miseAJour.templateId = donnees.templateId;
+  }
+
+  if (donnees.couleurAccent !== undefined) {
+    miseAJour.couleurAccent = donnees.couleurAccent;
+  }
+
   return prisma.cV.update({
     where: { id: cvId },
-    data: donnees,
+    data: miseAJour,
   });
 }
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
@@ -45,8 +45,11 @@ export function FormulaireConnexion() {
     }
 
     toast.success("Connexion réussie");
-    router.push("/dashboard");
-    router.refresh();
+
+    const session = await getSession();
+    const destination = session?.user.role === "ADMIN" ? "/admin" : "/dashboard";
+
+    router.replace(destination);
   }
 
   return (

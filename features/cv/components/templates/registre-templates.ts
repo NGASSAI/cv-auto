@@ -4,6 +4,9 @@ import { TemplateMinimaliste } from "@/features/cv/components/templates/minimali
 import { TemplateModerne } from "@/features/cv/components/templates/moderne";
 import { TemplateElegant } from "@/features/cv/components/templates/elegant";
 import type { ProprietesTemplate } from "@/features/cv/components/templates/types";
+import { TemplatePortfolio } from "@/features/cv/components/templates/portfolio";
+import { TemplateExecutif } from "@/features/cv/components/templates/executif";
+import { TemplateDossierStructure } from "@/features/cv/components/templates/dossier-structure";
 
 export interface MetadonneesTemplate {
   cle: string;
@@ -47,6 +50,24 @@ export const REGISTRE_TEMPLATES: Record<string, MetadonneesTemplate> = {
     nom: "Élégant",
     estPremium: false,
     composant: TemplateElegant,
+  },
+  portfolio: {
+    cle: "portfolio",
+    nom: "Portfolio",
+    estPremium: true,
+    composant: TemplatePortfolio,
+  },
+executif: {
+    cle: "executif",
+    nom: "Exécutif",
+    estPremium: true,
+    composant: TemplateExecutif,
+  },
+  "dossier-structure": {
+    cle: "dossier-structure",
+    nom: "Dossier structuré",
+    estPremium: true,
+    composant: TemplateDossierStructure,
   },
 };
 
