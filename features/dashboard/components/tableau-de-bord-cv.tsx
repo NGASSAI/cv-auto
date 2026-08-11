@@ -36,11 +36,19 @@ export function TableauDeBordCV({ cvsInitiaux }: TableauDeBordCVProps) {
       const donnees = await reponse.json();
 
       if (!reponse.ok) {
+        if (reponse.status === 401) {
+          // Si non authentifié, redirige vers la page de connexion
+          window.location.href = "/connexion";
+          return;
+        }
+
         toast.error("Impossible de créer le CV");
         return;
       }
 
-      router.push(`/editor/${donnees.cv.id}`);
+      // Force une navigation complète pour conserver les cookies/session
+      // et éviter que le middleware n'intercepte la navigation client-side.
+      window.location.href = `/editor/${donnees.cv.id}`;
     } catch {
       toast.error("Une erreur est survenue");
     } finally {

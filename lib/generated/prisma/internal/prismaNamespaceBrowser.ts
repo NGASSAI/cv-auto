@@ -61,7 +61,9 @@ export const ModelName = {
   ItemSection: 'ItemSection',
   TokenReinitialisation: 'TokenReinitialisation',
   DemandePremium: 'DemandePremium',
-  Template: 'Template'
+  Template: 'Template',
+  ParametresSite: 'ParametresSite',
+  Notification: 'Notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -237,6 +239,38 @@ export const TemplateScalarFieldEnum = {
 } as const
 
 export type TemplateScalarFieldEnum = (typeof TemplateScalarFieldEnum)[keyof typeof TemplateScalarFieldEnum]
+
+
+export const ParametresSiteScalarFieldEnum = {
+  id: 'id',
+  modeMaintenance: 'modeMaintenance',
+  messageMaintenance: 'messageMaintenance',
+  numeroWhatsapp: 'numeroWhatsapp',
+  titreAccueil: 'titreAccueil',
+  descriptionAccueil: 'descriptionAccueil',
+  accrocheAccueil: 'accrocheAccueil',
+  couleurPrimaire: 'couleurPrimaire',
+  couleurSecondaire: 'couleurSecondaire',
+  emailSupport: 'emailSupport',
+  inscriptionActivee: 'inscriptionActivee',
+  exportPdfActif: 'exportPdfActif',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type ParametresSiteScalarFieldEnum = (typeof ParametresSiteScalarFieldEnum)[keyof typeof ParametresSiteScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  utilisateurId: 'utilisateurId',
+  titre: 'titre',
+  message: 'message',
+  lien: 'lien',
+  lu: 'lu',
+  creeLe: 'creeLe'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const SortOrder = {

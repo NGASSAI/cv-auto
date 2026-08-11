@@ -96,3 +96,13 @@ export type DemandePremium = Prisma.DemandePremiumModel
  * 
  */
 export type Template = Prisma.TemplateModel
+/**
+ * Model ParametresSite
+ * 
+ */
+export type ParametresSite = Prisma.ParametresSiteModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel

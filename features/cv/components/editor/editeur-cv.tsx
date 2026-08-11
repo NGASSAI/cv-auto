@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
+import { toast } from "sonner";
 import Link from "next/link";
-import { ArrowLeft, Download } from "lucide-react";
+import { ArrowLeft, Download, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,13 +30,41 @@ export function EditeurCV({ cvInitial, estPremium }: EditeurCVProps) {
   const cv = useEditeurCVStore((etat) => etat.cv);
   const initialiser = useEditeurCVStore((etat) => etat.initialiser);
   const mettreAJourTitreCV = useEditeurCVStore((etat) => etat.mettreAJourTitreCV);
-
+  const [telechargementEnCours, setTelechargementEnCours] = useState(false);
   useEffect(() => {
     initialiser(cvInitial);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!cv) return null;
+  async function gererTelechargement() {
+    if (!cv) return;
+    setTelechargementEnCours(true);
+
+    try {
+      const reponse = await fetch(`/api/cv/${cv.id}/export`);
+
+      if (!reponse.ok) {
+        const donnees = await reponse.json();
+        toast.error(donnees.erreur ?? "Impossible de télécharger le CV");
+        return;
+      }
+
+      const blob = await reponse.blob();
+      const url = window.URL.createObjectURL(blob);
+      const lien = document.createElement("a");
+      lien.href = url;
+      lien.download = `${cv?.titre ?? "cv"}.pdf`;
+      document.body.appendChild(lien);
+      lien.click();
+      document.body.removeChild(lien);
+      window.URL.revokeObjectURL(url);
+    } catch {
+      toast.error("Une erreur est survenue lors du téléchargement");
+    } finally {
+      setTelechargementEnCours(false);
+    }
+  }
 
   return (
     <div className="h-screen bg-background flex flex-col overflow-hidden">
@@ -54,12 +83,14 @@ export function EditeurCV({ cvInitial, estPremium }: EditeurCVProps) {
                         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
   <IndicateurSauvegarde />
   <PanneauDesign estPremium={estPremium} />
-  <a href={`/api/cv/${cv.id}/export`} download>
-    <Button variant="default" size="sm">
-      <Download className="w-4 h-4" />
-      <span className="hidden sm:inline">Télécharger</span>
-    </Button>
-  </a>
+  <Button variant="default" size="sm" onClick={gererTelechargement} disabled={telechargementEnCours}>
+  {telechargementEnCours ? (
+    <Loader2 className="w-4 h-4 animate-spin" />
+  ) : (
+    <Download className="w-4 h-4" />
+  )}
+  <span className="hidden sm:inline">Télécharger</span>
+</Button>
    </div>
   
         </div>

@@ -1,34 +1,66 @@
-import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
+import { prisma } from "@/shared/lib/prisma";
 
-export default withAuth(
-  function middleware(request) {
-    const token = request.nextauth.token;
-    const cheminActuel = request.nextUrl.pathname;
+export const runtime = "nodejs";
 
-    // Zone admin : réservée au rôle ADMIN
-    if (cheminActuel.startsWith("/admin")) {
-      if (token?.role !== "ADMIN") {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
-      }
+let cacheMaintenance: { actif: boolean; expireLe: number } | null = null;
+const DUREE_CACHE_MS = 5000;
+
+async function siteEnMaintenance(): Promise<boolean> {
+  if (cacheMaintenance && cacheMaintenance.expireLe > Date.now()) {
+    return cacheMaintenance.actif;
+  }
+
+  try {
+    const parametres = await prisma.parametresSite.findUnique({
+      where: { id: "parametres" },
+    });
+
+    const actif = parametres?.modeMaintenance ?? false;
+    cacheMaintenance = { actif, expireLe: Date.now() + DUREE_CACHE_MS };
+    return actif;
+  } catch {
+    // En cas d'erreur DB (ex: Neon en veille), on NE bloque JAMAIS le site.
+    // Mieux vaut un site accessible qu'un site verrouillé par accident.
+    return false;
+  }
+}
+
+export async function middleware(request: NextRequest) {
+  const cheminActuel = request.nextUrl.pathname;
+
+  const cheminsToujoursAutorises = ["/connexion", "/maintenance"];
+  if (cheminsToujoursAutorises.includes(cheminActuel)) {
+    return NextResponse.next();
+  }
+
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+
+  if (token?.role !== "ADMIN") {
+    const maintenance = await siteEnMaintenance();
+    if (maintenance) {
+      return NextResponse.redirect(new URL("/maintenance", request.url));
+    }
+  }
+
+  const zonesProtegees = ["/dashboard", "/admin", "/editor"];
+  const estZoneProtegee = zonesProtegees.some((zone) => cheminActuel.startsWith(zone));
+
+  if (estZoneProtegee) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/connexion", request.url));
     }
 
-    return NextResponse.next();
-  },
-  {
-    callbacks: {
-      // Vérifie simplement qu'un token existe (utilisateur connecté)
-      // La logique de rôle plus fine est gérée dans middleware() ci-dessus
-      authorized: ({ token }) => !!token,
-    },
-    pages: {
-      signIn: "/connexion",
-    },
+    if (cheminActuel.startsWith("/admin") && token.role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
   }
-);
+
+  return NextResponse.next();
+}
 
 export const config = {
-  // Le middleware s'applique uniquement à ces routes —
-  // tout le reste (marketing, auth, api publique) n'est pas concerné
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/editor/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api).*)"],
 };

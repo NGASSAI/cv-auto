@@ -407,7 +407,9 @@ export const ModelName = {
   ItemSection: 'ItemSection',
   TokenReinitialisation: 'TokenReinitialisation',
   DemandePremium: 'DemandePremium',
-  Template: 'Template'
+  Template: 'Template',
+  ParametresSite: 'ParametresSite',
+  Notification: 'Notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -423,7 +425,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "utilisateur" | "compteOAuth" | "session" | "abonnement" | "cV" | "informationsPersonnelles" | "section" | "itemSection" | "tokenReinitialisation" | "demandePremium" | "template"
+    modelProps: "utilisateur" | "compteOAuth" | "session" | "abonnement" | "cV" | "informationsPersonnelles" | "section" | "itemSection" | "tokenReinitialisation" | "demandePremium" | "template" | "parametresSite" | "notification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1241,6 +1243,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ParametresSite: {
+      payload: Prisma.$ParametresSitePayload<ExtArgs>
+      fields: Prisma.ParametresSiteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ParametresSiteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ParametresSiteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload>
+        }
+        findFirst: {
+          args: Prisma.ParametresSiteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ParametresSiteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload>
+        }
+        findMany: {
+          args: Prisma.ParametresSiteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload>[]
+        }
+        create: {
+          args: Prisma.ParametresSiteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload>
+        }
+        createMany: {
+          args: Prisma.ParametresSiteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ParametresSiteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload>[]
+        }
+        delete: {
+          args: Prisma.ParametresSiteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload>
+        }
+        update: {
+          args: Prisma.ParametresSiteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload>
+        }
+        deleteMany: {
+          args: Prisma.ParametresSiteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ParametresSiteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ParametresSiteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload>[]
+        }
+        upsert: {
+          args: Prisma.ParametresSiteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ParametresSitePayload>
+        }
+        aggregate: {
+          args: Prisma.ParametresSiteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateParametresSite>
+        }
+        groupBy: {
+          args: Prisma.ParametresSiteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ParametresSiteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ParametresSiteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ParametresSiteCountAggregateOutputType> | number
+        }
+      }
+    }
+    Notification: {
+      payload: Prisma.$NotificationPayload<ExtArgs>
+      fields: Prisma.NotificationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NotificationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        findFirst: {
+          args: Prisma.NotificationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        findMany: {
+          args: Prisma.NotificationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+        }
+        create: {
+          args: Prisma.NotificationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        createMany: {
+          args: Prisma.NotificationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+        }
+        delete: {
+          args: Prisma.NotificationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        update: {
+          args: Prisma.NotificationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        deleteMany: {
+          args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+        }
+        upsert: {
+          args: Prisma.NotificationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationPayload>
+        }
+        aggregate: {
+          args: Prisma.NotificationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotification>
+        }
+        groupBy: {
+          args: Prisma.NotificationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NotificationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1437,6 +1587,38 @@ export const TemplateScalarFieldEnum = {
 } as const
 
 export type TemplateScalarFieldEnum = (typeof TemplateScalarFieldEnum)[keyof typeof TemplateScalarFieldEnum]
+
+
+export const ParametresSiteScalarFieldEnum = {
+  id: 'id',
+  modeMaintenance: 'modeMaintenance',
+  messageMaintenance: 'messageMaintenance',
+  numeroWhatsapp: 'numeroWhatsapp',
+  titreAccueil: 'titreAccueil',
+  descriptionAccueil: 'descriptionAccueil',
+  accrocheAccueil: 'accrocheAccueil',
+  couleurPrimaire: 'couleurPrimaire',
+  couleurSecondaire: 'couleurSecondaire',
+  emailSupport: 'emailSupport',
+  inscriptionActivee: 'inscriptionActivee',
+  exportPdfActif: 'exportPdfActif',
+  misAJourLe: 'misAJourLe'
+} as const
+
+export type ParametresSiteScalarFieldEnum = (typeof ParametresSiteScalarFieldEnum)[keyof typeof ParametresSiteScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  utilisateurId: 'utilisateurId',
+  titre: 'titre',
+  message: 'message',
+  lien: 'lien',
+  lu: 'lu',
+  creeLe: 'creeLe'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1794,6 +1976,8 @@ export type GlobalOmitConfig = {
   tokenReinitialisation?: Prisma.TokenReinitialisationOmit
   demandePremium?: Prisma.DemandePremiumOmit
   template?: Prisma.TemplateOmit
+  parametresSite?: Prisma.ParametresSiteOmit
+  notification?: Prisma.NotificationOmit
 }
 
 /* Types for Logging */

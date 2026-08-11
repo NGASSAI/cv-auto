@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/shared/lib/auth";
 import { listerTemplates } from "@/features/cv/components/templates/registre-templates";
+import { obtenirParametresSite } from "@/features/admin/api/parametres.service";
 import type {
   InformationsCVAffichage,
   SectionCVAffichage,
@@ -126,6 +127,12 @@ export default async function PageAccueil() {
   const estConnecte = !!session;
 
   const templates = listerTemplates();
+  const parametres = await obtenirParametresSite();
+
+  const titre = parametres.titreAccueil || "Créez un CV qui ouvre des portes";
+  const accroche =
+    parametres.accrocheAccueil ||
+    "Des modèles professionnels, une personnalisation soignée, et un export PDF prêt à envoyer — en quelques minutes.";
 
   return (
     <div className="min-h-screen bg-papier text-encre">
@@ -151,14 +158,14 @@ export default async function PageAccueil() {
 
       {/* Hero */}
       <section className="px-6 py-16 text-center md:px-12 md:py-24">
-        <h1
+       <h1
           className="mx-auto max-w-3xl text-4xl font-medium leading-tight md:text-5xl"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          Créez un CV qui ouvre des portes
+          {titre}
         </h1>
         <p className="mx-auto mt-5 max-w-xl text-ardoise">
-          Des modèles professionnels, une personnalisation soignée, et un export PDF prêt à envoyer — en quelques minutes.
+          {accroche}
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
           <Link

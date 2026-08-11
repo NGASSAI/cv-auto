@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { schemaInscription } from "@/features/auth/validators/auth.schema";
 import { creerUtilisateur, ErreurAuth } from "@/features/auth/api/utilisateur.service";
+import { obtenirParametresSite } from "@/features/admin/api/parametres.service";
 
 export async function POST(request: NextRequest) {
   try {
+    const parametres = await obtenirParametresSite();
+    if (!parametres.inscriptionActivee) {
+      return NextResponse.json(
+        { erreur: "Les inscriptions sont temporairement fermées" },
+        { status: 403 }
+      );
+    }
+
     const corps = await request.json();
     const resultat = schemaInscription.safeParse(corps);
 

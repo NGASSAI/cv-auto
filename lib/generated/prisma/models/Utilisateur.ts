@@ -227,6 +227,7 @@ export type UtilisateurWhereInput = {
   cvs?: Prisma.CVListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   demandes?: Prisma.DemandePremiumListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type UtilisateurOrderByWithRelationInput = {
@@ -245,6 +246,7 @@ export type UtilisateurOrderByWithRelationInput = {
   cvs?: Prisma.CVOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   demandes?: Prisma.DemandePremiumOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type UtilisateurWhereUniqueInput = Prisma.AtLeast<{
@@ -266,6 +268,7 @@ export type UtilisateurWhereUniqueInput = Prisma.AtLeast<{
   cvs?: Prisma.CVListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   demandes?: Prisma.DemandePremiumListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }, "id" | "email">
 
 export type UtilisateurOrderByWithAggregationInput = {
@@ -316,6 +319,7 @@ export type UtilisateurCreateInput = {
   cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUtilisateurInput
   demandes?: Prisma.DemandePremiumCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurUncheckedCreateInput = {
@@ -334,6 +338,7 @@ export type UtilisateurUncheckedCreateInput = {
   cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUtilisateurInput
   demandes?: Prisma.DemandePremiumUncheckedCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurUpdateInput = {
@@ -352,6 +357,7 @@ export type UtilisateurUpdateInput = {
   cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUtilisateurNestedInput
   demandes?: Prisma.DemandePremiumUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurUncheckedUpdateInput = {
@@ -370,6 +376,7 @@ export type UtilisateurUncheckedUpdateInput = {
   cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUtilisateurNestedInput
   demandes?: Prisma.DemandePremiumUncheckedUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurCreateManyInput = {
@@ -549,6 +556,20 @@ export type UtilisateurUpdateOneRequiredWithoutDemandesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutDemandesInput, Prisma.UtilisateurUpdateWithoutDemandesInput>, Prisma.UtilisateurUncheckedUpdateWithoutDemandesInput>
 }
 
+export type UtilisateurCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutNotificationsInput, Prisma.UtilisateurUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+}
+
+export type UtilisateurUpdateOneRequiredWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutNotificationsInput, Prisma.UtilisateurUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.UtilisateurUpsertWithoutNotificationsInput
+  connect?: Prisma.UtilisateurWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UtilisateurUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UtilisateurUpdateWithoutNotificationsInput>, Prisma.UtilisateurUncheckedUpdateWithoutNotificationsInput>
+}
+
 export type UtilisateurCreateWithoutComptesInput = {
   id?: string
   nom?: string | null
@@ -564,6 +585,7 @@ export type UtilisateurCreateWithoutComptesInput = {
   cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUtilisateurInput
   demandes?: Prisma.DemandePremiumCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurUncheckedCreateWithoutComptesInput = {
@@ -581,6 +603,7 @@ export type UtilisateurUncheckedCreateWithoutComptesInput = {
   cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUtilisateurInput
   demandes?: Prisma.DemandePremiumUncheckedCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurCreateOrConnectWithoutComptesInput = {
@@ -614,6 +637,7 @@ export type UtilisateurUpdateWithoutComptesInput = {
   cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUtilisateurNestedInput
   demandes?: Prisma.DemandePremiumUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutComptesInput = {
@@ -631,6 +655,7 @@ export type UtilisateurUncheckedUpdateWithoutComptesInput = {
   cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUtilisateurNestedInput
   demandes?: Prisma.DemandePremiumUncheckedUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurCreateWithoutSessionsInput = {
@@ -648,6 +673,7 @@ export type UtilisateurCreateWithoutSessionsInput = {
   comptes?: Prisma.CompteOAuthCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
   demandes?: Prisma.DemandePremiumCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurUncheckedCreateWithoutSessionsInput = {
@@ -665,6 +691,7 @@ export type UtilisateurUncheckedCreateWithoutSessionsInput = {
   comptes?: Prisma.CompteOAuthUncheckedCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
   demandes?: Prisma.DemandePremiumUncheckedCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurCreateOrConnectWithoutSessionsInput = {
@@ -698,6 +725,7 @@ export type UtilisateurUpdateWithoutSessionsInput = {
   comptes?: Prisma.CompteOAuthUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
   demandes?: Prisma.DemandePremiumUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutSessionsInput = {
@@ -715,6 +743,7 @@ export type UtilisateurUncheckedUpdateWithoutSessionsInput = {
   comptes?: Prisma.CompteOAuthUncheckedUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
   demandes?: Prisma.DemandePremiumUncheckedUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurCreateWithoutAbonnementInput = {
@@ -732,6 +761,7 @@ export type UtilisateurCreateWithoutAbonnementInput = {
   cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUtilisateurInput
   demandes?: Prisma.DemandePremiumCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurUncheckedCreateWithoutAbonnementInput = {
@@ -749,6 +779,7 @@ export type UtilisateurUncheckedCreateWithoutAbonnementInput = {
   cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUtilisateurInput
   demandes?: Prisma.DemandePremiumUncheckedCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurCreateOrConnectWithoutAbonnementInput = {
@@ -782,6 +813,7 @@ export type UtilisateurUpdateWithoutAbonnementInput = {
   cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUtilisateurNestedInput
   demandes?: Prisma.DemandePremiumUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutAbonnementInput = {
@@ -799,6 +831,7 @@ export type UtilisateurUncheckedUpdateWithoutAbonnementInput = {
   cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUtilisateurNestedInput
   demandes?: Prisma.DemandePremiumUncheckedUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurCreateWithoutCvsInput = {
@@ -816,6 +849,7 @@ export type UtilisateurCreateWithoutCvsInput = {
   comptes?: Prisma.CompteOAuthCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUtilisateurInput
   demandes?: Prisma.DemandePremiumCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurUncheckedCreateWithoutCvsInput = {
@@ -833,6 +867,7 @@ export type UtilisateurUncheckedCreateWithoutCvsInput = {
   comptes?: Prisma.CompteOAuthUncheckedCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUtilisateurInput
   demandes?: Prisma.DemandePremiumUncheckedCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurCreateOrConnectWithoutCvsInput = {
@@ -866,6 +901,7 @@ export type UtilisateurUpdateWithoutCvsInput = {
   comptes?: Prisma.CompteOAuthUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUtilisateurNestedInput
   demandes?: Prisma.DemandePremiumUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutCvsInput = {
@@ -883,6 +919,7 @@ export type UtilisateurUncheckedUpdateWithoutCvsInput = {
   comptes?: Prisma.CompteOAuthUncheckedUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUtilisateurNestedInput
   demandes?: Prisma.DemandePremiumUncheckedUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurCreateWithoutDemandesInput = {
@@ -900,6 +937,7 @@ export type UtilisateurCreateWithoutDemandesInput = {
   comptes?: Prisma.CompteOAuthCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurUncheckedCreateWithoutDemandesInput = {
@@ -917,6 +955,7 @@ export type UtilisateurUncheckedCreateWithoutDemandesInput = {
   comptes?: Prisma.CompteOAuthUncheckedCreateNestedManyWithoutUtilisateurInput
   cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUtilisateurInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUtilisateurInput
 }
 
 export type UtilisateurCreateOrConnectWithoutDemandesInput = {
@@ -950,6 +989,7 @@ export type UtilisateurUpdateWithoutDemandesInput = {
   comptes?: Prisma.CompteOAuthUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUtilisateurNestedInput
 }
 
 export type UtilisateurUncheckedUpdateWithoutDemandesInput = {
@@ -967,6 +1007,95 @@ export type UtilisateurUncheckedUpdateWithoutDemandesInput = {
   comptes?: Prisma.CompteOAuthUncheckedUpdateManyWithoutUtilisateurNestedInput
   cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUtilisateurNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUtilisateurNestedInput
+}
+
+export type UtilisateurCreateWithoutNotificationsInput = {
+  id?: string
+  nom?: string | null
+  email: string
+  motDePasse?: string | null
+  emailVerifieLe?: Date | string | null
+  image?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  role?: $Enums.Role
+  estSuspendu?: boolean
+  abonnement?: Prisma.AbonnementCreateNestedOneWithoutUtilisateurInput
+  comptes?: Prisma.CompteOAuthCreateNestedManyWithoutUtilisateurInput
+  cvs?: Prisma.CVCreateNestedManyWithoutUtilisateurInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUtilisateurInput
+  demandes?: Prisma.DemandePremiumCreateNestedManyWithoutUtilisateurInput
+}
+
+export type UtilisateurUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  nom?: string | null
+  email: string
+  motDePasse?: string | null
+  emailVerifieLe?: Date | string | null
+  image?: string | null
+  creeLe?: Date | string
+  misAJourLe?: Date | string
+  role?: $Enums.Role
+  estSuspendu?: boolean
+  abonnement?: Prisma.AbonnementUncheckedCreateNestedOneWithoutUtilisateurInput
+  comptes?: Prisma.CompteOAuthUncheckedCreateNestedManyWithoutUtilisateurInput
+  cvs?: Prisma.CVUncheckedCreateNestedManyWithoutUtilisateurInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUtilisateurInput
+  demandes?: Prisma.DemandePremiumUncheckedCreateNestedManyWithoutUtilisateurInput
+}
+
+export type UtilisateurCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.UtilisateurWhereUniqueInput
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutNotificationsInput, Prisma.UtilisateurUncheckedCreateWithoutNotificationsInput>
+}
+
+export type UtilisateurUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.UtilisateurUpdateWithoutNotificationsInput, Prisma.UtilisateurUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.UtilisateurCreateWithoutNotificationsInput, Prisma.UtilisateurUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.UtilisateurWhereInput
+}
+
+export type UtilisateurUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.UtilisateurWhereInput
+  data: Prisma.XOR<Prisma.UtilisateurUpdateWithoutNotificationsInput, Prisma.UtilisateurUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type UtilisateurUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifieLe?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  abonnement?: Prisma.AbonnementUpdateOneWithoutUtilisateurNestedInput
+  comptes?: Prisma.CompteOAuthUpdateManyWithoutUtilisateurNestedInput
+  cvs?: Prisma.CVUpdateManyWithoutUtilisateurNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUtilisateurNestedInput
+  demandes?: Prisma.DemandePremiumUpdateManyWithoutUtilisateurNestedInput
+}
+
+export type UtilisateurUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  motDePasse?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerifieLe?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  estSuspendu?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  abonnement?: Prisma.AbonnementUncheckedUpdateOneWithoutUtilisateurNestedInput
+  comptes?: Prisma.CompteOAuthUncheckedUpdateManyWithoutUtilisateurNestedInput
+  cvs?: Prisma.CVUncheckedUpdateManyWithoutUtilisateurNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUtilisateurNestedInput
+  demandes?: Prisma.DemandePremiumUncheckedUpdateManyWithoutUtilisateurNestedInput
 }
 
 
@@ -979,6 +1108,7 @@ export type UtilisateurCountOutputType = {
   cvs: number
   sessions: number
   demandes: number
+  notifications: number
 }
 
 export type UtilisateurCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -986,6 +1116,7 @@ export type UtilisateurCountOutputTypeSelect<ExtArgs extends runtime.Types.Exten
   cvs?: boolean | UtilisateurCountOutputTypeCountCvsArgs
   sessions?: boolean | UtilisateurCountOutputTypeCountSessionsArgs
   demandes?: boolean | UtilisateurCountOutputTypeCountDemandesArgs
+  notifications?: boolean | UtilisateurCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -1026,6 +1157,13 @@ export type UtilisateurCountOutputTypeCountDemandesArgs<ExtArgs extends runtime.
   where?: Prisma.DemandePremiumWhereInput
 }
 
+/**
+ * UtilisateurCountOutputType without action
+ */
+export type UtilisateurCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
 
 export type UtilisateurSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1043,6 +1181,7 @@ export type UtilisateurSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   cvs?: boolean | Prisma.Utilisateur$cvsArgs<ExtArgs>
   sessions?: boolean | Prisma.Utilisateur$sessionsArgs<ExtArgs>
   demandes?: boolean | Prisma.Utilisateur$demandesArgs<ExtArgs>
+  notifications?: boolean | Prisma.Utilisateur$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UtilisateurCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["utilisateur"]>
 
@@ -1092,6 +1231,7 @@ export type UtilisateurInclude<ExtArgs extends runtime.Types.Extensions.Internal
   cvs?: boolean | Prisma.Utilisateur$cvsArgs<ExtArgs>
   sessions?: boolean | Prisma.Utilisateur$sessionsArgs<ExtArgs>
   demandes?: boolean | Prisma.Utilisateur$demandesArgs<ExtArgs>
+  notifications?: boolean | Prisma.Utilisateur$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UtilisateurCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UtilisateurIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1105,6 +1245,7 @@ export type $UtilisateurPayload<ExtArgs extends runtime.Types.Extensions.Interna
     cvs: Prisma.$CVPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     demandes: Prisma.$DemandePremiumPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1516,6 +1657,7 @@ export interface Prisma__UtilisateurClient<T, Null = never, ExtArgs extends runt
   cvs<T extends Prisma.Utilisateur$cvsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$cvsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CVPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.Utilisateur$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   demandes<T extends Prisma.Utilisateur$demandesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$demandesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DemandePremiumPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.Utilisateur$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Utilisateur$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2060,6 +2202,30 @@ export type Utilisateur$demandesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.DemandePremiumScalarFieldEnum | Prisma.DemandePremiumScalarFieldEnum[]
+}
+
+/**
+ * Utilisateur.notifications
+ */
+export type Utilisateur$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

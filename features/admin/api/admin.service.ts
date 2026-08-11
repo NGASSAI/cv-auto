@@ -1,5 +1,5 @@
 import { prisma } from "@/shared/lib/prisma";
-
+import { creerNotification } from "@/features/notifications/api/notification.service";
 export class ErreurAdmin extends Error {}
 
 /**
@@ -47,6 +47,14 @@ export async function traiterDemandePremium(
       traiteLe: new Date(),
     },
   });
+  await creerNotification(
+    demande.utilisateurId,
+    decision === "APPROUVEE" ? "Compte Premium activé" : "Demande refusée",
+    decision === "APPROUVEE"
+      ? "Votre compte est maintenant Premium, profitez de toutes les options."
+      : "Votre demande Premium n'a pas été acceptée.",
+    "/dashboard"
+  );
 
   if (decision === "APPROUVEE") {
     await prisma.abonnement.upsert({
@@ -127,10 +135,18 @@ export async function togglerSuspension(utilisateurId: string, suspendre: boolea
     throw new ErreurAdmin("Impossible de suspendre un compte administrateur");
   }
 
-  await prisma.utilisateur.update({
+ await prisma.utilisateur.update({
     where: { id: utilisateurId },
     data: { estSuspendu: suspendre },
   });
+
+  await creerNotification(
+    utilisateurId,
+    suspendre ? "Compte suspendu" : "Compte réactivé",
+    suspendre
+      ? "Votre compte a été temporairement suspendu par l'administrateur."
+      : "Votre compte a été réactivé, vous pouvez de nouveau vous connecter."
+  );
 }
 
 /**

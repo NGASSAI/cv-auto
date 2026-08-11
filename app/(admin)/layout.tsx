@@ -4,6 +4,7 @@ import Link from "next/link";
 import { authOptions } from "@/shared/lib/auth";
 import { NavAdmin } from "@/features/admin/components/nav-admin";
 import { BoutonDeconnexion } from "@/features/dashboard/components/bouton-deconnexion";
+import { ClocheNotifications } from "@/features/notifications/components/cloche-notifications";
 
 export default async function LayoutAdmin({
   children,
@@ -29,7 +30,8 @@ export default async function LayoutAdmin({
             CV Builder <span className="text-xs font-mono not-italic text-primary align-top">ADMIN</span>
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <ClocheNotifications />
             <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground">
               Retour à l&apos;app
             </Link>

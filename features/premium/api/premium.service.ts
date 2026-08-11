@@ -1,4 +1,5 @@
 import { prisma } from "@/shared/lib/prisma";
+import { notifierAdmins } from "@/features/notifications/api/notification.service";
 
 export class ErreurPremium extends Error {}
 
@@ -22,12 +23,21 @@ export async function creerDemandePremium(
     throw new ErreurPremium("Une demande est déjà en attente de traitement");
   }
 
-  return prisma.demandePremium.create({
+ const demande = await prisma.demandePremium.create({
     data: {
       utilisateurId,
       message,
     },
   });
+
+  const utilisateur = await prisma.utilisateur.findUnique({ where: { id: utilisateurId } });
+  await notifierAdmins(
+    "Nouvelle demande Premium",
+    `${utilisateur?.nom ?? utilisateur?.email} souhaite passer en Premium`,
+    "/admin/demandes"
+  );
+
+  return demande;
 }
 
 /**

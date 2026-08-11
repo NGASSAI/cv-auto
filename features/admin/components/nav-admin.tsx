@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Clock, Users, BarChart3 } from "lucide-react";
+import { LayoutDashboard, Clock, Users, BarChart3, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const LIENS = [
   { href: "/admin", label: "Vue d'ensemble", icone: LayoutDashboard },
+  { href: "/admin/parametres", label: "Paramètres", icone: Settings },
   { href: "/admin/demandes", label: "Demandes Premium", icone: Clock },
   { href: "/admin/utilisateurs", label: "Utilisateurs", icone: Users },
   { href: "/admin/statistiques", label: "Statistiques", icone: BarChart3 },

@@ -25,6 +25,7 @@ model Utilisateur {
   role     Role             @default(UTILISATEUR)
   estSuspendu Boolean @default(false)
   demandes DemandePremium[]
+  notifications Notification[]
 }
 
 model CompteOAuth {
@@ -227,4 +228,42 @@ model Template {
   misAJourLe  DateTime @updatedAt
 
   @@map("templates")
+}
+model ParametresSite {
+  id                 String   @id @default("parametres")
+  modeMaintenance    Boolean  @default(false)
+  messageMaintenance String?  @db.Text
+
+  numeroWhatsapp     String?
+
+  titreAccueil       String?
+  descriptionAccueil String?  @db.Text
+  accrocheAccueil    String?
+
+  couleurPrimaire    String?
+  couleurSecondaire  String?
+
+  emailSupport       String?
+
+  inscriptionActivee Boolean  @default(true)
+  exportPdfActif     Boolean  @default(true)
+
+  misAJourLe         DateTime @updatedAt
+
+  @@map("parametres_site")
+}
+model Notification {
+  id            String   @id @default(cuid())
+  utilisateurId String
+  titre         String
+  message       String
+  lien          String?
+  lu            Boolean  @default(false)
+  creeLe        DateTime @default(now())
+
+  utilisateur Utilisateur @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+
+  @@index([utilisateurId])
+  @@index([lu])
+  @@map("notifications")
 }

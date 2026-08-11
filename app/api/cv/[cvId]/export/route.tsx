@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { authOptions } from "@/shared/lib/auth";
+import { obtenirParametresSite } from "@/features/admin/api/parametres.service";
 import { recupererCVComplet, ErreurCV } from "@/features/cv/api/cv.service";
 import { obtenirComposantPdf } from "@/features/cv/components/pdf/registre-pdf";
 
@@ -17,7 +18,15 @@ export async function GET(
 
   const { cvId } = await params;
 
-  try {
+ try {
+    const parametres = await obtenirParametresSite();
+    if (!parametres.exportPdfActif) {
+      return NextResponse.json(
+        { erreur: "L'export PDF est temporairement désactivé" },
+        { status: 403 }
+      );
+    }
+
     const cv = await recupererCVComplet(cvId, session.user.id);
 
     const ComposantPdf = obtenirComposantPdf(cv.templateId);

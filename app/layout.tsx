@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces, Merriweather, Playfair_Display, Manrope, Lora } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { obtenirParametresSite } from "@/features/admin/api/parametres.service";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,12 +51,18 @@ export const metadata: Metadata = {
   description: "Créez un CV professionnel en quelques minutes",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const parametres = await obtenirParametresSite();
+
   return (
-   <html
-  lang="fr"
-  className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${merriweather.variable} ${playfair.variable} ${manrope.variable} ${lora.variable} h-full antialiased`}
->
+    <html
+      lang="fr"
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${merriweather.variable} ${playfair.variable} ${manrope.variable} ${lora.variable} h-full antialiased`}
+      style={{
+        ...(parametres.couleurPrimaire && { "--primary": parametres.couleurPrimaire } as React.CSSProperties),
+        ...(parametres.couleurSecondaire && { "--secondary": parametres.couleurSecondaire } as React.CSSProperties),
+      }}
+    >
       <body className="min-h-full flex flex-col">
         {children}
         <Toaster richColors position="top-right" />
