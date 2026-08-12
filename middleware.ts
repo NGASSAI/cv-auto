@@ -31,12 +31,20 @@ async function siteEnMaintenance(): Promise<boolean> {
 export async function middleware(request: NextRequest) {
   const cheminActuel = request.nextUrl.pathname;
 
-  const cheminsToujoursAutorises = ["/connexion", "/maintenance"];
+  const cheminsToujoursAutorises = ["/connexion", "/maintenance", "/apres-connexion"];
   if (cheminsToujoursAutorises.includes(cheminActuel)) {
     return NextResponse.next();
   }
 
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+  // Détection automatique du protocole pour les cookies sécurisés
+  const estHttps = request.nextUrl.protocol === "https:" || 
+                   request.headers.get("x-forwarded-proto") === "https";
+
+  const token = await getToken({ 
+    req: request, 
+    secret: process.env.NEXTAUTH_SECRET,
+    secureCookie: estHttps,
+  });
 
   if (token?.role !== "ADMIN") {
     const maintenance = await siteEnMaintenance();

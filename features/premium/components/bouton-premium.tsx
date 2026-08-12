@@ -126,7 +126,7 @@ export function BoutonPremium({ statutInitial }: BoutonPremiumProps) {
                 <Phone className="w-4 h-4 text-secondary" />
               </div>
               <div>
-                <p className="text-sm font-medium">Appeler l'admin</p>
+                <p className="text-sm font-medium">Appeler l&apos;admin</p>
                 <p className="text-xs text-muted-foreground">{NUMERO_TELEPHONE}</p>
               </div>
             </a>

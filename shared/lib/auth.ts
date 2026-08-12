@@ -5,6 +5,19 @@ import { prisma } from "@/shared/lib/prisma";
 import { verifierIdentifiants } from "@/features/auth/api/utilisateur.service";
 import { schemaConnexion } from "@/features/auth/validators/auth.schema";
 
+// Validation des variables d'environnement critiques au démarrage
+if (!process.env.NEXTAUTH_SECRET) {
+  console.warn("⚠️ ATTENTION: NEXTAUTH_SECRET n'est pas défini. La connexion pourrait échouer en production.");
+}
+
+if (!process.env.NEXTAUTH_URL && process.env.NODE_ENV === "production") {
+  console.warn("⚠️ ATTENTION: NEXTAUTH_URL n'est pas défini en production. Les cookies pourraient ne pas fonctionner correctement.");
+}
+
+if (!process.env.EMAIL_ADMIN && process.env.NODE_ENV === "production") {
+  console.warn("⚠️ ATTENTION: EMAIL_ADMIN n'est pas défini en production. Le rôle admin ne pourra pas être attribué automatiquement.");
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
 
@@ -17,6 +30,19 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/connexion",
     error: "/connexion",
+  },
+
+  // Configuration des cookies sécurisés en production
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
   },
 
   providers: [
@@ -70,6 +96,19 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role as string;
       }
       return session;
+    },
+    // Redirection selon le rôle après connexion
+    async redirect({ url, baseUrl }) {
+      // Si l'URL est relative, on la retourne telle quelle
+      if (url.startsWith("/")) {
+        return url;
+      }
+      // Si l'URL est sur le même domaine, on la retourne
+      if (new URL(url).origin === baseUrl) {
+        return url;
+      }
+      // Sinon, on redirige vers le dashboard par défaut
+      return baseUrl + "/dashboard";
     },
   },
 

@@ -18,7 +18,7 @@ import {
 } from "@/features/auth/validators/auth.schema";
 
 export function FormulaireConnexion() {
-
+  const router = useRouter();
   const [enChargement, setEnChargement] = useState(false);
 
   const {
@@ -33,23 +33,10 @@ export function FormulaireConnexion() {
     setEnChargement(true);
 
     try {
-      // Récupérer le rôle de l'utilisateur avant la connexion
-      const reponseRole = await fetch(`/api/auth/role?email=${encodeURIComponent(donnees.email)}`);
-      const donneesRole = await reponseRole.json();
-
-      if (!reponseRole.ok) {
-        toast.error("Email ou mot de passe incorrect");
-        setEnChargement(false);
-        return;
-      }
-
-      const callbackUrl = donneesRole.role === "ADMIN" ? "/admin" : "/dashboard";
-
       const resultat = await signIn("credentials", {
         email: donnees.email,
         motDePasse: donnees.motDePasse,
-        redirect: true,
-        callbackUrl,
+        redirect: false,
       });
 
       setEnChargement(false);
@@ -64,7 +51,10 @@ export function FormulaireConnexion() {
       }
 
       toast.success("Connexion réussie");
-    } catch (error) {
+
+      // Redirection vers la page qui gère la redirection selon le rôle
+      router.push("/apres-connexion");
+    } catch {
       setEnChargement(false);
       toast.error("Une erreur est survenue lors de la connexion");
     }

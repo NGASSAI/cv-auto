@@ -123,11 +123,30 @@ const ETAPES = [
 ];
 
 export default async function PageAccueil() {
-  const session = await getServerSession(authOptions);
-  const estConnecte = !!session;
+  let session = null;
+  let estConnecte = false;
+
+  try {
+    session = await getServerSession(authOptions);
+    estConnecte = !!session;
+  } catch {
+    // En cas d'erreur NextAuth, on considère l'utilisateur non connecté
+    // plutôt que de faire planter toute la page
+    estConnecte = false;
+  }
 
   const templates = listerTemplates();
-  const parametres = await obtenirParametresSite();
+
+  let parametres;
+  try {
+    parametres = await obtenirParametresSite();
+  } catch {
+    // En cas d'erreur DB, on utilise les paramètres par défaut
+    parametres = {
+      titreAccueil: null,
+      accrocheAccueil: null,
+    };
+  }
 
   const titre = parametres.titreAccueil || "Créez un CV qui ouvre des portes";
   const accroche =
