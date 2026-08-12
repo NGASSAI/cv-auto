@@ -34,10 +34,10 @@ export default async function LayoutAdmin({
           <div className="flex items-center gap-2 sm:gap-4">
             <BoutonCreationCV />
             <ClocheNotifications />
-            <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground">
+            <BoutonDeconnexion />
+            <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground hidden sm:inline">
               Retour à l&apos;app
             </Link>
-            <BoutonDeconnexion />
           </div>
         </div>
       </header>

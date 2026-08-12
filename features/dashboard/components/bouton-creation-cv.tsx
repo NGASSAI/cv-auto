@@ -47,14 +47,14 @@ export function BoutonCreationCV() {
       size="sm"
       onClick={gererCreation}
       disabled={creationEnCours}
-      className="inline-flex"
+      className="inline-flex shrink-0"
     >
       {creationEnCours ? (
         <Loader2 className="w-4 h-4 animate-spin" />
       ) : (
         <Plus className="w-4 h-4" />
       )}
-      <span className="ml-2">Créer un CV</span>
+      <span className="ml-2 hidden sm:inline">Créer un CV</span>
     </Button>
   );
 }

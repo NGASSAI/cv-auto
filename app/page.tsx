@@ -161,15 +161,9 @@ export default async function PageAccueil() {
           CV Auto
         </Link>
           <nav className="flex items-center gap-4">
-            {/* Bouton connexion - toujours visible sur mobile, visible sur desktop si non connecté */}
-            <Link href="/connexion" className="text-sm font-medium text-ardoise hover:text-encre sm:hidden">
+            <Link href="/connexion" className="text-sm font-medium text-ardoise hover:text-encre">
               Connexion
             </Link>
-            {!estConnecte && (
-              <Link href="/connexion" className="text-sm font-medium text-ardoise hover:text-encre hidden sm:block">
-                Connexion
-              </Link>
-            )}
             <Link
               href="/inscription"
               className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-white hover:opacity-90"
