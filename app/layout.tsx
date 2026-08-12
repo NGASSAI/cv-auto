@@ -3,6 +3,7 @@ import { EnregistreurServiceWorker } from "@/features/pwa/components/enregistreu
 import { InviteInstallation } from "@/features/pwa/components/invite-installation";
 import { Geist, Geist_Mono, Fraunces, Merriweather, Playfair_Display, Manrope, Lora } from "next/font/google";
 import { Toaster } from "sonner";
+import { SessionProvider } from "@/components/providers";
 import "./globals.css";
 import { obtenirParametresSite } from "@/features/admin/api/parametres.service";
 
@@ -81,7 +82,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       }}
     >
       <body className="min-h-full flex flex-col">
-        {children}
+        <SessionProvider>
+          {children}
+        </SessionProvider>
         <Toaster richColors position="top-right" />
         <EnregistreurServiceWorker />
         <InviteInstallation />

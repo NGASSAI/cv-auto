@@ -161,8 +161,12 @@ export default async function PageAccueil() {
           CV Auto
         </Link>
           <nav className="flex items-center gap-4">
+            {/* Bouton connexion - toujours visible sur mobile, visible sur desktop si non connecté */}
+            <Link href="/connexion" className="text-sm font-medium text-ardoise hover:text-encre sm:hidden">
+              Connexion
+            </Link>
             {!estConnecte && (
-              <Link href="/connexion" className="text-sm font-medium text-ardoise hover:text-encre">
+              <Link href="/connexion" className="text-sm font-medium text-ardoise hover:text-encre hidden sm:block">
                 Connexion
               </Link>
             )}

@@ -1,19 +1,36 @@
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/shared/lib/auth";
+"use client";
 
-export default async function PageApresConnexion() {
-  const session = await getServerSession(authOptions);
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-  if (!session || !session.user) {
-    redirect("/connexion");
-  }
+export default function PageApresConnexion() {
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
-  const role = session.user.role;
+  useEffect(() => {
+    if (status === "loading") return;
 
-  if (role === "ADMIN") {
-    redirect("/admin");
-  }
+    if (!session) {
+      router.push("/connexion");
+      return;
+    }
 
-  redirect("/dashboard");
+    const role = session.user?.role;
+
+    if (role === "ADMIN") {
+      router.push("/admin");
+    } else {
+      router.push("/dashboard");
+    }
+  }, [session, status, router]);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+        <p className="text-muted-foreground">Connexion en cours...</p>
+      </div>
+    </div>
+  );
 }

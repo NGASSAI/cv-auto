@@ -47,7 +47,7 @@ export function BoutonCreationCV() {
       size="sm"
       onClick={gererCreation}
       disabled={creationEnCours}
-      className="hidden sm:inline-flex"
+      className="inline-flex"
     >
       {creationEnCours ? (
         <Loader2 className="w-4 h-4 animate-spin" />
