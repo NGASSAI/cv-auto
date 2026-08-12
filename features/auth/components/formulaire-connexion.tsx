@@ -41,21 +41,18 @@ export function FormulaireConnexion() {
 
       setEnChargement(false);
 
-      if (!resultat?.ok || resultat?.error) {
-        if (resultat?.error === "COMPTE_SUSPENDU") {
-          toast.error("Ce compte a été suspendu. Contactez l'administrateur.");
-        } else {
-          toast.error("Email ou mot de passe incorrect");
-        }
+      if (!resultat?.ok) {
+        toast.error("Email ou mot de passe incorrect");
         return;
       }
 
       toast.success("Connexion réussie");
 
-      // Redirection vers la page qui gère la redirection selon le rôle
-      router.push("/apres-connexion");
-    } catch {
+      // Laisser NextAuth gérer la redirection via le callback redirect
+      window.location.href = "/dashboard";
+    } catch (error) {
       setEnChargement(false);
+      console.error("Erreur de connexion:", error);
       toast.error("Une erreur est survenue lors de la connexion");
     }
   }

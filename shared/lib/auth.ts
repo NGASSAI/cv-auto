@@ -1,7 +1,5 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "@/shared/lib/prisma";
 import { verifierIdentifiants } from "@/features/auth/api/utilisateur.service";
 import { schemaConnexion } from "@/features/auth/validators/auth.schema";
 
@@ -19,30 +17,15 @@ if (!process.env.EMAIL_ADMIN && process.env.NODE_ENV === "production") {
 }
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
-
-  // JWT plutôt que sessions en base : plus simple à démarrer,
-  // pas besoin de gérer le nettoyage des sessions expirées.
+  // Configuration JWT simple sans adapter
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 jours
   },
 
   pages: {
     signIn: "/connexion",
     error: "/connexion",
-  },
-
-  // Configuration des cookies sécurisés en production
-  cookies: {
-    sessionToken: {
-      name: `next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
   },
 
   providers: [
@@ -53,28 +36,37 @@ export const authOptions: NextAuthOptions = {
         motDePasse: { label: "Mot de passe", type: "password" },
       },
       async authorize(credentials) {
+        if (!credentials?.email || !credentials?.motDePasse) {
+          return null;
+        }
+
         const resultat = schemaConnexion.safeParse(credentials);
 
         if (!resultat.success) {
           return null;
         }
 
-        const utilisateur = await verifierIdentifiants(
-          resultat.data.email,
-          resultat.data.motDePasse
-        );
+        try {
+          const utilisateur = await verifierIdentifiants(
+            resultat.data.email,
+            resultat.data.motDePasse
+          );
 
-        if (!utilisateur) {
+          if (!utilisateur) {
+            return null;
+          }
+
+          // NextAuth exige un champ "id" de type string sur l'objet retourné
+          return {
+            id: utilisateur.id,
+            name: utilisateur.nom,
+            email: utilisateur.email,
+            role: utilisateur.role,
+          };
+        } catch (error) {
+          console.error("Erreur dans authorize:", error);
           return null;
         }
-
-        // NextAuth exige un champ "id" de type string sur l'objet retourné
-        return {
-          id: utilisateur.id,
-          name: utilisateur.nom,
-          email: utilisateur.email,
-          role: utilisateur.role,
-        };
       },
     }),
   ],
@@ -89,7 +81,6 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     // Propage l'id et le rôle depuis le token vers l'objet session
-    // (accessible ensuite côté client via useSession())
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
@@ -97,20 +88,18 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    // Redirection selon le rôle après connexion
+    // Redirection simplifiée
     async redirect({ url, baseUrl }) {
-      // Si l'URL est relative, on la retourne telle quelle
       if (url.startsWith("/")) {
         return url;
       }
-      // Si l'URL est sur le même domaine, on la retourne
       if (new URL(url).origin === baseUrl) {
         return url;
       }
-      // Sinon, on redirige vers le dashboard par défaut
       return baseUrl + "/dashboard";
     },
   },
 
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development",
 };
