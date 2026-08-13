@@ -7,6 +7,7 @@ import { NavAdmin } from "@/features/admin/components/nav-admin";
 import { BoutonCreationCV } from "@/features/dashboard/components/bouton-creation-cv";
 import { BoutonDeconnexion } from "@/features/dashboard/components/bouton-deconnexion";
 import { ClocheNotifications } from "@/features/notifications/components/cloche-notifications";
+import { BoutonAide } from "@/features/dashboard/components/bouton-aide";
 
 export default async function LayoutAdmin({
   children,
@@ -37,6 +38,7 @@ export default async function LayoutAdmin({
 
           <div className="flex items-center gap-2 sm:gap-4">
             <BoutonCreationCV />
+            <BoutonAide />
             <ClocheNotifications />
             <BoutonDeconnexion />
             <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground hidden sm:inline">

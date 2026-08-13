@@ -60,9 +60,9 @@ export function classeAlignement(alignement: string): string {
 
 export function tailleResume(taille: string): string {
   const correspondances: Record<string, string> = {
-    petite: "text-xs",
-    moyenne: "text-sm",
-    grande: "text-base",
+    petite: "text-sm",    // Petit → 14px (augmenté)
+    moyenne: "text-base", // Normal → 16px (augmenté)
+    grande: "text-lg",    // Gros → 18px (augmenté)
   };
-  return correspondances[taille] ?? "text-sm";
+  return correspondances[taille] ?? "text-base";
 }

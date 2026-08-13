@@ -39,10 +39,10 @@ export function TemplateExecutif({
             {nomComplet || "Votre nom"}
           </h1>
           {informations.titrePoste && (
-            <p className="mt-2 text-sm tracking-wide text-ardoise">{informations.titrePoste}</p>
+            <p className="mt-2 text-base tracking-wide text-ardoise">{informations.titrePoste}</p>
           )}
 
-          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-xs text-ardoise">
+          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-sm text-ardoise">
             {informations.email && <span>{informations.email}</span>}
             {informations.telephone && <span>{informations.telephone}</span>}
             {informations.adresse && <span>{informations.adresse}</span>}
@@ -63,7 +63,7 @@ export function TemplateExecutif({
             .map((section) => (
               <section key={section.id}>
                 <h2
-                  className="pb-2 text-sm font-medium uppercase tracking-widest"
+                  className="pb-2 text-base font-medium uppercase tracking-widest"
                   style={{ fontFamily: "var(--font-display)", borderBottom: `1px solid ${couleurAccent}` }}
                 >
                   {section.titre}
@@ -75,7 +75,7 @@ export function TemplateExecutif({
                       {section.items.map((item) => (
                         <span
                           key={item.id}
-                          className="rounded-full px-3 py-1 text-xs font-medium"
+                          className="rounded-full px-3 py-1 text-sm font-medium"
                           style={{ backgroundColor: `${couleurAccent}18`, color: couleurAccent }}
                         >
                           {item.titre}
@@ -87,20 +87,20 @@ export function TemplateExecutif({
                       {section.items.map((item) => (
                         <div key={item.id}>
                           <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-                            <h3 className="text-sm font-semibold">{item.titre}</h3>
+                            <h3 className="text-base font-semibold">{item.titre}</h3>
                             {(item.dateDebut || item.dateFin) && (
-                              <span className="text-xs text-ardoise">
+                              <span className="text-sm text-ardoise">
                                 {formaterPeriode(item.dateDebut, item.dateFin)}
                               </span>
                             )}
                           </div>
                           {(item.sousTitre || item.lieu) && (
-                            <p className="mt-0.5 text-xs text-ardoise">
+                            <p className="mt-0.5 text-sm text-ardoise">
                               {[item.sousTitre, item.lieu].filter(Boolean).join(" — ")}
                             </p>
                           )}
                           {item.description && (
-                            <p className="mt-1.5 whitespace-pre-line text-xs leading-relaxed text-encre/85">
+                            <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-encre/85">
                               {item.description}
                             </p>
                           )}

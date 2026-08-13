@@ -18,23 +18,23 @@ export function TemplateMinimaliste({ informations, sections, couleurAccent, pol
           {nomComplet || "Votre nom"}
         </h1>
         {informations.titrePoste && (
-          <p className="text-sm mt-2 text-[#3D4B5C] font-light">{informations.titrePoste}</p>
+          <p className="text-base mt-2 text-[#3D4B5C] font-light">{informations.titrePoste}</p>
         )}
 
-        <div className="flex gap-4 mt-4 text-[11px] text-[#3D4B5C] flex-wrap">
+        <div className="flex gap-4 mt-4 text-sm text-[#3D4B5C] flex-wrap">
           {informations.email && (
             <span className="flex items-center gap-1.5">
-              <Mail className="w-3 h-3" /> {informations.email}
+              <Mail className="w-4 h-4" /> {informations.email}
             </span>
           )}
           {informations.telephone && (
             <span className="flex items-center gap-1.5">
-              <Phone className="w-3 h-3" /> {informations.telephone}
+              <Phone className="w-4 h-4" /> {informations.telephone}
             </span>
           )}
           {informations.adresse && (
             <span className="flex items-center gap-1.5">
-              <MapPin className="w-3 h-3" /> {informations.adresse}
+              <MapPin className="w-4 h-4" /> {informations.adresse}
             </span>
           )}
         </div>
@@ -51,7 +51,7 @@ export function TemplateMinimaliste({ informations, sections, couleurAccent, pol
           .filter((s) => s.estVisible)
           .map((section) => (
             <section key={section.id}>
-              <h2 className="text-[11px] font-medium uppercase tracking-[0.2em] mb-4 text-[#161B22]">
+              <h2 className="text-sm font-medium uppercase tracking-[0.2em] mb-4 text-[#161B22]">
                 {section.titre}
               </h2>
 
@@ -60,7 +60,7 @@ export function TemplateMinimaliste({ informations, sections, couleurAccent, pol
                   {section.items.map((item) => (
                     <span
                       key={item.id}
-                      className="text-xs px-3 py-1 border rounded-full"
+                      className="text-sm px-3 py-1 border rounded-full"
                       style={{ borderColor: couleurAccent, color: couleurAccent }}
                     >
                       {item.titre}
@@ -71,18 +71,18 @@ export function TemplateMinimaliste({ informations, sections, couleurAccent, pol
                 <div className="space-y-5">
                   {section.items.map((item) => (
                     <div key={item.id} className="grid grid-cols-[90px_1fr] gap-4">
-                      <span className="text-[10px] text-[#3D4B5C] pt-0.5 leading-tight">
+                      <span className="text-xs text-[#3D4B5C] pt-0.5 leading-tight">
                         {formaterPeriode(item.dateDebut, item.dateFin)}
                       </span>
                       <div>
-                        <p className="text-sm font-medium">{item.titre}</p>
+                        <p className="text-base font-medium">{item.titre}</p>
                         {(item.sousTitre || item.lieu) && (
-                          <p className="text-xs text-[#3D4B5C] mt-0.5 font-light">
+                          <p className="text-sm text-[#3D4B5C] mt-0.5 font-light">
                             {[item.sousTitre, item.lieu].filter(Boolean).join(", ")}
                           </p>
                         )}
                         {item.description && (
-                          <p className="text-xs leading-relaxed mt-1.5 text-[#161B22]/75 font-light whitespace-pre-line">
+                          <p className="text-sm leading-relaxed mt-1.5 text-[#161B22]/75 font-light whitespace-pre-line">
                             {item.description}
                           </p>
                         )}

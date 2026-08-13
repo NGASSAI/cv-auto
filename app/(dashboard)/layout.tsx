@@ -5,6 +5,7 @@ import Link from "next/link";
 import { authOptions } from "@/shared/lib/auth";
 import { BoutonDeconnexion } from "@/features/dashboard/components/bouton-deconnexion";
 import { ClocheNotifications } from "@/features/notifications/components/cloche-notifications";
+import { BoutonAide } from "@/features/dashboard/components/bouton-aide";
 
 export default async function LayoutDashboard({
   children,
@@ -41,6 +42,7 @@ export default async function LayoutDashboard({
           </Link>
 
           <div className="flex items-center gap-2 sm:gap-4">
+            <BoutonAide />
             <ClocheNotifications />
             <span className="text-sm text-muted-foreground hidden sm:inline">
               {session.user.name ?? session.user.email}

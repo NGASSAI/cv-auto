@@ -54,19 +54,19 @@ export function TemplatePortfolio({
             {nomComplet || "Votre nom"}
           </h1>
           {informations.titrePoste && (
-            <p className="mt-1 text-sm font-medium" style={{ color: couleurAccent }}>
+            <p className="mt-1 text-base font-medium" style={{ color: couleurAccent }}>
               {informations.titrePoste}
             </p>
           )}
-          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-ardoise">
+          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-ardoise">
             {informations.email && (
-              <span className="flex items-center gap-1"><Mail className="h-3 w-3" /> {informations.email}</span>
+              <span className="flex items-center gap-1"><Mail className="h-4 w-4" /> {informations.email}</span>
             )}
             {informations.telephone && (
-              <span className="flex items-center gap-1"><Phone className="h-3 w-3" /> {informations.telephone}</span>
+              <span className="flex items-center gap-1"><Phone className="h-4 w-4" /> {informations.telephone}</span>
             )}
             {informations.adresse && (
-              <span className="flex items-center gap-1"><MapPin className="h-3 w-3" /> {informations.adresse}</span>
+              <span className="flex items-center gap-1"><MapPin className="h-4 w-4" /> {informations.adresse}</span>
             )}
           </div>
         </div>
@@ -84,13 +84,13 @@ export function TemplatePortfolio({
           <div className="mb-7 flex flex-col gap-3">
             {sectionsBadges.map((section) => (
               <div key={section.id} className="flex flex-wrap items-center gap-2">
-                <span className="mr-1 text-[10px] font-semibold uppercase tracking-widest text-ardoise">
+                <span className="mr-1 text-xs font-semibold uppercase tracking-widest text-ardoise">
                   {section.titre}
                 </span>
                 {section.items.map((item) => (
                   <span
                     key={item.id}
-                    className="rounded-full px-3 py-1 text-xs font-medium"
+                    className="rounded-full px-3 py-1 text-sm font-medium"
                     style={{ backgroundColor: `${couleurAccent}18`, color: couleurAccent }}
                   >
                     {item.titre}
@@ -106,7 +106,7 @@ export function TemplatePortfolio({
         {sectionCompetences && sectionCompetences.items.length > 0 && (
           <div className="mb-8">
             <h2
-              className="mb-3 text-sm font-semibold uppercase tracking-widest"
+              className="mb-3 text-base font-semibold uppercase tracking-widest"
               style={{ fontFamily: "var(--font-display)" }}
             >
               {sectionCompetences.titre}
@@ -133,7 +133,7 @@ export function TemplatePortfolio({
                         transform="rotate(-90 18 18)"
                       />
                     </svg>
-                    <span className="text-xs font-medium leading-tight">{item.titre}</span>
+                    <span className="text-sm font-medium leading-tight">{item.titre}</span>
                   </div>
                 );
               })}
@@ -146,7 +146,7 @@ export function TemplatePortfolio({
           {sectionsChronologiques.map((section) => (
             <div key={section.id}>
               <h2
-                className="mb-4 text-sm font-semibold uppercase tracking-widest"
+                className="mb-4 text-base font-semibold uppercase tracking-widest"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 {section.titre}
@@ -163,20 +163,20 @@ export function TemplatePortfolio({
                       style={{ backgroundColor: `${couleurAccent}30` }}
                     />
                     <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-                      <h3 className="text-sm font-semibold">{item.titre}</h3>
+                      <h3 className="text-base font-semibold">{item.titre}</h3>
                       {(item.dateDebut || item.dateFin) && (
-                        <span className="text-xs text-ardoise">
+                        <span className="text-sm text-ardoise">
                           {formaterPeriode(item.dateDebut, item.dateFin)}
                         </span>
                       )}
                     </div>
                     {(item.sousTitre || item.lieu) && (
-                      <p className="mt-0.5 text-xs text-ardoise">
+                      <p className="mt-0.5 text-sm text-ardoise">
                         {[item.sousTitre, item.lieu].filter(Boolean).join(" — ")}
                       </p>
                     )}
                     {item.description && (
-                      <p className="mt-1.5 whitespace-pre-line text-xs leading-relaxed text-encre/85">
+                      <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-encre/85">
                         {item.description}
                       </p>
                     )}

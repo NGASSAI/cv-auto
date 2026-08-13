@@ -25,29 +25,29 @@ export function TemplateModerne({ informations, sections, couleurAccent, police,
           </div>
         )}
 
-        <h1 className="text-lg font-medium text-center leading-tight" style={{ fontFamily: "var(--font-display)" }}>
+        <h1 className="text-xl font-medium text-center leading-tight" style={{ fontFamily: "var(--font-display)" }}>
           {nomComplet || "Votre nom"}
         </h1>
         {informations.titrePoste && (
-          <p className="text-[11px] text-center mt-1 text-white/80 uppercase tracking-wide">
+          <p className="text-sm text-center mt-1 text-white/80 uppercase tracking-wide">
             {informations.titrePoste}
           </p>
         )}
 
-        <div className="mt-6 space-y-2 text-[10px] text-white/90">
+        <div className="mt-6 space-y-2 text-sm text-white/90">
           {informations.email && (
             <p className="flex items-center gap-1.5 wrap-break-word">
-              <Mail className="w-3 h-3 shrink-0" /> {informations.email}
+              <Mail className="w-4 h-4 shrink-0" /> {informations.email}
             </p>
           )}
           {informations.telephone && (
             <p className="flex items-center gap-1.5">
-              <Phone className="w-3 h-3 shrink-0" /> {informations.telephone}
+              <Phone className="w-4 h-4 shrink-0" /> {informations.telephone}
             </p>
           )}
           {informations.adresse && (
             <p className="flex items-center gap-1.5">
-              <MapPin className="w-3 h-3 shrink-0" /> {informations.adresse}
+              <MapPin className="w-4 h-4 shrink-0" /> {informations.adresse}
             </p>
           )}
         </div>
@@ -55,14 +55,14 @@ export function TemplateModerne({ informations, sections, couleurAccent, police,
         <div className="mt-8 space-y-6">
           {sectionsLaterales.map((section) => (
             <div key={section.id}>
-              <h2 className="text-[10px] font-semibold uppercase tracking-widest mb-2.5 text-white/95">
+              <h2 className="text-xs font-semibold uppercase tracking-widest mb-2.5 text-white/95">
                 {section.titre}
               </h2>
               <div className="flex flex-wrap gap-1.5">
                 {section.items.map((item) => (
                   <span
                     key={item.id}
-                    className="text-[10px] px-2.5 py-1 rounded-full bg-white/15 text-white"
+                    className="text-sm px-2.5 py-1 rounded-full bg-white/15 text-white"
                   >
                     {item.titre}
                   </span>
@@ -82,7 +82,7 @@ export function TemplateModerne({ informations, sections, couleurAccent, police,
           {sectionsPrincipales.map((section) => (
             <section key={section.id}>
               <h2
-                className="text-xs font-semibold uppercase tracking-widest mb-3 pb-1"
+                className="text-sm font-semibold uppercase tracking-widest mb-3 pb-1"
                 style={{ color: couleurAccent, borderBottom: `2px solid ${couleurAccent}` }}
               >
                 {section.titre}
@@ -92,18 +92,18 @@ export function TemplateModerne({ informations, sections, couleurAccent, police,
                 {section.items.map((item) => (
                   <div key={item.id}>
                     <div className="flex justify-between items-baseline gap-2">
-                      <span className="text-sm font-medium">{item.titre}</span>
-                      <span className="text-[10px] text-[#3D4B5C] shrink-0 whitespace-nowrap">
+                      <span className="text-base font-medium">{item.titre}</span>
+                      <span className="text-sm text-[#3D4B5C] shrink-0 whitespace-nowrap">
                         {formaterPeriode(item.dateDebut, item.dateFin)}
                       </span>
                     </div>
                     {(item.sousTitre || item.lieu) && (
-                      <p className="text-xs text-[#3D4B5C] mt-0.5">
+                      <p className="text-sm text-[#3D4B5C] mt-0.5">
                         {[item.sousTitre, item.lieu].filter(Boolean).join(" — ")}
                       </p>
                     )}
                     {item.description && (
-                      <p className="text-xs leading-relaxed mt-1.5 text-[#161B22]/85 whitespace-pre-line">
+                      <p className="text-sm leading-relaxed mt-1.5 text-[#161B22]/85 whitespace-pre-line">
                         {item.description}
                       </p>
                     )}
