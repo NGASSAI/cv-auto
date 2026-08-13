@@ -20,7 +20,7 @@ interface Notification {
   creeLe: string;
 }
 
-const INTERVALLE_POLLING_MS = 2000;
+const INTERVALLE_POLLING_MS = 5000;
 
 export function ClocheNotifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -31,7 +31,10 @@ export function ClocheNotifications() {
   const recharger = useCallback(async () => {
     try {
       const reponse = await fetch("/api/notifications");
-      if (!reponse.ok) return;
+      if (!reponse.ok) {
+        console.error("Erreur de chargement des notifications:", reponse.status);
+        return;
+      }
 
       const donnees = await reponse.json();
       setNotifications(donnees.notifications);
@@ -45,8 +48,8 @@ export function ClocheNotifications() {
       nonLuesPrecedentes.current = donnees.nonLues;
       setNonLues(donnees.nonLues);
       premierChargement.current = false;
-    } catch {
-      // Échec silencieux : le polling réessaiera au prochain intervalle
+    } catch (erreur) {
+      console.error("Erreur lors du polling des notifications:", erreur);
     }
   }, []);
 
@@ -151,6 +154,14 @@ export function ClocheNotifications() {
                       <p className="text-sm font-medium">{notification.titre}</p>
                       <p className="text-xs text-muted-foreground mt-0.5">
                         {notification.message}
+                      </p>
+                      <p className="text-[10px] text-muted-foreground mt-1">
+                        {new Date(notification.creeLe).toLocaleString('fr-FR', { 
+                          day: 'numeric', 
+                          month: 'short', 
+                          hour: '2-digit', 
+                          minute: '2-digit' 
+                        })}
                       </p>
                     </div>
                     <button

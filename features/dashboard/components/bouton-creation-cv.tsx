@@ -22,6 +22,8 @@ export function BoutonCreationCV() {
 
       if (!reponse.ok) {
         const donnees = await reponse.json();
+        console.error("Erreur création CV:", donnees);
+        
         if (reponse.status === 401) {
           toast.error("Session expirée. Veuillez vous reconnecter.");
           router.push("/connexion");
@@ -33,8 +35,10 @@ export function BoutonCreationCV() {
       }
 
       const donnees = await reponse.json();
+      console.log("CV créé:", donnees);
       router.push(`/editor/${donnees.cv.id}`);
-    } catch {
+    } catch (erreur) {
+      console.error("Erreur catch création CV:", erreur);
       toast.error("Une erreur est survenue lors de la création du CV");
     } finally {
       setCreationEnCours(false);

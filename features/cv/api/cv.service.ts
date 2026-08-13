@@ -84,15 +84,20 @@ export async function recupererCVComplet(cvId: string, utilisateurId: string) {
  * personnelles initialisées (vides, à remplir ensuite dans l'éditeur).
  */
 export async function creerCV(utilisateurId: string, titre: string) {
-  return prisma.cV.create({
-    data: {
-      utilisateurId,
-      titre,
-      informations: {
-        create: {},
+  try {
+    return await prisma.cV.create({
+      data: {
+        utilisateurId,
+        titre,
+        informations: {
+          create: {},
+        },
       },
-    },
-  });
+    });
+  } catch (erreur) {
+    console.error("Erreur création CV dans prisma:", erreur);
+    throw new ErreurCV("Impossible de créer le CV en base de données");
+  }
 }
 
 /**
