@@ -129,6 +129,7 @@ export const AbonnementScalarFieldEnum = {
   utilisateurId: 'utilisateurId',
   plan: 'plan',
   statut: 'statut',
+  formulePremium: 'formulePremium',
   stripeCustomerId: 'stripeCustomerId',
   stripeSubscriptionId: 'stripeSubscriptionId',
   dateDebut: 'dateDebut',

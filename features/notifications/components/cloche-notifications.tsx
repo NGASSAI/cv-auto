@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Bell, Check } from "lucide-react";
+import { Bell, Check, Trash2, Reply } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -68,9 +68,23 @@ export function ClocheNotifications() {
     setNonLues((precedent) => Math.max(0, precedent - 1));
   }
 
+  async function supprimerNotification(id: string) {
+    await fetch(`/api/notifications/${id}`, { method: "DELETE" });
+    setNotifications((precedent) => precedent.filter((n) => n.id !== id));
+    if (!notifications.find((n) => n.id === id)?.lu) {
+      setNonLues((precedent) => Math.max(0, precedent - 1));
+    }
+  }
+
   async function toutMarquerLu() {
     await fetch("/api/notifications/tout-lire", { method: "PATCH" });
     setNotifications((precedent) => precedent.map((n) => ({ ...n, lu: true })));
+    setNonLues(0);
+  }
+
+  async function toutSupprimer() {
+    await fetch("/api/notifications/tout-lire", { method: "DELETE" });
+    setNotifications([]);
     setNonLues(0);
   }
 
@@ -91,16 +105,28 @@ export function ClocheNotifications() {
       <PopoverContent className="w-80 p-0" align="end">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <span className="text-sm font-medium">Notifications</span>
-          {nonLues > 0 && (
-            <button
-              type="button"
-              onClick={toutMarquerLu}
-              className="text-xs text-secondary hover:underline flex items-center gap-1"
-            >
-              <Check className="w-3 h-3" />
-              Tout marquer lu
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {nonLues > 0 && (
+              <button
+                type="button"
+                onClick={toutMarquerLu}
+                className="text-xs text-secondary hover:underline flex items-center gap-1"
+              >
+                <Check className="w-3 h-3" />
+                Tout lire
+              </button>
+            )}
+            {notifications.length > 0 && (
+              <button
+                type="button"
+                onClick={toutSupprimer}
+                className="text-xs text-destructive hover:underline flex items-center gap-1"
+              >
+                <Trash2 className="w-3 h-3" />
+                Tout supprimer
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="max-h-80 overflow-y-auto">
@@ -121,12 +147,22 @@ export function ClocheNotifications() {
                     {!notification.lu && (
                       <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
                     )}
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium">{notification.titre}</p>
                       <p className="text-xs text-muted-foreground mt-0.5">
                         {notification.message}
                       </p>
                     </div>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        supprimerNotification(notification.id);
+                      }}
+                      className="shrink-0 p-1 hover:bg-destructive/10 rounded text-muted-foreground hover:text-destructive transition-colors"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
                   </div>
                 </div>
               );

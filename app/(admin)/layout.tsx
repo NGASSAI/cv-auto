@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { authOptions } from "@/shared/lib/auth";
+import { verifierToutesExpirations } from "@/features/premium/api/abonnement.service";
 import { NavAdmin } from "@/features/admin/components/nav-admin";
 import { BoutonCreationCV } from "@/features/dashboard/components/bouton-creation-cv";
 import { BoutonDeconnexion } from "@/features/dashboard/components/bouton-deconnexion";
@@ -13,6 +14,9 @@ export default async function LayoutAdmin({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+
+  // Vérifier les expirations quand l'admin accède à l'interface
+  await verifierToutesExpirations();
 
   // Double sécurité en plus du middleware, comme pour le dashboard utilisateur
   if (!session) {

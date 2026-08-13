@@ -3,12 +3,16 @@ import { authOptions } from "@/shared/lib/auth";
 import { listerCVUtilisateur } from "@/features/cv/api/cv.service";
 import { recupererDerniereDemandePremium } from "@/features/premium/api/premium.service";
 import { aAccesPremium } from "@/features/premium/lib/acces-premium";
+import { verifierEtDesactiverExpiration } from "@/features/premium/api/abonnement.service";
 import { prisma } from "@/shared/lib/prisma";
 import { TableauDeBordCV } from "@/features/dashboard/components/tableau-de-bord-cv";
 import { BoutonPremium } from "@/features/premium/components/bouton-premium";
 
 export default async function PageDashboard() {
   const session = await getServerSession(authOptions);
+
+  // Vérifier l'expiration de l'abonnement à chaque chargement du dashboard
+  await verifierEtDesactiverExpiration(session!.user.id);
 
   const [cvs, derniereDemande, utilisateurAvecAbonnement] = await Promise.all([
     listerCVUtilisateur(session!.user.id),

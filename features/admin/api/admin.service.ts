@@ -1,5 +1,7 @@
 import { prisma } from "@/shared/lib/prisma";
 import { creerNotification } from "@/features/notifications/api/notification.service";
+import { calculerDateExpiration, type FormulePremiumConfig } from "@/features/premium/lib/formules-premium";
+import type { FormulePremium } from "@/lib/generated/prisma/client";
 export class ErreurAdmin extends Error {}
 
 /**
@@ -89,7 +91,15 @@ export async function listerUtilisateurs() {
       estSuspendu: true,
       creeLe: true,
       _count: { select: { cvs: true } },
-      abonnement: { select: { plan: true, statut: true } },
+      abonnement: { 
+        select: { 
+          plan: true, 
+          statut: true,
+          formulePremium: true,
+          dateDebut: true,
+          dateFin: true,
+        } 
+      },
     },
   });
 }
@@ -98,7 +108,7 @@ export async function listerUtilisateurs() {
  * Active ou désactive le Premium d'un utilisateur manuellement,
  * indépendamment du système de demandes.
  */
-export async function togglerPremium(utilisateurId: string, activer: boolean) {
+export async function togglerPremium(utilisateurId: string, activer: boolean, formule?: string) {
   const utilisateur = await prisma.utilisateur.findUnique({
     where: { id: utilisateurId },
   });
@@ -107,19 +117,53 @@ export async function togglerPremium(utilisateurId: string, activer: boolean) {
     throw new ErreurAdmin("Utilisateur introuvable");
   }
 
-  await prisma.abonnement.upsert({
-    where: { utilisateurId },
-    create: {
+  if (activer) {
+    // Activation avec formule et dates
+    const dateFin = formule ? calculerDateExpiration(formule as FormulePremium) : undefined;
+    
+    await prisma.abonnement.upsert({
+      where: { utilisateurId },
+      create: {
+        utilisateurId,
+        plan: "MENSUEL",
+        statut: "ACTIF",
+        formulePremium: formule as FormulePremium,
+        dateDebut: new Date(),
+        dateFin,
+      },
+      update: {
+        plan: "MENSUEL",
+        statut: "ACTIF",
+        formulePremium: formule as FormulePremium,
+        dateDebut: new Date(),
+        dateFin,
+      },
+    });
+
+    await creerNotification(
       utilisateurId,
-      plan: activer ? "MENSUEL" : "GRATUIT",
-      statut: activer ? "ACTIF" : "ANNULE",
-      dateDebut: activer ? new Date() : null,
-    },
-    update: {
-      statut: activer ? "ACTIF" : "ANNULE",
-      dateDebut: activer ? new Date() : undefined,
-    },
-  });
+      "Compte Premium activé",
+      "Votre compte est maintenant Premium. Profitez de toutes les options premium !",
+      "/dashboard"
+    );
+  } else {
+    // Désactivation
+    await prisma.abonnement.update({
+      where: { utilisateurId },
+      data: {
+        statut: "ANNULE",
+        formulePremium: null,
+        dateFin: null,
+      },
+    });
+
+    await creerNotification(
+      utilisateurId,
+      "Compte Premium désactivé",
+      "Votre compte Premium a été désactivé. Vous pouvez réactiver le Premium à tout moment.",
+      "/dashboard"
+    );
+  }
 }
 
 export async function togglerSuspension(utilisateurId: string, suspendre: boolean) {

@@ -11,7 +11,7 @@ import {
 /**
  * PATCH /api/admin/utilisateurs/[utilisateurId]
  * Active ou désactive le Premium d'un utilisateur.
- * Body attendu : { activerPremium: boolean }
+ * Body attendu : { activerPremium: boolean, formule?: string } ou { desactiverPremium: boolean } ou { suspendre: boolean }
  */
 export async function PATCH(
   request: NextRequest,
@@ -27,14 +27,16 @@ export async function PATCH(
 
   try {
     const corps = await request.json();
-    const { activerPremium, suspendre } = corps;
+    const { activerPremium, desactiverPremium, suspendre, formule } = corps;
 
-    if (typeof activerPremium === "boolean") {
-      await togglerPremium(utilisateurId, activerPremium);
-      return NextResponse.json(
-        { message: activerPremium ? "Premium activé" : "Premium désactivé" },
-        { status: 200 }
-      );
+    if (typeof desactiverPremium === "boolean" && desactiverPremium) {
+      await togglerPremium(utilisateurId, false);
+      return NextResponse.json({ message: "Premium désactivé" }, { status: 200 });
+    }
+
+    if (typeof activerPremium === "boolean" && activerPremium) {
+      await togglerPremium(utilisateurId, true, formule);
+      return NextResponse.json({ message: "Premium activé" }, { status: 200 });
     }
 
     if (typeof suspendre === "boolean") {

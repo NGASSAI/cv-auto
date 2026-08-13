@@ -206,6 +206,13 @@ export type EnumStatutAbonnementFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumStatutAbonnementFilter<$PrismaModel> | $Enums.StatutAbonnement
 }
 
+export type EnumFormulePremiumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.FormulePremium | Prisma.EnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FormulePremium[] | Prisma.ListEnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FormulePremium[] | Prisma.ListEnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFormulePremiumNullableFilter<$PrismaModel> | $Enums.FormulePremium | null
+}
+
 export type EnumPlanAbonnementWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.PlanAbonnement | Prisma.EnumPlanAbonnementFieldRefInput<$PrismaModel>
   in?: $Enums.PlanAbonnement[] | Prisma.ListEnumPlanAbonnementFieldRefInput<$PrismaModel>
@@ -224,6 +231,16 @@ export type EnumStatutAbonnementWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumStatutAbonnementFilter<$PrismaModel>
   _max?: Prisma.NestedEnumStatutAbonnementFilter<$PrismaModel>
+}
+
+export type EnumFormulePremiumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FormulePremium | Prisma.EnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FormulePremium[] | Prisma.ListEnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FormulePremium[] | Prisma.ListEnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFormulePremiumNullableWithAggregatesFilter<$PrismaModel> | $Enums.FormulePremium | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFormulePremiumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFormulePremiumNullableFilter<$PrismaModel>
 }
 
 export type EnumTypeSectionFilter<$PrismaModel = never> = {
@@ -543,6 +560,13 @@ export type NestedEnumStatutAbonnementFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumStatutAbonnementFilter<$PrismaModel> | $Enums.StatutAbonnement
 }
 
+export type NestedEnumFormulePremiumNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.FormulePremium | Prisma.EnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FormulePremium[] | Prisma.ListEnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FormulePremium[] | Prisma.ListEnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFormulePremiumNullableFilter<$PrismaModel> | $Enums.FormulePremium | null
+}
+
 export type NestedEnumPlanAbonnementWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.PlanAbonnement | Prisma.EnumPlanAbonnementFieldRefInput<$PrismaModel>
   in?: $Enums.PlanAbonnement[] | Prisma.ListEnumPlanAbonnementFieldRefInput<$PrismaModel>
@@ -561,6 +585,16 @@ export type NestedEnumStatutAbonnementWithAggregatesFilter<$PrismaModel = never>
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumStatutAbonnementFilter<$PrismaModel>
   _max?: Prisma.NestedEnumStatutAbonnementFilter<$PrismaModel>
+}
+
+export type NestedEnumFormulePremiumNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FormulePremium | Prisma.EnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  in?: $Enums.FormulePremium[] | Prisma.ListEnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.FormulePremium[] | Prisma.ListEnumFormulePremiumFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumFormulePremiumNullableWithAggregatesFilter<$PrismaModel> | $Enums.FormulePremium | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFormulePremiumNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFormulePremiumNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumTypeSectionFilter<$PrismaModel = never> = {

@@ -28,6 +28,15 @@ export const PlanAbonnement = {
 export type PlanAbonnement = (typeof PlanAbonnement)[keyof typeof PlanAbonnement]
 
 
+export const FormulePremium = {
+  MENSUEL_1500: 'MENSUEL_1500',
+  DEUX_SEMAINES_1000: 'DEUX_SEMAINES_1000',
+  TROIS_JOURS_600: 'TROIS_JOURS_600'
+} as const
+
+export type FormulePremium = (typeof FormulePremium)[keyof typeof FormulePremium]
+
+
 export const TypeSection = {
   EXPERIENCE: 'EXPERIENCE',
   FORMATION: 'FORMATION',

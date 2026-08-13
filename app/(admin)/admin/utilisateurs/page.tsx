@@ -12,7 +12,13 @@ export default async function PageAdminUtilisateurs() {
     estSuspendu: u.estSuspendu,
     creeLe: u.creeLe.toISOString(),
     _count: u._count,
-    abonnement: u.abonnement,
+    abonnement: u.abonnement ? {
+      plan: u.abonnement.plan,
+      statut: u.abonnement.statut,
+      formulePremium: u.abonnement.formulePremium,
+      dateDebut: u.abonnement.dateDebut?.toISOString(),
+      dateFin: u.abonnement.dateFin?.toISOString(),
+    } : null,
   }));
 
   return (

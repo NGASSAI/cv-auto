@@ -60,10 +60,11 @@ model Abonnement {
   utilisateurId        String           @unique
   plan                 PlanAbonnement   @default(GRATUIT)
   statut               StatutAbonnement @default(ACTIF)
+  formulePremium       FormulePremium?  // Pour stocker la formule Premium choisie
   stripeCustomerId     String?          @unique
   stripeSubscriptionId String?          @unique
-  dateDebut            DateTime?
-  dateFin              DateTime?
+  dateDebut            DateTime?        // Date d'activation du Premium
+  dateFin              DateTime?        // Date d'expiration calculée
   creeLe               DateTime         @default(now())
   misAJourLe           DateTime         @updatedAt
   utilisateur          Utilisateur      @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
@@ -149,6 +150,12 @@ enum PlanAbonnement {
   GRATUIT
   MENSUEL
   ANNUEL
+}
+
+enum FormulePremium {
+  MENSUEL_1500    // 1 mois à 1500 FCFA
+  DEUX_SEMAINES_1000  // 2 semaines à 1000 FCFA
+  TROIS_JOURS_600     // 3 jours à 600 FCFA
 }
 
 enum TypeSection {

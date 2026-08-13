@@ -48,8 +48,8 @@ export function FormulaireConnexion() {
 
       toast.success("Connexion réussie");
 
-      // Laisser NextAuth gérer la redirection via le callback redirect
-      window.location.href = "/dashboard";
+      // Redirection vers la page qui gère la redirection selon le rôle
+      router.push("/apres-connexion");
     } catch (error) {
       setEnChargement(false);
       console.error("Erreur de connexion:", error);

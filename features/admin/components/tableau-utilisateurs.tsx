@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Ban, Sparkles, SparklesIcon as SparklesOff, Trash2 } from "lucide-react";
+import { Ban, Sparkles, SparklesIcon as SparklesOff, Trash2, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +13,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { FORMULES_PREMIUM, formaterDate } from "@/features/premium/lib/formules-premium";
 
 interface Utilisateur {
   id: string;
@@ -22,7 +31,13 @@ interface Utilisateur {
   estSuspendu: boolean;
   creeLe: string;
   _count: { cvs: number };
-  abonnement: { plan: string; statut: string } | null;
+  abonnement: {
+    plan: string;
+    statut: string;
+    formulePremium?: string | null;
+    dateDebut?: string | null;
+    dateFin?: string | null;
+  } | null;
 }
 
 interface TableauUtilisateursProps {
@@ -36,39 +51,101 @@ export function TableauUtilisateurs({
   const [enTraitement, setEnTraitement] = useState<string | null>(null);
   const [utilisateurASupprimer, setUtilisateurASupprimer] =
     useState<Utilisateur | null>(null);
+  const [utilisateurAActiverPremium, setUtilisateurAActiverPremium] =
+    useState<Utilisateur | null>(null);
+  const [formuleSelectionnee, setFormuleSelectionnee] = useState<string>("MENSUEL_1500");
 
   async function togglerPremium(utilisateur: Utilisateur) {
     const estActif = utilisateur.abonnement?.statut === "ACTIF";
-    setEnTraitement(utilisateur.id);
+    
+    if (estActif) {
+      // Désactivation directe
+      setEnTraitement(utilisateur.id);
+
+      try {
+        const reponse = await fetch(`/api/admin/utilisateurs/${utilisateur.id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ desactiverPremium: true }),
+        });
+
+        if (!reponse.ok) {
+          const donnees = await reponse.json();
+          toast.error(donnees.erreur ?? "Impossible de désactiver le Premium");
+          return;
+        }
+
+        toast.success("Premium désactivé");
+
+        setUtilisateurs((precedent) =>
+          precedent.map((u) =>
+            u.id === utilisateur.id
+              ? {
+                  ...u,
+                  abonnement: {
+                    plan: "GRATUIT",
+                    statut: "ANNULE",
+                    formulePremium: undefined,
+                    dateDebut: undefined,
+                    dateFin: undefined,
+                  },
+                }
+              : u
+          )
+        );
+      } catch {
+        toast.error("Une erreur est survenue");
+      } finally {
+        setEnTraitement(null);
+      }
+    } else {
+      // Activation - ouvrir le dialogue de sélection de formule
+      setUtilisateurAActiverPremium(utilisateur);
+      setFormuleSelectionnee("MENSUEL_1500");
+    }
+  }
+
+  async function confirmerActivationPremium() {
+    if (!utilisateurAActiverPremium) return;
+
+    setEnTraitement(utilisateurAActiverPremium.id);
 
     try {
-      const reponse = await fetch(`/api/admin/utilisateurs/${utilisateur.id}`, {
+      const reponse = await fetch(`/api/admin/utilisateurs/${utilisateurAActiverPremium.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ activerPremium: !estActif }),
+        body: JSON.stringify({ 
+          activerPremium: true,
+          formule: formuleSelectionnee,
+        }),
       });
 
       if (!reponse.ok) {
         const donnees = await reponse.json();
-        toast.error(donnees.erreur ?? "Impossible de modifier le Premium");
+        toast.error(donnees.erreur ?? "Impossible d'activer le Premium");
         return;
       }
 
-      toast.success(estActif ? "Premium désactivé" : "Premium activé");
+      toast.success("Premium activé");
 
       setUtilisateurs((precedent) =>
         precedent.map((u) =>
-          u.id === utilisateur.id
+          u.id === utilisateurAActiverPremium.id
             ? {
                 ...u,
                 abonnement: {
-                  plan: estActif ? "GRATUIT" : "MENSUEL",
-                  statut: estActif ? "ANNULE" : "ACTIF",
+                  plan: "MENSUEL",
+                  statut: "ACTIF",
+                  formulePremium: formuleSelectionnee,
+                  dateDebut: new Date().toISOString(),
+                  dateFin: new Date(Date.now() + FORMULES_PREMIUM.find(f => f.id === formuleSelectionnee)!.dureeJours * 24 * 60 * 60 * 1000).toISOString(),
                 },
               }
             : u
         )
       );
+      
+      setUtilisateurAActiverPremium(null);
     } catch {
       toast.error("Une erreur est survenue");
     } finally {
@@ -147,6 +224,7 @@ export function TableauUtilisateurs({
                 <th className="px-4 py-3 font-medium">Rôle</th>
                 <th className="px-4 py-3 font-medium">CV</th>
                 <th className="px-4 py-3 font-medium">Abonnement</th>
+                <th className="px-4 py-3 font-medium">Premium</th>
                 <th className="px-4 py-3 font-medium">Actions</th>
               </tr>
             </thead>
@@ -190,6 +268,21 @@ export function TableauUtilisateurs({
                           </span>
                         )}
                       </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      {estPremium && utilisateur.abonnement?.formulePremium && utilisateur.abonnement?.dateFin ? (
+                        <div className="text-xs">
+                          <div className="font-medium text-secondary">
+                            {FORMULES_PREMIUM.find(f => f.id === utilisateur.abonnement?.formulePremium)?.nom}
+                          </div>
+                          <div className="text-muted-foreground flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            Expire: {formaterDate(new Date(utilisateur.abonnement.dateFin))}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">—</span>
+                      )}
                     </td>
                    <td className="px-4 py-3">
                       <div className="flex items-center gap-1.5">
@@ -256,6 +349,56 @@ export function TableauUtilisateurs({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog
+        open={!!utilisateurAActiverPremium}
+        onOpenChange={(ouvert) => !ouvert && setUtilisateurAActiverPremium(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Activer Premium</DialogTitle>
+            <DialogDescription>
+              Sélectionnez la formule Premium pour {utilisateurAActiverPremium?.nom ?? utilisateurAActiverPremium?.email}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            {FORMULES_PREMIUM.map((formule) => (
+              <button
+                key={formule.id}
+                onClick={() => setFormuleSelectionnee(formule.id)}
+                className={`w-full text-left p-4 rounded-lg border transition-colors ${
+                  formuleSelectionnee === formule.id
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/50"
+                }`}
+              >
+                <div className="flex justify-between items-center">
+                  <div>
+                    <div className="font-medium">{formule.nom}</div>
+                    <div className="text-sm text-muted-foreground">{formule.description}</div>
+                  </div>
+                  <div className="text-lg font-bold text-primary">{formule.prix} FCFA</div>
+                </div>
+              </button>
+            ))}
+          </div>
+          <DialogFooter>
+            <button
+              onClick={() => setUtilisateurAActiverPremium(null)}
+              className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+            >
+              Annuler
+            </button>
+            <button
+              onClick={confirmerActivationPremium}
+              disabled={enTraitement === utilisateurAActiverPremium?.id}
+              className="px-4 py-2 text-sm font-medium bg-primary text-white rounded-md hover:opacity-90 disabled:opacity-50"
+            >
+              {enTraitement === utilisateurAActiverPremium?.id ? "Activation..." : "Activer Premium"}
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

@@ -58,3 +58,15 @@ export async function marquerToutCommeLu(utilisateurId: string) {
     data: { lu: true },
   });
 }
+
+export async function supprimerNotification(notificationId: string, utilisateurId: string) {
+  await prisma.notification.deleteMany({
+    where: { id: notificationId, utilisateurId },
+  });
+}
+
+export async function supprimerToutesNotifications(utilisateurId: string) {
+  await prisma.notification.deleteMany({
+    where: { utilisateurId },
+  });
+}

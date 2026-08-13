@@ -1477,6 +1477,7 @@ export const AbonnementScalarFieldEnum = {
   utilisateurId: 'utilisateurId',
   plan: 'plan',
   statut: 'statut',
+  formulePremium: 'formulePremium',
   stripeCustomerId: 'stripeCustomerId',
   stripeSubscriptionId: 'stripeSubscriptionId',
   dateDebut: 'dateDebut',
@@ -1756,6 +1757,20 @@ export type EnumStatutAbonnementFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'StatutAbonnement[]'
  */
 export type ListEnumStatutAbonnementFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatutAbonnement[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FormulePremium'
+ */
+export type EnumFormulePremiumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FormulePremium'>
+    
+
+
+/**
+ * Reference to a field of type 'FormulePremium[]'
+ */
+export type ListEnumFormulePremiumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FormulePremium[]'>
     
 
 

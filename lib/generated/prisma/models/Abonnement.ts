@@ -29,6 +29,7 @@ export type AbonnementMinAggregateOutputType = {
   utilisateurId: string | null
   plan: $Enums.PlanAbonnement | null
   statut: $Enums.StatutAbonnement | null
+  formulePremium: $Enums.FormulePremium | null
   stripeCustomerId: string | null
   stripeSubscriptionId: string | null
   dateDebut: Date | null
@@ -42,6 +43,7 @@ export type AbonnementMaxAggregateOutputType = {
   utilisateurId: string | null
   plan: $Enums.PlanAbonnement | null
   statut: $Enums.StatutAbonnement | null
+  formulePremium: $Enums.FormulePremium | null
   stripeCustomerId: string | null
   stripeSubscriptionId: string | null
   dateDebut: Date | null
@@ -55,6 +57,7 @@ export type AbonnementCountAggregateOutputType = {
   utilisateurId: number
   plan: number
   statut: number
+  formulePremium: number
   stripeCustomerId: number
   stripeSubscriptionId: number
   dateDebut: number
@@ -70,6 +73,7 @@ export type AbonnementMinAggregateInputType = {
   utilisateurId?: true
   plan?: true
   statut?: true
+  formulePremium?: true
   stripeCustomerId?: true
   stripeSubscriptionId?: true
   dateDebut?: true
@@ -83,6 +87,7 @@ export type AbonnementMaxAggregateInputType = {
   utilisateurId?: true
   plan?: true
   statut?: true
+  formulePremium?: true
   stripeCustomerId?: true
   stripeSubscriptionId?: true
   dateDebut?: true
@@ -96,6 +101,7 @@ export type AbonnementCountAggregateInputType = {
   utilisateurId?: true
   plan?: true
   statut?: true
+  formulePremium?: true
   stripeCustomerId?: true
   stripeSubscriptionId?: true
   dateDebut?: true
@@ -182,6 +188,7 @@ export type AbonnementGroupByOutputType = {
   utilisateurId: string
   plan: $Enums.PlanAbonnement
   statut: $Enums.StatutAbonnement
+  formulePremium: $Enums.FormulePremium | null
   stripeCustomerId: string | null
   stripeSubscriptionId: string | null
   dateDebut: Date | null
@@ -216,6 +223,7 @@ export type AbonnementWhereInput = {
   utilisateurId?: Prisma.StringFilter<"Abonnement"> | string
   plan?: Prisma.EnumPlanAbonnementFilter<"Abonnement"> | $Enums.PlanAbonnement
   statut?: Prisma.EnumStatutAbonnementFilter<"Abonnement"> | $Enums.StatutAbonnement
+  formulePremium?: Prisma.EnumFormulePremiumNullableFilter<"Abonnement"> | $Enums.FormulePremium | null
   stripeCustomerId?: Prisma.StringNullableFilter<"Abonnement"> | string | null
   stripeSubscriptionId?: Prisma.StringNullableFilter<"Abonnement"> | string | null
   dateDebut?: Prisma.DateTimeNullableFilter<"Abonnement"> | Date | string | null
@@ -230,6 +238,7 @@ export type AbonnementOrderByWithRelationInput = {
   utilisateurId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   statut?: Prisma.SortOrder
+  formulePremium?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
   dateDebut?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -249,6 +258,7 @@ export type AbonnementWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AbonnementWhereInput | Prisma.AbonnementWhereInput[]
   plan?: Prisma.EnumPlanAbonnementFilter<"Abonnement"> | $Enums.PlanAbonnement
   statut?: Prisma.EnumStatutAbonnementFilter<"Abonnement"> | $Enums.StatutAbonnement
+  formulePremium?: Prisma.EnumFormulePremiumNullableFilter<"Abonnement"> | $Enums.FormulePremium | null
   dateDebut?: Prisma.DateTimeNullableFilter<"Abonnement"> | Date | string | null
   dateFin?: Prisma.DateTimeNullableFilter<"Abonnement"> | Date | string | null
   creeLe?: Prisma.DateTimeFilter<"Abonnement"> | Date | string
@@ -261,6 +271,7 @@ export type AbonnementOrderByWithAggregationInput = {
   utilisateurId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   statut?: Prisma.SortOrder
+  formulePremium?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
   dateDebut?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -280,6 +291,7 @@ export type AbonnementScalarWhereWithAggregatesInput = {
   utilisateurId?: Prisma.StringWithAggregatesFilter<"Abonnement"> | string
   plan?: Prisma.EnumPlanAbonnementWithAggregatesFilter<"Abonnement"> | $Enums.PlanAbonnement
   statut?: Prisma.EnumStatutAbonnementWithAggregatesFilter<"Abonnement"> | $Enums.StatutAbonnement
+  formulePremium?: Prisma.EnumFormulePremiumNullableWithAggregatesFilter<"Abonnement"> | $Enums.FormulePremium | null
   stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"Abonnement"> | string | null
   stripeSubscriptionId?: Prisma.StringNullableWithAggregatesFilter<"Abonnement"> | string | null
   dateDebut?: Prisma.DateTimeNullableWithAggregatesFilter<"Abonnement"> | Date | string | null
@@ -292,6 +304,7 @@ export type AbonnementCreateInput = {
   id?: string
   plan?: $Enums.PlanAbonnement
   statut?: $Enums.StatutAbonnement
+  formulePremium?: $Enums.FormulePremium | null
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
   dateDebut?: Date | string | null
@@ -306,6 +319,7 @@ export type AbonnementUncheckedCreateInput = {
   utilisateurId: string
   plan?: $Enums.PlanAbonnement
   statut?: $Enums.StatutAbonnement
+  formulePremium?: $Enums.FormulePremium | null
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
   dateDebut?: Date | string | null
@@ -318,6 +332,7 @@ export type AbonnementUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanAbonnementFieldUpdateOperationsInput | $Enums.PlanAbonnement
   statut?: Prisma.EnumStatutAbonnementFieldUpdateOperationsInput | $Enums.StatutAbonnement
+  formulePremium?: Prisma.NullableEnumFormulePremiumFieldUpdateOperationsInput | $Enums.FormulePremium | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -332,6 +347,7 @@ export type AbonnementUncheckedUpdateInput = {
   utilisateurId?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanAbonnementFieldUpdateOperationsInput | $Enums.PlanAbonnement
   statut?: Prisma.EnumStatutAbonnementFieldUpdateOperationsInput | $Enums.StatutAbonnement
+  formulePremium?: Prisma.NullableEnumFormulePremiumFieldUpdateOperationsInput | $Enums.FormulePremium | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -345,6 +361,7 @@ export type AbonnementCreateManyInput = {
   utilisateurId: string
   plan?: $Enums.PlanAbonnement
   statut?: $Enums.StatutAbonnement
+  formulePremium?: $Enums.FormulePremium | null
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
   dateDebut?: Date | string | null
@@ -357,6 +374,7 @@ export type AbonnementUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanAbonnementFieldUpdateOperationsInput | $Enums.PlanAbonnement
   statut?: Prisma.EnumStatutAbonnementFieldUpdateOperationsInput | $Enums.StatutAbonnement
+  formulePremium?: Prisma.NullableEnumFormulePremiumFieldUpdateOperationsInput | $Enums.FormulePremium | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -370,6 +388,7 @@ export type AbonnementUncheckedUpdateManyInput = {
   utilisateurId?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanAbonnementFieldUpdateOperationsInput | $Enums.PlanAbonnement
   statut?: Prisma.EnumStatutAbonnementFieldUpdateOperationsInput | $Enums.StatutAbonnement
+  formulePremium?: Prisma.NullableEnumFormulePremiumFieldUpdateOperationsInput | $Enums.FormulePremium | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -388,6 +407,7 @@ export type AbonnementCountOrderByAggregateInput = {
   utilisateurId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   statut?: Prisma.SortOrder
+  formulePremium?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   stripeSubscriptionId?: Prisma.SortOrder
   dateDebut?: Prisma.SortOrder
@@ -401,6 +421,7 @@ export type AbonnementMaxOrderByAggregateInput = {
   utilisateurId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   statut?: Prisma.SortOrder
+  formulePremium?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   stripeSubscriptionId?: Prisma.SortOrder
   dateDebut?: Prisma.SortOrder
@@ -414,6 +435,7 @@ export type AbonnementMinOrderByAggregateInput = {
   utilisateurId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   statut?: Prisma.SortOrder
+  formulePremium?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   stripeSubscriptionId?: Prisma.SortOrder
   dateDebut?: Prisma.SortOrder
@@ -462,10 +484,15 @@ export type EnumStatutAbonnementFieldUpdateOperationsInput = {
   set?: $Enums.StatutAbonnement
 }
 
+export type NullableEnumFormulePremiumFieldUpdateOperationsInput = {
+  set?: $Enums.FormulePremium | null
+}
+
 export type AbonnementCreateWithoutUtilisateurInput = {
   id?: string
   plan?: $Enums.PlanAbonnement
   statut?: $Enums.StatutAbonnement
+  formulePremium?: $Enums.FormulePremium | null
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
   dateDebut?: Date | string | null
@@ -478,6 +505,7 @@ export type AbonnementUncheckedCreateWithoutUtilisateurInput = {
   id?: string
   plan?: $Enums.PlanAbonnement
   statut?: $Enums.StatutAbonnement
+  formulePremium?: $Enums.FormulePremium | null
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
   dateDebut?: Date | string | null
@@ -506,6 +534,7 @@ export type AbonnementUpdateWithoutUtilisateurInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanAbonnementFieldUpdateOperationsInput | $Enums.PlanAbonnement
   statut?: Prisma.EnumStatutAbonnementFieldUpdateOperationsInput | $Enums.StatutAbonnement
+  formulePremium?: Prisma.NullableEnumFormulePremiumFieldUpdateOperationsInput | $Enums.FormulePremium | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -518,6 +547,7 @@ export type AbonnementUncheckedUpdateWithoutUtilisateurInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.EnumPlanAbonnementFieldUpdateOperationsInput | $Enums.PlanAbonnement
   statut?: Prisma.EnumStatutAbonnementFieldUpdateOperationsInput | $Enums.StatutAbonnement
+  formulePremium?: Prisma.NullableEnumFormulePremiumFieldUpdateOperationsInput | $Enums.FormulePremium | null
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -533,6 +563,7 @@ export type AbonnementSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   utilisateurId?: boolean
   plan?: boolean
   statut?: boolean
+  formulePremium?: boolean
   stripeCustomerId?: boolean
   stripeSubscriptionId?: boolean
   dateDebut?: boolean
@@ -547,6 +578,7 @@ export type AbonnementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   utilisateurId?: boolean
   plan?: boolean
   statut?: boolean
+  formulePremium?: boolean
   stripeCustomerId?: boolean
   stripeSubscriptionId?: boolean
   dateDebut?: boolean
@@ -561,6 +593,7 @@ export type AbonnementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   utilisateurId?: boolean
   plan?: boolean
   statut?: boolean
+  formulePremium?: boolean
   stripeCustomerId?: boolean
   stripeSubscriptionId?: boolean
   dateDebut?: boolean
@@ -575,6 +608,7 @@ export type AbonnementSelectScalar = {
   utilisateurId?: boolean
   plan?: boolean
   statut?: boolean
+  formulePremium?: boolean
   stripeCustomerId?: boolean
   stripeSubscriptionId?: boolean
   dateDebut?: boolean
@@ -583,7 +617,7 @@ export type AbonnementSelectScalar = {
   misAJourLe?: boolean
 }
 
-export type AbonnementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "utilisateurId" | "plan" | "statut" | "stripeCustomerId" | "stripeSubscriptionId" | "dateDebut" | "dateFin" | "creeLe" | "misAJourLe", ExtArgs["result"]["abonnement"]>
+export type AbonnementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "utilisateurId" | "plan" | "statut" | "formulePremium" | "stripeCustomerId" | "stripeSubscriptionId" | "dateDebut" | "dateFin" | "creeLe" | "misAJourLe", ExtArgs["result"]["abonnement"]>
 export type AbonnementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   utilisateur?: boolean | Prisma.UtilisateurDefaultArgs<ExtArgs>
 }
@@ -604,6 +638,7 @@ export type $AbonnementPayload<ExtArgs extends runtime.Types.Extensions.Internal
     utilisateurId: string
     plan: $Enums.PlanAbonnement
     statut: $Enums.StatutAbonnement
+    formulePremium: $Enums.FormulePremium | null
     stripeCustomerId: string | null
     stripeSubscriptionId: string | null
     dateDebut: Date | null
@@ -1038,6 +1073,7 @@ export interface AbonnementFieldRefs {
   readonly utilisateurId: Prisma.FieldRef<"Abonnement", 'String'>
   readonly plan: Prisma.FieldRef<"Abonnement", 'PlanAbonnement'>
   readonly statut: Prisma.FieldRef<"Abonnement", 'StatutAbonnement'>
+  readonly formulePremium: Prisma.FieldRef<"Abonnement", 'FormulePremium'>
   readonly stripeCustomerId: Prisma.FieldRef<"Abonnement", 'String'>
   readonly stripeSubscriptionId: Prisma.FieldRef<"Abonnement", 'String'>
   readonly dateDebut: Prisma.FieldRef<"Abonnement", 'DateTime'>
