@@ -1,5 +1,17 @@
-const CACHE_NOM = "cv-auto-v1";
+const CACHE_NOM = "cv-auto-v2";
 const RESSOURCES_PRINCIPALES = ["/", "/hors-ligne", "/icons/icon-192.png", "/icons/icon-512.png"];
+
+// Ne pas mettre en cache les routes API et les routes dynamiques
+function devraitMettreEnCache(url) {
+  const pathname = new URL(url).pathname;
+  // Ignorer les API
+  if (pathname.startsWith("/api/")) return false;
+  // Ignorer les routes dynamiques avec paramètres
+  if (pathname.includes("/editor/")) return false;
+  // Ignorer les routes d'auth
+  if (pathname.startsWith("/connexion") || pathname.startsWith("/inscription")) return false;
+  return true;
+}
 
 self.addEventListener("install", (evenement) => {
   evenement.waitUntil(
@@ -18,7 +30,14 @@ self.addEventListener("activate", (evenement) => {
 });
 
 self.addEventListener("fetch", (evenement) => {
+  // Ne pas intercepter les requêtes POST, PUT, DELETE, etc.
   if (evenement.request.method !== "GET") return;
+
+  // Ne pas mettre en cache les routes API et dynamiques
+  if (!devraitMettreEnCache(evenement.request.url)) {
+    evenement.respondWith(fetch(evenement.request));
+    return;
+  }
 
   if (evenement.request.mode === "navigate") {
     evenement.respondWith(
@@ -35,6 +54,10 @@ self.addEventListener("fetch", (evenement) => {
         reponseEnCache ||
         fetch(evenement.request)
           .then((reponseReseau) => {
+            // Ne mettre en cache que les réponses réussies
+            if (!reponseReseau || reponseReseau.status !== 200) {
+              return reponseReseau;
+            }
             const clone = reponseReseau.clone();
             caches.open(CACHE_NOM).then((cache) => cache.put(evenement.request, clone));
             return reponseReseau;
