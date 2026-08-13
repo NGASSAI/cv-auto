@@ -22,9 +22,9 @@ interface BoutonPremiumProps {
   utilisateurId: string;
 }
 
-const NUMERO_WHATSAPP = "24266817726";
-const NUMERO_TELEPHONE = "+242066817726";
-const LIEN_TEL = `tel:${NUMERO_TELEPHONE}`;
+const NUMERO_WHATSAPP = "242066817726";
+const NUMERO_TELEPHONE = "+242 06 681 77 26";
+const LIEN_TEL = `tel:${NUMERO_TELEPHONE.replace(/\s/g, "")}`;
 
 export function BoutonPremium({ statutInitial, utilisateurId }: BoutonPremiumProps) {
   const [statut, setStatut] = useState<StatutDemande>(statutInitial);

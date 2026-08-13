@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { redirect, notFound } from "next/navigation";
 import { authOptions } from "@/shared/lib/auth";
 import { recupererCVComplet, ErreurCV } from "@/features/cv/api/cv.service";
-import { aAccesPremium } from "@/features/premium/lib/acces-premium";
+import { aAccesPremium, aAccesSuggestionsIA } from "@/features/premium/lib/acces-premium";
 import { prisma } from "@/shared/lib/prisma";
 import { EditeurCV } from "@/features/cv/components/editor/editeur-cv";
 
@@ -39,10 +39,11 @@ export default async function PageEditeur({
 
   const utilisateur = await prisma.utilisateur.findUnique({
     where: { id: session.user.id },
-    select: { role: true, abonnement: { select: { statut: true } } },
+    select: { role: true, abonnement: { select: { statut: true, formulePremium: true } } },
   });
 
   const estPremium = utilisateur ? aAccesPremium(utilisateur) : false;
+  const estSuggestionsIA = utilisateur ? aAccesSuggestionsIA(utilisateur) : false;
 
   // Sérialisation : Prisma renvoie des objets Date, il faut les convertir
   // en string pour les transmettre à un composant client sans erreur
@@ -95,5 +96,5 @@ tailleTexte: cv.tailleTexte,
     })),
   };
 
-  return <EditeurCV cvInitial={cvSerialise} estPremium={estPremium} />;
+  return <EditeurCV cvInitial={cvSerialise} estPremium={estPremium} estSuggestionsIA={estSuggestionsIA} />;
 }

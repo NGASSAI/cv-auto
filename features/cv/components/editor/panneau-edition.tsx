@@ -5,7 +5,7 @@ import { FormulaireInformations } from "@/features/cv/components/editor/formulai
 import { ListeSections } from "@/features/cv/components/editor/liste-sections";
 import { AjouterSection } from "@/features/cv/components/editor/ajouter-section";
 
-export function PanneauEdition({ estPremium }: { estPremium: boolean }) {
+export function PanneauEdition({ estPremium, estSuggestionsIA }: { estPremium: boolean; estSuggestionsIA: boolean }) {
   const cv = useEditeurCVStore((etat) => etat.cv);
 
   if (!cv) return null;
@@ -16,7 +16,7 @@ export function PanneauEdition({ estPremium }: { estPremium: boolean }) {
         <h2 className="font-display text-lg font-medium mb-4">
           Informations personnelles
         </h2>
-        <FormulaireInformations estPremium={estPremium} />
+        <FormulaireInformations estPremium={estPremium} estSuggestionsIA={estSuggestionsIA} />
       </section>
 
       <section>

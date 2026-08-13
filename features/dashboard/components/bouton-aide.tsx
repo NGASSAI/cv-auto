@@ -32,8 +32,14 @@ const ETAPES_AIDE = [
     couleur: "text-primary",
   },
   {
-    titre: "Templates Premium",
-    description: "Pour accéder aux templates premium, cliquez sur 'Passer en Premium' et suivez les instructions pour contacter l'admin.",
+    titre: "Suggestions IA (1000 FCFA+)",
+    description: "En mode Premium à partir de 1000 FCFA, utilisez le bouton 'Suggestions IA' pour :\n• Obtenir des suggestions de compétences basées sur votre titre de poste\n• Générer un résumé professionnel personnalisé\n• Copier ou appliquer directement les suggestions",
+    icon: Sparkles,
+    couleur: "text-secondary",
+  },
+  {
+    titre: "Templates Premium (600 FCFA+)",
+    description: "Pour accéder aux templates premium, la photo de profil et les options de personnalisation, cliquez sur 'Passer en Premium' et suivez les instructions. Les fonctionnalités Premium commencent à 600 FCFA.",
     icon: Sparkles,
     couleur: "text-primary",
   },

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { UploadPhoto } from "@/features/cv/components/editor/upload-photo";
+import { SuggestionsIA } from "@/features/cv/components/editor/suggestions-ia";
 
 const CHAMPS_SIMPLES: {
   cle: "prenom" | "nom" | "titrePoste" | "email" | "telephone" | "adresse";
@@ -20,7 +21,7 @@ const CHAMPS_SIMPLES: {
   { cle: "adresse", label: "Adresse", placeholder: "Brazzaville, Congo" },
 ];
 
-export function FormulaireInformations({ estPremium }: { estPremium: boolean }) {
+export function FormulaireInformations({ estPremium, estSuggestionsIA }: { estPremium: boolean; estSuggestionsIA: boolean }) {
   const cv = useEditeurCVStore((etat) => etat.cv);
   const mettreAJourInformations = useEditeurCVStore(
     (etat) => etat.mettreAJourInformations
@@ -30,6 +31,20 @@ export function FormulaireInformations({ estPremium }: { estPremium: boolean }) 
 
   return (
    <div className="space-y-4">
+      {estSuggestionsIA && (
+        <div className="flex justify-end">
+          <SuggestionsIA
+            titrePoste={cv.informations.titrePoste}
+            informations={cv.informations}
+            onResumeChange={(resume) => mettreAJourInformations("resume", resume)}
+            onCompetencesChange={(competences) => {
+              // Note: This would need to be implemented in the store
+              // For now, it's just for display
+              console.log("Compétences suggérées:", competences);
+            }}
+          />
+        </div>
+      )}
       {estPremium && <UploadPhoto />}
       <div className="grid grid-cols-2 gap-3">
         {CHAMPS_SIMPLES.map((champ) => (

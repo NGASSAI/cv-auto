@@ -24,9 +24,10 @@ import { IndicateurSauvegarde } from "@/features/cv/components/editor/indicateur
 interface EditeurCVProps {
   cvInitial: CVEditeur;
   estPremium: boolean;
+  estSuggestionsIA: boolean;
 }
 
-export function EditeurCV({ cvInitial, estPremium }: EditeurCVProps) {
+export function EditeurCV({ cvInitial, estPremium, estSuggestionsIA }: EditeurCVProps) {
   const cv = useEditeurCVStore((etat) => etat.cv);
   const initialiser = useEditeurCVStore((etat) => etat.initialiser);
   const mettreAJourTitreCV = useEditeurCVStore((etat) => etat.mettreAJourTitreCV);
@@ -98,7 +99,7 @@ export function EditeurCV({ cvInitial, estPremium }: EditeurCVProps) {
 
       <div className="hidden lg:flex flex-1 min-h-0">
         <div className="w-440px shrink-0 border-r border-border overflow-y-auto p-6">
-          <PanneauEdition  estPremium={estPremium} />
+          <PanneauEdition estPremium={estPremium} estSuggestionsIA={estSuggestionsIA} />
         </div>
         <div className="flex-1 overflow-y-auto p-8 bg-muted/30">
           <ApercuLive />
@@ -112,7 +113,7 @@ export function EditeurCV({ cvInitial, estPremium }: EditeurCVProps) {
         </TabsList>
 
         <TabsContent value="editer" className="flex-1 min-h-0 overflow-y-auto p-4 mt-0">
-          <PanneauEdition estPremium={estPremium} />
+          <PanneauEdition estPremium={estPremium} estSuggestionsIA={estSuggestionsIA} />
         </TabsContent>
 
         <TabsContent value="apercu" className="flex-1 min-h-0 overflow-y-auto p-4 bg-muted/30 mt-0">
