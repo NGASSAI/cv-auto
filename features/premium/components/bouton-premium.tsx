@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sparkles, MessageCircle, Phone, Send, Clock, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -19,13 +19,14 @@ type StatutDemande = "EN_ATTENTE" | "APPROUVEE" | "REFUSEE" | null;
 
 interface BoutonPremiumProps {
   statutInitial: StatutDemande;
+  utilisateurId: string;
 }
 
 const NUMERO_WHATSAPP = "24266817726";
 const NUMERO_TELEPHONE = "+242066817726";
 const LIEN_TEL = `tel:${NUMERO_TELEPHONE}`;
 
-export function BoutonPremium({ statutInitial }: BoutonPremiumProps) {
+export function BoutonPremium({ statutInitial, utilisateurId }: BoutonPremiumProps) {
   const [statut, setStatut] = useState<StatutDemande>(statutInitial);
   const [dialogueOuvert, setDialogueOuvert] = useState(false);
   const [message, setMessage] = useState("");
@@ -34,6 +35,32 @@ export function BoutonPremium({ statutInitial }: BoutonPremiumProps) {
   const lienWhatsapp = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(
     "Bonjour, je souhaite passer en mode Premium sur CV Builder."
   )}`;
+
+  // Polling pour vérifier le statut de la demande quand on est en attente
+  useEffect(() => {
+    if (statut !== "EN_ATTENTE") return;
+
+    const interval = setInterval(async () => {
+      try {
+        const reponse = await fetch("/api/premium");
+        if (reponse.ok) {
+          const donnees = await reponse.json();
+          if (donnees.statut && donnees.statut !== statut) {
+            setStatut(donnees.statut);
+            if (donnees.statut === "APPROUVEE") {
+              toast.success("Votre compte est maintenant Premium !");
+            } else if (donnees.statut === "REFUSEE") {
+              toast.error("Votre demande a été refusée");
+            }
+          }
+        }
+      } catch {
+        // Erreur silencieuse, on réessaiera au prochain intervalle
+      }
+    }, 5000); // Vérifier toutes les 5 secondes
+
+    return () => clearInterval(interval);
+  }, [statut]);
 
   async function gererDemandeInterface() {
     setEnvoiEnCours(true);

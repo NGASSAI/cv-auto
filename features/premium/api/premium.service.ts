@@ -51,3 +51,34 @@ export async function recupererDerniereDemandePremium(utilisateurId: string) {
     orderBy: { creeLe: "desc" },
   });
 }
+
+/**
+ * Récupère le statut premium actuel d'un utilisateur :
+ * - APPROUVEE si a un abonnement actif
+ * - EN_ATTENTE si a une demande en attente
+ * - REFUSEE si la dernière demande a été refusée
+ * - null sinon
+ */
+export async function obtenirStatutPremium(utilisateurId: string) {
+  // D'abord vérifier si l'utilisateur a un abonnement actif
+  const abonnement = await prisma.abonnement.findFirst({
+    where: {
+      utilisateurId,
+      statut: "ACTIF",
+      dateFin: { gte: new Date() },
+    },
+  });
+
+  if (abonnement) {
+    return "APPROUVEE";
+  }
+
+  // Sinon vérifier la dernière demande
+  const derniereDemande = await recupererDerniereDemandePremium(utilisateurId);
+  
+  if (derniereDemande) {
+    return derniereDemande.statut;
+  }
+
+  return null;
+}

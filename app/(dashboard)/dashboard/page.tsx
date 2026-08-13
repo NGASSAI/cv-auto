@@ -42,7 +42,7 @@ export default async function PageDashboard() {
   return (
     <div>
       <div className="flex justify-end mb-6">
-        <BoutonPremium statutInitial={statutInitial} />
+        <BoutonPremium statutInitial={statutInitial} utilisateurId={session!.user.id} />
       </div>
 
       <TableauDeBordCV cvsInitiaux={cvsSerialisables} />
