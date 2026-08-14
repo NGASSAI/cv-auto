@@ -1,17 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Palette } from "lucide-react";
+import { createPortal } from "react-dom";
+import { Palette, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SelecteurPolice } from "@/features/cv/components/editor/selecteur-police";
 import { SelecteurMiseEnForme } from "@/features/cv/components/editor/selecteur-mise-en-forme";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { SelecteurTemplate } from "@/features/cv/components/editor/selecteur-template";
 import { SelecteurCouleur } from "@/features/cv/components/editor/selecteur-couleur";
 
@@ -22,20 +16,26 @@ interface PanneauDesignProps {
 export function PanneauDesign({ estPremium }: PanneauDesignProps) {
   const [ouvert, setOuvert] = useState(false);
 
-  return (
-    <Dialog open={ouvert} onOpenChange={setOuvert}>
-      <DialogTrigger
-        render={
-          <Button variant="outline" size="sm">
-            <Palette className="w-4 h-4" />
-            Design
-          </Button>
-        }
+  const modalContent = ouvert && (
+    <div className="fixed inset-0 z-[999999] flex items-center justify-center">
+      <div 
+        className="fixed inset-0 bg-black/40 backdrop-blur-md"
+        onClick={() => setOuvert(false)}
       />
-      <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Personnaliser le design</DialogTitle>
-        </DialogHeader>
+      <div className="relative z-[1000000] w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl p-6 text-sm text-popover-foreground max-h-[85vh] overflow-y-auto">
+        <button
+          type="button"
+          onClick={() => setOuvert(false)}
+          className="absolute top-2 right-2 p-2 rounded-lg hover:bg-muted transition-colors z-10"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        <div className="flex flex-col gap-2 mb-4">
+          <h2 className="font-heading text-base leading-none font-medium">
+            Personnaliser le design
+          </h2>
+        </div>
 
         <div className="space-y-6">
           <div>
@@ -57,7 +57,21 @@ export function PanneauDesign({ estPremium }: PanneauDesignProps) {
             <SelecteurMiseEnForme estPremium={estPremium} />
           </div>    
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      <Button 
+        variant="outline" 
+        size="sm"
+        onClick={() => setOuvert(true)}
+      >
+        <Palette className="w-4 h-4" />
+        Design
+      </Button>
+      {modalContent && createPortal(modalContent, document.body)}
+    </>
   );
 }

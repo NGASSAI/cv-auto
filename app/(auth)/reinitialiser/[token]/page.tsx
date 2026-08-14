@@ -32,7 +32,7 @@ export default async function PageReinitialisation({
               Nouveau mot de passe
             </h1>
             <p className="text-muted-foreground mt-2">
-              Choisissez un mot de passe sécurisé
+              Entrez votre nouveau mot de passe
             </p>
           </div>
 

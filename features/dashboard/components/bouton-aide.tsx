@@ -1,15 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { HelpCircle, ChevronRight, Download, Edit, Home, Sparkles } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { HelpCircle, ChevronRight, Download, Edit, Home, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const ETAPES_AIDE = [
@@ -71,83 +63,110 @@ export function BoutonAide() {
   const Icone = etapeCourante.icon;
 
   return (
-    <Dialog open={dialogueOuvert} onOpenChange={setDialogueOuvert}>
-      <DialogTrigger
+    <>
+      <button
+        type="button"
+        onClick={() => setDialogueOuvert(true)}
         className="p-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors"
       >
         <HelpCircle className="w-5 h-5" />
-      </DialogTrigger>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <HelpCircle className="w-5 h-5 text-primary" />
-            Guide d'utilisation
-          </DialogTitle>
-          <DialogDescription>
-            Apprenez à naviguer dans CV Builder et créer votre CV professionnel
-          </DialogDescription>
-        </DialogHeader>
+      </button>
 
-        <div className="mt-6">
-          {/* Indicateur de progression */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex gap-2">
-              {ETAPES_AIDE.map((_, index) => (
-                <div
-                  key={index}
-                  className={`h-1.5 rounded-full transition-all ${
-                    index === etapeActive
-                      ? "w-8 bg-primary"
-                      : index < etapeActive
-                      ? "w-2 bg-primary/50"
-                      : "w-2 bg-muted"
-                  }`}
-                />
-              ))}
-            </div>
-            <span className="text-sm text-muted-foreground">
-              {etapeActive + 1} / {ETAPES_AIDE.length}
-            </span>
-          </div>
+      {dialogueOuvert && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black/10 backdrop-blur-xs"
+            onClick={() => setDialogueOuvert(false)}
+          />
 
-          {/* Contenu de l'étape */}
-          <div className="bg-muted/50 rounded-lg p-6 mb-6">
-            <div className="flex items-start gap-4">
-              <div className={`p-3 rounded-lg bg-background ${etapeCourante.couleur}`}>
-                <Icone className="w-6 h-6" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold mb-2">{etapeCourante.titre}</h3>
-                <p className="text-sm text-muted-foreground whitespace-pre-line">
-                  {etapeCourante.description}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Navigation */}
-          <div className="flex items-center justify-between">
-            <Button
-              variant="outline"
-              onClick={etapePrecedente}
-              disabled={etapeActive === 0}
+          {/* Modal */}
+          <div className="relative z-50 w-full max-w-2xl mx-4 bg-popover rounded-xl ring-1 ring-foreground/10 p-4 text-sm text-popover-foreground">
+            {/* Bouton fermer */}
+            <button
+              type="button"
+              onClick={() => setDialogueOuvert(false)}
+              className="absolute top-2 right-2 p-2 rounded-lg hover:bg-muted transition-colors"
             >
-              Précédent
-            </Button>
+              <X className="w-4 h-4" />
+            </button>
 
-            {etapeActive === ETAPES_AIDE.length - 1 ? (
-              <Button onClick={() => setDialogueOuvert(false)}>
-                Compris !
-              </Button>
-            ) : (
-              <Button onClick={etapeSuivante}>
-                Suivant
-                <ChevronRight className="w-4 h-4 ml-2" />
-              </Button>
-            )}
+            {/* Header */}
+            <div className="flex flex-col gap-2 mb-4">
+              <div className="flex items-center gap-2">
+                <HelpCircle className="w-5 h-5 text-primary" />
+                <h2 className="font-heading text-base leading-none font-medium">
+                  Guide d'utilisation
+                </h2>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Apprenez à naviguer dans CV Builder et créer votre CV professionnel
+              </p>
+            </div>
+
+            {/* Contenu */}
+            <div className="mt-6">
+              {/* Indicateur de progression */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex gap-2">
+                  {ETAPES_AIDE.map((_, index) => (
+                    <div
+                      key={index}
+                      className={`h-1.5 rounded-full transition-all ${
+                        index === etapeActive
+                          ? "w-8 bg-primary"
+                          : index < etapeActive
+                          ? "w-2 bg-primary/50"
+                          : "w-2 bg-muted"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className="text-sm text-muted-foreground">
+                  {etapeActive + 1} / {ETAPES_AIDE.length}
+                </span>
+              </div>
+
+              {/* Contenu de l'étape */}
+              <div className="bg-muted/50 rounded-lg p-6 mb-6">
+                <div className="flex items-start gap-4">
+                  <div className={`p-3 rounded-lg bg-background ${etapeCourante.couleur}`}>
+                    <Icone className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold mb-2">{etapeCourante.titre}</h3>
+                    <p className="text-sm text-muted-foreground whitespace-pre-line">
+                      {etapeCourante.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Navigation */}
+              <div className="flex items-center justify-between">
+                <Button
+                  variant="outline"
+                  onClick={etapePrecedente}
+                  disabled={etapeActive === 0}
+                >
+                  Précédent
+                </Button>
+
+                {etapeActive === ETAPES_AIDE.length - 1 ? (
+                  <Button onClick={() => setDialogueOuvert(false)}>
+                    Compris !
+                  </Button>
+                ) : (
+                  <Button onClick={etapeSuivante}>
+                    Suivant
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      )}
+    </>
   );
 }

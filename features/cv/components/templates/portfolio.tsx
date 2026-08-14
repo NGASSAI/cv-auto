@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Mail, Phone, MapPin } from "lucide-react";
 import {
   ProprietesTemplate,
@@ -39,14 +38,14 @@ export function TemplatePortfolio({
 
   return (
     <div
-      className="w-full aspect-210/297 overflow-hidden bg-papier text-encre"
+      className="w-full aspect-210-297 overflow-hidden bg-papier text-encre"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       {/* En-tête pleine largeur */}
       <header className="flex items-center gap-6 px-10 pt-10 pb-6">
         {informations.photoUrl && (
           <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border-2" style={{ borderColor: couleurAccent }}>
-            <Image src={informations.photoUrl} alt={nomComplet} fill unoptimized className="object-cover" />
+            <img src={informations.photoUrl} alt={nomComplet} className="w-full h-full object-cover" />
           </div>
         )}
         <div>

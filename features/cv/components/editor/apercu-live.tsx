@@ -8,8 +8,7 @@ export function ApercuLive() {
 
   if (!cv) return null;
 
-  const template = obtenirTemplate(cv.templateId);
-  const ComposantTemplate = template.composant;
+  const ComposantTemplate = obtenirTemplate(cv.templateId);
 
   return (
     <div className="w-full max-w-600px mx-auto shadow-xl">

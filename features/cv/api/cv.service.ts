@@ -1,6 +1,6 @@
 import { prisma } from "@/shared/lib/prisma";
 import { aAccesPremium } from "@/features/premium/lib/acces-premium";
-import { obtenirTemplate } from "@/features/cv/components/templates/registre-templates";
+import { obtenirInfosTemplate } from "@/features/cv/components/templates/registre-templates";
 export class ErreurCV extends Error {}
 async function verifierAccesPremiumSiNecessaire(
   utilisateurId: string,
@@ -18,7 +18,7 @@ async function verifierAccesPremiumSiNecessaire(
   const estPremium = aAccesPremium(utilisateur);
   if (estPremium) return;
 
-  if (donnees.templateId && obtenirTemplate(donnees.templateId).estPremium) {
+  if (donnees.templateId && obtenirInfosTemplate(donnees.templateId).estPremium) {
     throw new ErreurCV("Ce template est réservé aux comptes Premium");
   }
   if (donnees.police && donnees.police !== "geist") {

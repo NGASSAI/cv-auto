@@ -3,14 +3,14 @@ import { ProprietesTemplate, formaterPeriode } from "@/features/cv/components/te
 import { obtenirVariableCssPolice } from "@/features/cv/lib/registre-polices";
 import { classeAlignement, tailleResume } from "@/features/cv/components/templates/types";
 
-const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET"];
+const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET", "CERTIFICATIONS"];
 
 export function TemplateMinimaliste({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
 
   return (
     <div
-      className="bg-white text-[#161B22] w-full aspect-210/297 p-10 pt-9 overflow-hidden"
+      className="bg-white text-[#161B22] w-full aspect-210-297 p-10 pt-9 overflow-hidden"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       <header className="mb-7">
@@ -60,10 +60,11 @@ export function TemplateMinimaliste({ informations, sections, couleurAccent, pol
                   {section.items.map((item) => (
                     <span
                       key={item.id}
-                      className="text-sm px-3 py-1 border rounded-full"
+                      className="text-sm px-3 py-1 rounded-full border font-normal"
                       style={{ borderColor: couleurAccent, color: couleurAccent }}
                     >
                       {item.titre}
+                      {section.type === "LANGUES" && item.sousTitre ? ` — ${item.sousTitre}` : ""}
                     </span>
                   ))}
                 </div>

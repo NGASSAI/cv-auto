@@ -1,9 +1,19 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { Check, X } from "lucide-react";
+import { Check, X, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface Demande {
   id: string;
@@ -26,6 +36,8 @@ const LIBELLES_STATUT: Record<string, string> = {
 export function ListeDemandes({ demandesInitiales }: ListeDemandesProps) {
   const [demandes, setDemandes] = useState(demandesInitiales);
   const [enTraitement, setEnTraitement] = useState<string | null>(null);
+  const [dialogueSuppressionOuvert, setDialogueSuppressionOuvert] = useState(false);
+  const [demandeASupprimer, setDemandeASupprimer] = useState<string | null>(null);
 
   async function traiter(id: string, decision: "APPROUVEE" | "REFUSEE") {
     setEnTraitement(id);
@@ -57,6 +69,38 @@ export function ListeDemandes({ demandesInitiales }: ListeDemandesProps) {
     }
   }
 
+  async function supprimerDemande() {
+    if (!demandeASupprimer) return;
+
+    setEnTraitement(demandeASupprimer);
+
+    try {
+      const reponse = await fetch(`/api/admin/demandes/${demandeASupprimer}`, {
+        method: "DELETE",
+      });
+
+      if (!reponse.ok) {
+        const donnees = await reponse.json();
+        toast.error(donnees.erreur ?? "Impossible de supprimer la demande");
+        return;
+      }
+
+      toast.success("Demande supprimée");
+      setDemandes((precedent) => precedent.filter((d) => d.id !== demandeASupprimer));
+      setDialogueSuppressionOuvert(false);
+      setDemandeASupprimer(null);
+    } catch {
+      toast.error("Une erreur est survenue");
+    } finally {
+      setEnTraitement(null);
+    }
+  }
+
+  function confirmerSuppression(id: string) {
+    setDemandeASupprimer(id);
+    setDialogueSuppressionOuvert(true);
+  }
+
   if (demandes.length === 0) {
     return (
       <p className="text-muted-foreground text-sm py-12 text-center">
@@ -66,62 +110,103 @@ export function ListeDemandes({ demandesInitiales }: ListeDemandesProps) {
   }
 
   return (
-    <div className="space-y-3">
-      {demandes.map((demande) => (
-        <div
-          key={demande.id}
-          className="bg-card border border-border rounded-lg p-4 flex flex-col sm:flex-row sm:items-center gap-3 justify-between"
-        >
-          <div className="min-w-0">
-            <p className="font-medium truncate">
-              {demande.utilisateur.nom ?? demande.utilisateur.email}
-            </p>
-            <p className="text-xs text-muted-foreground truncate">
-              {demande.utilisateur.email}
-            </p>
-            {demande.message && (
-              <p className="text-sm text-muted-foreground mt-1 italic">
-                « {demande.message} »
+    <>
+      <div className="space-y-3">
+        {demandes.map((demande) => (
+          <div
+            key={demande.id}
+            className="bg-card border border-border rounded-lg p-4 flex flex-col sm:flex-row sm:items-center gap-3 justify-between"
+          >
+            <div className="min-w-0">
+              <p className="font-medium truncate">
+                {demande.utilisateur.nom ?? demande.utilisateur.email}
               </p>
-            )}
-          </div>
+              <p className="text-xs text-muted-foreground truncate">
+                {demande.utilisateur.email}
+              </p>
+              {demande.message && (
+                <p className="text-sm text-muted-foreground mt-1 italic">
+                  « {demande.message} »
+                </p>
+              )}
+            </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            {demande.statut === "EN_ATTENTE" ? (
-              <>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  disabled={enTraitement === demande.id}
-                  onClick={() => traiter(demande.id, "REFUSEE")}
-                >
-                  <X className="w-4 h-4" />
-                  Refuser
-                </Button>
-                <Button
-                  size="sm"
-                  disabled={enTraitement === demande.id}
-                  onClick={() => traiter(demande.id, "APPROUVEE")}
-                >
-                  <Check className="w-4 h-4" />
-                  Approuver
-                </Button>
-              </>
-            ) : (
-              <span
-                className={cn(
-                  "text-xs px-2 py-1 rounded-full font-medium",
-                  demande.statut === "APPROUVEE"
-                    ? "bg-secondary/10 text-secondary"
-                    : "bg-destructive/10 text-destructive"
-                )}
-              >
-                {LIBELLES_STATUT[demande.statut]}
-              </span>
-            )}
+            <div className="flex items-center gap-2 shrink-0">
+              {demande.statut === "EN_ATTENTE" ? (
+                <>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={enTraitement === demande.id}
+                    onClick={() => confirmerSuppression(demande.id)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={enTraitement === demande.id}
+                    onClick={() => traiter(demande.id, "REFUSEE")}
+                  >
+                    <X className="w-4 h-4" />
+                    Refuser
+                  </Button>
+                  <Button
+                    size="sm"
+                    disabled={enTraitement === demande.id}
+                    onClick={() => traiter(demande.id, "APPROUVEE")}
+                  >
+                    <Check className="w-4 h-4" />
+                    Approuver
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={enTraitement === demande.id}
+                    onClick={() => confirmerSuppression(demande.id)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                  <span
+                    className={cn(
+                      "text-xs px-2 py-1 rounded-full font-medium",
+                      demande.statut === "APPROUVEE"
+                        ? "bg-secondary/10 text-secondary"
+                        : "bg-destructive/10 text-destructive"
+                    )}
+                  >
+                    {LIBELLES_STATUT[demande.statut]}
+                  </span>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+
+      <AlertDialog open={dialogueSuppressionOuvert} onOpenChange={setDialogueSuppressionOuvert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Supprimer cette demande ?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Cette action est définitive. La demande Premium sera supprimée.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={supprimerDemande}
+              disabled={enTraitement !== null}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Supprimer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }

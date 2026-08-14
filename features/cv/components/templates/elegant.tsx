@@ -1,17 +1,16 @@
-import Image from "next/image";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { ProprietesTemplate, formaterPeriode } from "@/features/cv/components/templates/types";
 import { obtenirVariableCssPolice } from "@/features/cv/lib/registre-polices";
 import { classeAlignement, tailleResume } from "@/features/cv/components/templates/types";
 
-const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET"];
+const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET", "CERTIFICATIONS"];
 
 export function TemplateElegant({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
 
   return (
     <div
-      className="bg-white text-[#161B22] w-full aspect-210/297 overflow-hidden"
+      className="bg-white text-[#161B22] w-full aspect-210-297 overflow-hidden"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       <header className="relative pt-8 pb-10 px-10 text-white" style={{ backgroundColor: couleurAccent }}>
@@ -44,7 +43,7 @@ export function TemplateElegant({ informations, sections, couleurAccent, police,
       {informations.photoUrl && (
         <div className="relative -mt-12 ml-10 mb-2">
           <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg relative">
-            <Image src={informations.photoUrl} alt={nomComplet} fill unoptimized className="object-cover" />
+            <img src={informations.photoUrl} alt={nomComplet} className="w-full h-full object-cover" />
           </div>
         </div>
       )}
@@ -76,6 +75,7 @@ export function TemplateElegant({ informations, sections, couleurAccent, police,
                         style={{ backgroundColor: `${couleurAccent}18`, color: couleurAccent }}
                       >
                         {item.titre}
+                        {section.type === "LANGUES" && item.sousTitre ? ` — ${item.sousTitre}` : ""}
                       </span>
                     ))}
                   </div>

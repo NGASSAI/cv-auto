@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
   ProprietesTemplate,
   formaterPeriode,
@@ -7,7 +6,7 @@ import {
 } from "@/features/cv/components/templates/types";
 import { obtenirVariableCssPolice } from "@/features/cv/lib/registre-polices";
 
-const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET"];
+const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET", "CERTIFICATIONS"];
 
 export function TemplateExecutif({
   informations,
@@ -21,12 +20,12 @@ export function TemplateExecutif({
 
   return (
     <div
-      className="relative flex w-full aspect-210/297 overflow-hidden bg-papier text-encre"
+      className="relative flex w-full aspect-210-297 overflow-hidden bg-papier text-encre"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       {informations.photoUrl && (
         <div className="absolute right-12 top-12 h-16 w-16 overflow-hidden rounded-full border border-ardoise/20">
-          <Image src={informations.photoUrl} alt={nomComplet} fill unoptimized className="object-cover" />
+          <img src={informations.photoUrl} alt={nomComplet} className="w-full h-full object-cover" />
         </div>
       )}
 
@@ -75,10 +74,11 @@ export function TemplateExecutif({
                       {section.items.map((item) => (
                         <span
                           key={item.id}
-                          className="rounded-full px-3 py-1 text-sm font-medium"
+                          className="text-sm px-3 py-1 rounded-full font-medium"
                           style={{ backgroundColor: `${couleurAccent}18`, color: couleurAccent }}
                         >
                           {item.titre}
+                          {section.type === "LANGUES" && item.sousTitre ? ` — ${item.sousTitre}` : ""}
                         </span>
                       ))}
                     </div>

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
   ProprietesTemplate,
   formaterPeriode,
@@ -7,7 +6,7 @@ import {
 } from "@/features/cv/components/templates/types";
 import { obtenirVariableCssPolice } from "@/features/cv/lib/registre-polices";
 
-const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET"];
+const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET", "CERTIFICATIONS"];
 
 function numeroSection(index: number): string {
   return String(index + 1).padStart(2, "0");
@@ -26,7 +25,7 @@ export function TemplateDossierStructure({
 
   return (
     <div
-      className="w-full aspect-210/297 overflow-hidden bg-papier text-encre px-12 py-12"
+      className="w-full aspect-210-297 overflow-hidden bg-papier text-encre px-12 py-12"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       {/* Cadre en-tête avec coin corné */}
@@ -51,7 +50,7 @@ export function TemplateDossierStructure({
         <div className="flex items-center gap-5">
           {informations.photoUrl && (
             <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded" style={{ border: `2px solid ${couleurAccent}` }}>
-              <Image src={informations.photoUrl} alt={nomComplet} fill unoptimized className="object-cover" />
+              <img src={informations.photoUrl} alt={nomComplet} className="w-full h-full object-cover" />
             </div>
           )}
           <div>

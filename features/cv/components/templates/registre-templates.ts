@@ -3,78 +3,48 @@ import { TemplateClassique } from "@/features/cv/components/templates/classique"
 import { TemplateMinimaliste } from "@/features/cv/components/templates/minimaliste";
 import { TemplateModerne } from "@/features/cv/components/templates/moderne";
 import { TemplateElegant } from "@/features/cv/components/templates/elegant";
-import type { ProprietesTemplate } from "@/features/cv/components/templates/types";
-import { TemplatePortfolio } from "@/features/cv/components/templates/portfolio";
 import { TemplateExecutif } from "@/features/cv/components/templates/executif";
 import { TemplateDossierStructure } from "@/features/cv/components/templates/dossier-structure";
+import { TemplatePortfolio } from "@/features/cv/components/templates/portfolio";
+import type { ProprietesTemplate } from "@/features/cv/components/templates/types";
 
-export interface MetadonneesTemplate {
-  cle: string;
-  nom: string;
-  estPremium: boolean;
-  composant: ComponentType<ProprietesTemplate>;
-}
-
-/**
- * Registre central de tous les templates disponibles.
- * Source unique de vérité : utilisé pour le rendu live dans l'éditeur
- * ET pour le sélecteur de template affiché à l'utilisateur.
- *
- * Note : ce registre est codé en dur pour l'instant (côté code).
- * Le modèle Prisma `Template` existe déjà en base pour permettre
- * à l'admin d'activer/désactiver ou de changer le statut premium
- * sans redéploiement — on branchera cette synchronisation au
- * sous-module admin dédié aux templates, plus tard.
- */
-export const REGISTRE_TEMPLATES: Record<string, MetadonneesTemplate> = {
-  classique: {
-    cle: "classique",
-    nom: "Classique",
-    estPremium: false,
-    composant: TemplateClassique,
-  },
-  minimaliste: {
-    cle: "minimaliste",
-    nom: "Minimaliste",
-    estPremium: false,
-    composant: TemplateMinimaliste,
-  },
-  moderne: {
-    cle: "moderne",
-    nom: "Moderne",
-    estPremium: false,
-    composant: TemplateModerne,
-  },
-  elegant: {
-    cle: "elegant",
-    nom: "Élégant",
-    estPremium: false,
-    composant: TemplateElegant,
-  },
-  portfolio: {
-    cle: "portfolio",
-    nom: "Portfolio",
-    estPremium: true,
-    composant: TemplatePortfolio,
-  },
-executif: {
-    cle: "executif",
-    nom: "Exécutif",
-    estPremium: true,
-    composant: TemplateExecutif,
-  },
-  "dossier-structure": {
-    cle: "dossier-structure",
-    nom: "Dossier structuré",
-    estPremium: true,
-    composant: TemplateDossierStructure,
-  },
+const REGISTRE_TEMPLATES: Record<string, ComponentType<ProprietesTemplate>> = {
+  classique: TemplateClassique,
+  minimaliste: TemplateMinimaliste,
+  moderne: TemplateModerne,
+  elegant: TemplateElegant,
+  portfolio: TemplatePortfolio,
+  executif: TemplateExecutif,
+  "dossier-structure": TemplateDossierStructure,
 };
 
-export function obtenirTemplate(cle: string): MetadonneesTemplate {
-  return REGISTRE_TEMPLATES[cle] ?? REGISTRE_TEMPLATES.classique;
+const INFOS_TEMPLATES: Record<string, { nom: string; estPremium: boolean }> = {
+  classique: { nom: "Classique", estPremium: false },
+  minimaliste: { nom: "Minimaliste", estPremium: false },
+  moderne: { nom: "Moderne", estPremium: false },
+  elegant: { nom: "Élégant", estPremium: true },
+  portfolio: { nom: "Portfolio", estPremium: true },
+  executif: { nom: "Exécutif", estPremium: true },
+  "dossier-structure": { nom: "Dossier Structure", estPremium: true },
+};
+
+export function obtenirComposantTemplate(templateId: string): ComponentType<ProprietesTemplate> {
+  return REGISTRE_TEMPLATES[templateId] ?? REGISTRE_TEMPLATES.moderne;
 }
 
-export function listerTemplates(): MetadonneesTemplate[] {
-  return Object.values(REGISTRE_TEMPLATES);
+export function obtenirTemplate(templateId: string): ComponentType<ProprietesTemplate> {
+  return obtenirComposantTemplate(templateId);
+}
+
+export function obtenirInfosTemplate(templateId: string): { nom: string; estPremium: boolean } {
+  return INFOS_TEMPLATES[templateId] ?? { nom: templateId, estPremium: false };
+}
+
+export function listerTemplates(): Array<{ cle: string; composant: ComponentType<ProprietesTemplate>; nom: string; estPremium: boolean }> {
+  return Object.keys(REGISTRE_TEMPLATES).map(cle => ({
+    cle,
+    composant: REGISTRE_TEMPLATES[cle],
+    nom: INFOS_TEMPLATES[cle]?.nom || cle,
+    estPremium: INFOS_TEMPLATES[cle]?.estPremium || false,
+  }));
 }

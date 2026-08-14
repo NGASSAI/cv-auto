@@ -105,3 +105,20 @@
   background-size: 200% 200%;
   animation: gradient 3s ease infinite;
 }
+
+/* ============================================
+   UTILITAIRES CV
+   ============================================ */
+@layer utilities {
+  .bg-papier {
+    background-color: #FAF8F3;
+  }
+  
+  .text-encre {
+    color: #161B22;
+  }
+  
+  .text-ardoise {
+    color: #3D4B5C;
+  }
+}

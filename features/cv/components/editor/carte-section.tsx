@@ -20,6 +20,7 @@ import {
   type SectionEditeur,
 } from "@/features/cv/stores/cv-editor.store";
 import { FormulaireItem } from "@/features/cv/components/editor/formulaire-item";
+import { FormulaireItemSpecial } from "@/features/cv/components/editor/formulaire-item-special";
 
 interface CarteSectionProps {
   section: SectionEditeur;
@@ -118,7 +119,16 @@ export function CarteSection({ section, poigneeDragProps }: CarteSectionProps) {
       {ouverte && (
         <div className="p-3 space-y-2">
           {section.items.map((item) => (
-            <FormulaireItem key={item.id} sectionId={section.id} item={item} />
+            section.type === "LANGUES" || section.type === "CENTRES_INTERET" ? (
+              <FormulaireItemSpecial 
+                key={item.id} 
+                sectionId={section.id} 
+                sectionType={section.type}
+                item={item} 
+              />
+            ) : (
+              <FormulaireItem key={item.id} sectionId={section.id} item={item} />
+            )
           ))}
 
           <Button

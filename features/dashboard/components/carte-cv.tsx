@@ -81,22 +81,18 @@ export function CarteCV({ id, titre, misAJourLe, onSupprime }: CarteCVProps) {
 
           <DropdownMenu>
             <DropdownMenuTrigger
-              render={
-                <Button variant="ghost" size="icon" className="shrink-0">
-                  <MoreVertical className="w-4 h-4" />
-                </Button>
-              }
-            />
+              className="inline-flex items-center justify-center p-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              <MoreVertical className="w-4 h-4" />
+            </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 closeOnClick
-                render={
-                  <Link href={`/editor/${id}`}>
-                    <Pencil className="w-4 h-4" />
-                    Modifier
-                  </Link>
-                }
-              />
+                onClick={() => window.location.href = `/editor/${id}`}
+              >
+                <Pencil className="w-4 h-4" />
+                Modifier
+              </DropdownMenuItem>
               <DropdownMenuItem
                 variant="destructive"
                 closeOnClick

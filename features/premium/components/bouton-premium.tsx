@@ -1,19 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Sparkles, MessageCircle, Phone, Send, Clock, CheckCircle2 } from "lucide-react";
+import { Sparkles, MessageCircle, Phone, Send, Clock, CheckCircle2, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 type StatutDemande = "EN_ATTENTE" | "APPROUVEE" | "REFUSEE" | null;
 
@@ -110,77 +101,103 @@ export function BoutonPremium({ statutInitial, utilisateurId }: BoutonPremiumPro
   }
 
   return (
-    <Dialog open={dialogueOuvert} onOpenChange={setDialogueOuvert}>
-      <DialogTrigger
-        render={
-          <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
-            <Sparkles className="w-4 h-4" />
-            Passer en Premium
-          </Button>
-        }
-      />
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Passer en Premium</DialogTitle>
-          <DialogDescription>
-            Débloquez les templates premium, l&apos;ajout de photo et plus
-            d&apos;options. Deux façons de nous contacter :
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      <Button 
+        variant="outline" 
+        className="border-primary text-primary hover:bg-primary/10"
+        onClick={() => setDialogueOuvert(true)}
+      >
+        <Sparkles className="w-4 h-4" />
+        Passer en Premium
+      </Button>
 
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
-            <a
-              href={lienWhatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 border border-border rounded-lg p-3 hover:bg-muted transition-colors"
+      {dialogueOuvert && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black/10 backdrop-blur-xs"
+            onClick={() => setDialogueOuvert(false)}
+          />
+
+          {/* Modal */}
+          <div className="relative z-50 w-full max-w-lg mx-4 bg-popover rounded-xl ring-1 ring-foreground/10 p-4 text-sm text-popover-foreground">
+            {/* Bouton fermer */}
+            <button
+              type="button"
+              onClick={() => setDialogueOuvert(false)}
+              className="absolute top-2 right-2 p-2 rounded-lg hover:bg-muted transition-colors z-10"
             >
-              <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
-                <MessageCircle className="w-4 h-4 text-secondary" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">Contacter via WhatsApp</p>
-                <p className="text-xs text-muted-foreground">Réponse rapide, discussion directe</p>
-              </div>
-            </a>
+              <X className="w-4 h-4" />
+            </button>
 
-            <a
-              href={LIEN_TEL}
-              className="flex items-center gap-3 border border-border rounded-lg p-3 hover:bg-muted transition-colors"
-            >
-              <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
-                <Phone className="w-4 h-4 text-secondary" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">Appeler l&apos;admin</p>
-                <p className="text-xs text-muted-foreground">{NUMERO_TELEPHONE}</p>
-              </div>
-            </a>
-          </div>
+            {/* Header */}
+            <div className="flex flex-col gap-2 mb-4">
+              <h2 className="font-heading text-base leading-none font-medium">
+                Passer en Premium
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Débloquez les templates premium, l&apos;ajout de photo et plus
+                d&apos;options. Deux façons de nous contacter :
+              </p>
+            </div>
 
-          <div className="space-y-2">
-            <p className="text-sm font-medium">Ou envoyez une demande ici</p>
-            <Textarea
-              placeholder="Un message pour l'admin (optionnel)"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={3}
-            />
+            {/* Contenu */}
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <a
+                  href={lienWhatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 border border-border rounded-lg p-3 hover:bg-muted transition-colors"
+                >
+                  <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+                    <MessageCircle className="w-4 h-4 text-secondary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Contacter via WhatsApp</p>
+                    <p className="text-xs text-muted-foreground">Réponse rapide, discussion directe</p>
+                  </div>
+                </a>
+
+                <a
+                  href={LIEN_TEL}
+                  className="flex items-center gap-3 border border-border rounded-lg p-3 hover:bg-muted transition-colors"
+                >
+                  <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+                    <Phone className="w-4 h-4 text-secondary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Appeler l&apos;admin</p>
+                    <p className="text-xs text-muted-foreground">{NUMERO_TELEPHONE}</p>
+                  </div>
+                </a>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Ou envoyez une demande ici</p>
+                <Textarea
+                  placeholder="Un message pour l'admin (optionnel)"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  rows={3}
+                />
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="-mx-4 -mb-4 mt-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 p-4 sm:flex-row sm:justify-end">
+              <Button
+                onClick={gererDemandeInterface}
+                disabled={envoiEnCours}
+                className="w-full"
+              >
+                <Send className="w-4 h-4" />
+                Envoyer la demande
+              </Button>
+            </div>
           </div>
         </div>
-
-        <DialogFooter>
-          <Button
-            onClick={gererDemandeInterface}
-            disabled={envoiEnCours}
-            className="w-full"
-          >
-            <Send className="w-4 h-4" />
-            Envoyer la demande
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      )}
+    </>
   );
 }

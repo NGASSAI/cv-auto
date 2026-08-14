@@ -7,16 +7,16 @@ import { prisma } from "@/shared/lib/prisma";
 export async function POST(request: NextRequest) {
   try {
     const corps = await request.json();
-    const resultat = schemaDemandeReinitialisation.safeParse(corps);
+    const resultatValidation = schemaDemandeReinitialisation.safeParse(corps);
 
-    if (!resultat.success) {
+    if (!resultatValidation.success) {
       return NextResponse.json(
         { erreur: "Adresse email invalide" },
         { status: 400 }
       );
     }
 
-    const { email } = resultat.data;
+    const { email } = resultatValidation.data;
 
     const utilisateur = await prisma.utilisateur.findUnique({
       where: { email },
@@ -36,7 +36,20 @@ export async function POST(request: NextRequest) {
     }
 
     const token = await genererTokenReinitialisation(email);
-    await envoyerEmailReinitialisation(email, token);
+    const resultatEmail = await envoyerEmailReinitialisation(email, token);
+
+    // En développement, si l'email échoue, on retourne quand même le succès
+    // car le token est disponible dans les logs
+    if (process.env.NODE_ENV === 'development' && !resultatEmail.success) {
+      console.log('📧 Mode développement: Token disponible dans les logs console');
+      const lienReinitialisation = `${process.env.NEXT_PUBLIC_URL_APP}/reinitialiser/${token}`;
+      return NextResponse.json({
+        message: "Si un compte existe avec cet email, un lien de réinitialisation a été envoyé.",
+        debug: resultatEmail.message,
+        token: token,
+        lien: lienReinitialisation
+      }, { status: 200 });
+    }
 
     return NextResponse.json(messageGenerique, { status: 200 });
   } catch (erreur) {

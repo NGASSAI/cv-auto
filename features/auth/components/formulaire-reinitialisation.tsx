@@ -64,7 +64,7 @@ export function FormulaireReinitialisation({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      {/* Champ caché : le token n'est pas modifiable, juste transmis */}
+      {/* Champ caché : le code n'est pas modifiable, juste transmis */}
       <input type="hidden" {...register("token")} />
 
       <div className="space-y-2">
@@ -89,7 +89,7 @@ export function FormulaireReinitialisation({
 
       <Button type="submit" className="w-full" disabled={enChargement}>
         {enChargement && <Loader2 className="animate-spin" />}
-        Réinitialiser le mot de passe
+        Valider
       </Button>
     </form>
   );

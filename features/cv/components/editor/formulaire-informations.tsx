@@ -30,7 +30,7 @@ export function FormulaireInformations({ estPremium, estSuggestionsIA }: { estPr
   if (!cv) return null;
 
   return (
-   <div className="space-y-4">
+    <div className="space-y-4">
       {estSuggestionsIA && (
         <div className="flex justify-end">
           <SuggestionsIA
@@ -38,42 +38,50 @@ export function FormulaireInformations({ estPremium, estSuggestionsIA }: { estPr
             informations={cv.informations}
             onResumeChange={(resume) => mettreAJourInformations("resume", resume)}
             onCompetencesChange={(competences) => {
-              // Note: This would need to be implemented in the store
-              // For now, it's just for display
               console.log("Compétences suggérées:", competences);
             }}
           />
         </div>
       )}
-      {estPremium && <UploadPhoto />}
-      <div className="grid grid-cols-2 gap-3">
-        {CHAMPS_SIMPLES.map((champ) => (
-          <div
-            key={champ.cle}
-            className={
-              champ.cle === "email" || champ.cle === "adresse"
-                ? "col-span-2 space-y-1.5"
-                : "space-y-1.5"
-            }
-          >
-            <Label htmlFor={champ.cle} className="text-xs">
-              {champ.label}
-            </Label>
-            <Input
-              id={champ.cle}
-              type={champ.type ?? "text"}
-              placeholder={champ.placeholder}
-              value={cv.informations[champ.cle] ?? ""}
-              onChange={(e) =>
-                mettreAJourInformations(champ.cle, e.target.value)
+
+      {estPremium && (
+        <div className="rounded-xl border border-slate-200 bg-white p-3">
+          <UploadPhoto />
+        </div>
+      )}
+
+      <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-slate-800">Coordonnées</h3>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          {CHAMPS_SIMPLES.map((champ) => (
+            <div
+              key={champ.cle}
+              className={
+                champ.cle === "email" || champ.cle === "adresse"
+                  ? "col-span-2 space-y-1.5"
+                  : "space-y-1.5"
               }
-            />
-          </div>
-        ))}
+            >
+              <Label htmlFor={champ.cle} className="text-[11px] font-medium text-slate-600">
+                {champ.label}
+              </Label>
+              <Input
+                id={champ.cle}
+                type={champ.type ?? "text"}
+                placeholder={champ.placeholder}
+                value={cv.informations[champ.cle] ?? ""}
+                onChange={(e) => mettreAJourInformations(champ.cle, e.target.value)}
+                className="h-9 rounded-lg border-slate-200 bg-slate-50 focus-visible:ring-1 focus-visible:ring-slate-300"
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="space-y-1.5">
-        <Label htmlFor="resume" className="text-xs">
+      <div className="space-y-1.5 rounded-xl border border-slate-200 bg-white p-3">
+        <Label htmlFor="resume" className="text-[11px] font-medium text-slate-600">
           Résumé professionnel
         </Label>
         <Textarea
@@ -82,6 +90,7 @@ export function FormulaireInformations({ estPremium, estSuggestionsIA }: { estPr
           rows={4}
           value={cv.informations.resume ?? ""}
           onChange={(e) => mettreAJourInformations("resume", e.target.value)}
+          className="resize-none rounded-lg border-slate-200 bg-slate-50 focus-visible:ring-1 focus-visible:ring-slate-300"
         />
       </div>
     </div>

@@ -3,14 +3,14 @@ import { ProprietesTemplate, formaterPeriode } from "@/features/cv/components/te
 import { obtenirVariableCssPolice } from "@/features/cv/lib/registre-polices";
 import { classeAlignement, tailleResume } from "@/features/cv/components/templates/types";
 
-const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET"];
+const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET", "CERTIFICATIONS"];
 
 export function TemplateClassique({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
 
   return (
     <div
-      className="bg-white text-[#161B22] w-full aspect-210/297 p-8 pt-8 overflow-hidden"
+      className="bg-white text-[#161B22] w-full aspect-210-297 p-8 pt-8 overflow-hidden"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       <header className="text-center pb-4 mb-4" style={{ borderBottom: `2px solid ${couleurAccent}` }}>
@@ -71,6 +71,7 @@ export function TemplateClassique({ informations, sections, couleurAccent, polic
                       style={{ backgroundColor: `${couleurAccent}18`, color: couleurAccent }}
                     >
                       {item.titre}
+                      {section.type === "LANGUES" && item.sousTitre ? ` — ${item.sousTitre}` : ""}
                     </span>
                   ))}
                 </div>
