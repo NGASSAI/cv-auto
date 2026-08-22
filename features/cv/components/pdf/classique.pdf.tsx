@@ -1,22 +1,33 @@
-import { Document, Page, View, Text, StyleSheet, Font } from "@react-pdf/renderer";
+import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import type { ProprietesTemplate } from "@/features/cv/components/templates/types";
-
-Font.register({
-  family: "Helvetica",
-  fonts: [{ src: "Helvetica" }],
-});
+import { obtenirFamillePolicePdf } from "@/features/cv/components/pdf/registre-polices-pdf";
 
 const styles = StyleSheet.create({
-  page: { paddingTop: 32, paddingHorizontal: 40, paddingBottom: 40, fontSize: 10, fontFamily: "Helvetica", color: "#161B22" },
-  header: { textAlign: "center", paddingBottom: 12, marginBottom: 16 },
+  page: { paddingTop: 32, paddingHorizontal: 40, paddingBottom: 40, fontSize: 10, color: "#161B22" },
+  header: {
+    textAlign: "center",
+    paddingBottom: 12,
+    marginBottom: 16,
+    borderBottomWidth: 2,
+    borderBottomStyle: "solid",
+  },
   nom: { fontSize: 22, fontWeight: 700, marginBottom: 4 },
   poste: { fontSize: 10, textTransform: "uppercase", letterSpacing: 2, color: "#3D4B5C" },
   contactRow: { flexDirection: "row", justifyContent: "center", gap: 10, marginTop: 8 },
   contactItem: { fontSize: 9, color: "#3D4B5C" },
-resume: { fontStyle: "italic", color: "#3D4B5C", marginBottom: 20, paddingHorizontal: 20 },
+  resume: { fontStyle: "italic", color: "#3D4B5C", marginBottom: 20, paddingHorizontal: 20 },
   section: { marginBottom: 12 },
-  sectionTitre: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, paddingBottom: 4, marginBottom: 8 },
-  item: { marginBottom: 10, paddingLeft: 8 },
+  sectionTitre: {
+    fontSize: 9,
+    fontWeight: 700,
+    textTransform: "uppercase",
+    letterSpacing: 1.5,
+    paddingBottom: 4,
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomStyle: "solid",
+  },
+  item: { marginBottom: 10, paddingLeft: 8, borderLeftWidth: 2, borderLeftStyle: "solid" },
   itemHeader: { flexDirection: "row", justifyContent: "space-between" },
   itemTitre: { fontSize: 10.5, fontWeight: 700 },
   itemDate: { fontSize: 8.5, color: "#3D4B5C" },
@@ -46,13 +57,15 @@ function taillePdf(taille: string): number {
   const correspondances: Record<string, number> = { petite: 8.5, moyenne: 10, grande: 11.5 };
   return correspondances[taille] ?? 10;
 }
-export function ClassiquePdf({ informations, sections, couleurAccent, alignementTexte, tailleTexte }: ProprietesTemplate) {
+
+export function ClassiquePdf({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
+  const familleTexte = obtenirFamillePolicePdf(police);
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
-        <View style={[styles.header, { borderBottom: `2px solid ${couleurAccent}` }]}>
+      <Page size="A4" style={[styles.page, { fontFamily: familleTexte }]}>
+        <View style={[styles.header, { borderBottomColor: couleurAccent }]}>
           <Text style={styles.nom}>{nomComplet || "Votre nom"}</Text>
           {informations.titrePoste && <Text style={styles.poste}>{informations.titrePoste}</Text>}
           <View style={styles.contactRow}>
@@ -63,14 +76,14 @@ export function ClassiquePdf({ informations, sections, couleurAccent, alignement
         </View>
 
         {informations.resume && (
-  <Text style={[styles.resume, { textAlign: alignementPdf(alignementTexte), fontSize: taillePdf(tailleTexte) }]}>
-    {informations.resume}
-  </Text>
-)}
+          <Text style={[styles.resume, { textAlign: alignementPdf(alignementTexte), fontSize: taillePdf(tailleTexte) }]}>
+            {informations.resume}
+          </Text>
+        )}
 
         {sections.filter((s) => s.estVisible).map((section) => (
           <View key={section.id} style={styles.section}>
-            <Text style={[styles.sectionTitre, { color: couleurAccent, borderBottom: `1px solid ${couleurAccent}` }]}>
+            <Text style={[styles.sectionTitre, { color: couleurAccent, borderBottomColor: couleurAccent }]}>
               {section.titre}
             </Text>
 
@@ -84,7 +97,7 @@ export function ClassiquePdf({ informations, sections, couleurAccent, alignement
               </View>
             ) : (
               section.items.map((item) => (
-                <View key={item.id} style={[styles.item, { borderLeft: `2px solid ${couleurAccent}60` }]}>
+                <View key={item.id} style={[styles.item, { borderLeftColor: `${couleurAccent}60` }]}>
                   <View style={styles.itemHeader}>
                     <Text style={styles.itemTitre}>{item.titre}</Text>
                     <Text style={styles.itemDate}>{formaterPeriodePdf(item.dateDebut, item.dateFin)}</Text>

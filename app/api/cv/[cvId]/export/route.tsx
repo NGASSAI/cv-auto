@@ -5,6 +5,7 @@ import { authOptions } from "@/shared/lib/auth";
 import { obtenirParametresSite } from "@/features/admin/api/parametres.service";
 import { recupererCVComplet, ErreurCV } from "@/features/cv/api/cv.service";
 import { obtenirComposantPdf } from "@/features/cv/components/pdf/registre-pdf";
+import { enregistrerPolicesPdf } from "@/features/cv/components/pdf/registre-polices-pdf";
 
 export async function GET(
   request: NextRequest,
@@ -18,7 +19,7 @@ export async function GET(
 
   const { cvId } = await params;
 
- try {
+  try {
     const parametres = await obtenirParametresSite();
     if (!parametres.exportPdfActif) {
       return NextResponse.json(
@@ -27,33 +28,46 @@ export async function GET(
       );
     }
 
+    // Doit être appelé avant tout renderToBuffer() : enregistre les
+    // polices custom (Fraunces, Geist, Merriweather, Playfair, Manrope,
+    // Lora) auprès de @react-pdf/renderer. Idempotent.
+    enregistrerPolicesPdf();
+
     const cv = await recupererCVComplet(cvId, session.user.id);
 
     const ComposantPdf = obtenirComposantPdf(cv.templateId);
-    
-    const sectionsFormatees = cv.sections.map(section => ({
+
+    const sectionsFormatees = cv.sections.map((section) => ({
       ...section,
-      items: section.items.map(item => ({
+      items: section.items.map((item) => ({
         ...item,
-        dateDebut: item.dateDebut ? item.dateDebut.toISOString().split('T')[0] : null,
-        dateFin: item.dateFin ? item.dateFin.toISOString().split('T')[0] : null,
+        dateDebut: item.dateDebut ? item.dateDebut.toISOString().split("T")[0] : null,
+        dateFin: item.dateFin ? item.dateFin.toISOString().split("T")[0] : null,
       })),
     }));
-    
- const buffer = await renderToBuffer(
- <ComposantPdf
-  informations={cv.informations ?? {
-    prenom: null, nom: null, titrePoste: null, email: null,
-    telephone: null, adresse: null, photoUrl: null, resume: null,
-  }}
-  sections={sectionsFormatees}
-  couleurAccent={cv.couleurAccent}
-  police={cv.police}
-  alignementTexte={cv.alignementTexte}
-  tailleTexte={cv.tailleTexte}
-/>
-);
- 
+
+    const buffer = await renderToBuffer(
+      <ComposantPdf
+        informations={
+          cv.informations ?? {
+            prenom: null,
+            nom: null,
+            titrePoste: null,
+            email: null,
+            telephone: null,
+            adresse: null,
+            photoUrl: null,
+            resume: null,
+          }
+        }
+        sections={sectionsFormatees}
+        couleurAccent={cv.couleurAccent}
+        police={cv.police}
+        alignementTexte={cv.alignementTexte}
+        tailleTexte={cv.tailleTexte}
+      />
+    );
+
     const nomFichier = `${cv.titre.replace(/[^a-z0-9]/gi, "_")}.pdf`;
 
     return new NextResponse(new Uint8Array(buffer), {

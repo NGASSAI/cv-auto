@@ -1,13 +1,14 @@
 import { Document, Page, View, Text, Image, StyleSheet, Svg, Path, Circle, Polyline } from "@react-pdf/renderer";
 import type { ProprietesTemplate } from "@/features/cv/components/templates/types";
+import { obtenirFamillePolicePdf } from "@/features/cv/components/pdf/registre-polices-pdf";
 
 const styles = StyleSheet.create({
-  page: { fontSize: 10, fontFamily: "Helvetica", color: "#161B22", paddingHorizontal: 40, paddingVertical: 40 },
+  page: { fontSize: 10, color: "#161B22", paddingHorizontal: 40, paddingVertical: 40 },
   header: { flexDirection: "row", alignItems: "center", gap: 16, marginBottom: 20 },
   photo: { width: 64, height: 64, borderRadius: 32 },
   nom: { fontSize: 20, fontWeight: 700 },
   poste: { fontSize: 9.5, fontWeight: 700, marginTop: 3 },
- contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 6 },
+  contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 6 },
   contactItem: { flexDirection: "row", alignItems: "center", gap: 3 },
   contactTexte: { fontSize: 8, color: "#3D4B5C" },
   resume: { color: "#3D4B5C", marginBottom: 20, lineHeight: 1.5 },
@@ -18,8 +19,17 @@ const styles = StyleSheet.create({
   competencesBloc: { marginBottom: 24 },
   competencesTitre: { fontSize: 9.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 },
   grilleCompetences: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  carteCompetence: { width: "31%", flexDirection: "row", alignItems: "center", gap: 6, border: "1px solid #3D4B5C22", borderRadius: 6, padding: 6 },
-  pastilleCompetence: { width: 20, height: 20, borderRadius: 10 },
+  carteCompetence: {
+    width: "31%",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "#3D4B5C22",
+    borderRadius: 6,
+    padding: 6,
+  },
   nomCompetence: { fontSize: 7.5, fontWeight: 700 },
   section: { marginBottom: 18 },
   sectionTitre: { fontSize: 9.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 },
@@ -33,6 +43,8 @@ const styles = StyleSheet.create({
 });
 
 const TYPES_EN_BADGES = ["LANGUES", "CENTRES_INTERET"];
+// Circonférence d'un cercle de rayon 15 (2 * PI * 15), identique au calcul du template HTML
+const CIRCONFERENCE_ANNEAU = 94.2;
 
 function IconeMail() {
   return (
@@ -61,6 +73,32 @@ function IconeLieu() {
     <Svg viewBox="0 0 24 24" style={{ width: 8, height: 8 }}>
       <Path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="#3D4B5C" strokeWidth={2} fill="none" />
       <Circle cx={12} cy={10} r={3} stroke="#3D4B5C" strokeWidth={2} fill="none" />
+    </Svg>
+  );
+}
+
+/**
+ * Anneau de progression de compétence — équivalent PDF de l'anneau SVG
+ * du template HTML (cercle avec stroke-dasharray proportionnel au niveau).
+ * Remplace l'ancienne version PDF qui utilisait un carré à opacité
+ * variable, ce qui ne correspondait pas du tout au design du template.
+ */
+function AnneauCompetence({ niveau, couleurAccent }: { niveau: number; couleurAccent: string }) {
+  const longueurRemplie = (niveau / 100) * CIRCONFERENCE_ANNEAU;
+  return (
+    <Svg viewBox="0 0 36 36" style={{ width: 20, height: 20 }}>
+      <Circle cx={18} cy={18} r={15} fill="none" stroke={`${couleurAccent}25`} strokeWidth={4} />
+      <Circle
+        cx={18}
+        cy={18}
+        r={15}
+        fill="none"
+        stroke={couleurAccent}
+        strokeWidth={4}
+        strokeDasharray={`${longueurRemplie} ${CIRCONFERENCE_ANNEAU}`}
+        strokeLinecap="round"
+        transform="rotate(-90 18 18)"
+      />
     </Svg>
   );
 }
@@ -95,8 +133,9 @@ function taillePdf(taille: string): number {
   return correspondances[taille] ?? 10;
 }
 
-export function PortfolioPdf({ informations, sections, couleurAccent, alignementTexte, tailleTexte }: ProprietesTemplate) {
+export function PortfolioPdf({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
+  const familleTexte = obtenirFamillePolicePdf(police);
   const sectionsVisibles = sections.filter((s) => s.estVisible);
   const sectionCompetences = sectionsVisibles.find((s) => s.type === "COMPETENCES");
   const sectionsBadges = sectionsVisibles.filter((s) => TYPES_EN_BADGES.includes(s.type));
@@ -106,7 +145,7 @@ export function PortfolioPdf({ informations, sections, couleurAccent, alignement
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, { fontFamily: familleTexte }]}>
         <View style={styles.header}>
           {informations.photoUrl && (
             /* eslint-disable-next-line jsx-a11y/alt-text -- Image de @react-pdf/renderer, pas de HTML : pas de prop alt disponible */
@@ -168,7 +207,7 @@ export function PortfolioPdf({ informations, sections, couleurAccent, alignement
                 const niveau = obtenirNiveau(item.donneesJson);
                 return (
                   <View key={item.id} style={styles.carteCompetence}>
-                    <View style={[styles.pastilleCompetence, { backgroundColor: `${couleurAccent}${Math.round((niveau / 100) * 255).toString(16).padStart(2, "0")}` }]} />
+                    <AnneauCompetence niveau={niveau} couleurAccent={couleurAccent} />
                     <Text style={styles.nomCompetence}>{item.titre}</Text>
                   </View>
                 );

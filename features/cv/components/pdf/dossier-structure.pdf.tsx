@@ -1,8 +1,9 @@
 import { Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/renderer";
 import type { ProprietesTemplate } from "@/features/cv/components/templates/types";
+import { obtenirFamillePolicePdf } from "@/features/cv/components/pdf/registre-polices-pdf";
 
 const styles = StyleSheet.create({
-  page: { fontSize: 10, fontFamily: "Helvetica", color: "#161B22", paddingHorizontal: 44, paddingVertical: 44 },
+  page: { fontSize: 10, color: "#161B22", paddingHorizontal: 44, paddingVertical: 44 },
   cadre: { borderWidth: 1.5, padding: 18, flexDirection: "row", alignItems: "center", gap: 14 },
   photo: { width: 64, height: 64, borderRadius: 4 },
   nom: { fontSize: 20, fontWeight: 700 },
@@ -50,13 +51,14 @@ function taillePdf(taille: string): number {
   return correspondances[taille] ?? 10;
 }
 
-export function DossierStructurePdf({ informations, sections, couleurAccent, alignementTexte, tailleTexte }: ProprietesTemplate) {
+export function DossierStructurePdf({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
+  const familleTexte = obtenirFamillePolicePdf(police);
   const sectionsVisibles = sections.filter((s) => s.estVisible);
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, { fontFamily: familleTexte }]}>
         <View style={[styles.cadre, { borderColor: couleurAccent, backgroundColor: `${couleurAccent}12` }]}>
           {informations.photoUrl && (
             /* eslint-disable-next-line jsx-a11y/alt-text -- Image de @react-pdf/renderer, pas de HTML : pas de prop alt disponible */

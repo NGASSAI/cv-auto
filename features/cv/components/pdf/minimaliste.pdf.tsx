@@ -1,14 +1,15 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import type { ProprietesTemplate } from "@/features/cv/components/templates/types";
+import { obtenirFamillePolicePdf } from "@/features/cv/components/pdf/registre-polices-pdf";
 
 const styles = StyleSheet.create({
-  page: { paddingTop: 36, paddingHorizontal: 48, paddingBottom: 48, fontSize: 10, fontFamily: "Helvetica", color: "#161B22" },
+  page: { paddingTop: 36, paddingHorizontal: 48, paddingBottom: 48, fontSize: 10, color: "#161B22" },
   header: { marginBottom: 24 },
   nom: { fontSize: 26, fontWeight: 400 },
   poste: { fontSize: 10, color: "#3D4B5C", marginTop: 6 },
   contactRow: { flexDirection: "row", gap: 14, marginTop: 12 },
   contactItem: { fontSize: 8.5, color: "#3D4B5C" },
-resume: { color: "#161B22", marginBottom: 30, lineHeight: 1.5, maxWidth: 340 },
+  resume: { color: "#161B22", marginBottom: 30, lineHeight: 1.5, maxWidth: 340 },
   section: { marginBottom: 18 },
   sectionTitre: { fontSize: 8.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, marginBottom: 12 },
   itemRow: { flexDirection: "row", gap: 14, marginBottom: 14 },
@@ -17,7 +18,14 @@ resume: { color: "#161B22", marginBottom: 30, lineHeight: 1.5, maxWidth: 340 },
   itemSousTitre: { fontSize: 8.5, color: "#3D4B5C", marginTop: 2 },
   itemDescription: { fontSize: 8.5, color: "#161B22", marginTop: 4, lineHeight: 1.4 },
   badgeRow: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
-  badge: { fontSize: 8, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10 },
+  badge: {
+    fontSize: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderStyle: "solid",
+  },
   barre: { height: 2, width: 40, marginTop: 20 },
 });
 
@@ -41,12 +49,14 @@ function taillePdf(taille: string): number {
   const correspondances: Record<string, number> = { petite: 8.5, moyenne: 10, grande: 11.5 };
   return correspondances[taille] ?? 10;
 }
-export function MinimalistePdf({ informations, sections, couleurAccent, alignementTexte, tailleTexte }: ProprietesTemplate) {
+
+export function MinimalistePdf({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
+  const familleTexte = obtenirFamillePolicePdf(police);
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, { fontFamily: familleTexte }]}>
         <View style={styles.header}>
           <Text style={styles.nom}>{nomComplet || "Votre nom"}</Text>
           {informations.titrePoste && <Text style={styles.poste}>{informations.titrePoste}</Text>}
@@ -58,10 +68,10 @@ export function MinimalistePdf({ informations, sections, couleurAccent, aligneme
         </View>
 
         {informations.resume && (
-  <Text style={[styles.resume, { textAlign: alignementPdf(alignementTexte), fontSize: taillePdf(tailleTexte) }]}>
-    {informations.resume}
-  </Text>
-)}
+          <Text style={[styles.resume, { textAlign: alignementPdf(alignementTexte), fontSize: taillePdf(tailleTexte) }]}>
+            {informations.resume}
+          </Text>
+        )}
 
         {sections.filter((s) => s.estVisible).map((section) => (
           <View key={section.id} style={styles.section}>
@@ -70,7 +80,7 @@ export function MinimalistePdf({ informations, sections, couleurAccent, aligneme
             {TYPES_EN_BADGES.includes(section.type) ? (
               <View style={styles.badgeRow}>
                 {section.items.map((item) => (
-                  <Text key={item.id} style={[styles.badge, { border: `1px solid ${couleurAccent}`, color: couleurAccent }]}>
+                  <Text key={item.id} style={[styles.badge, { borderColor: couleurAccent, color: couleurAccent }]}>
                     {item.titre}
                   </Text>
                 ))}

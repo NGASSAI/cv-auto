@@ -1,17 +1,33 @@
 import { Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/renderer";
 import type { ProprietesTemplate } from "@/features/cv/components/templates/types";
+import { obtenirFamillePolicePdf } from "@/features/cv/components/pdf/registre-polices-pdf";
 
 const styles = StyleSheet.create({
-  page: { fontSize: 10, fontFamily: "Helvetica", color: "#161B22", paddingHorizontal: 48, paddingVertical: 44 },
+  page: { fontSize: 10, color: "#161B22", paddingHorizontal: 48, paddingVertical: 44 },
   photoWrap: { position: "absolute", top: 44, right: 48 },
-  photo: { width: 48, height: 48, borderRadius: 24, border: "1px solid #3D4B5C33" },
+  photo: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "#3D4B5C33",
+  },
   nom: { fontSize: 22, fontWeight: 700 },
   poste: { fontSize: 9.5, marginTop: 5, color: "#3D4B5C", letterSpacing: 0.5 },
   contactRow: { flexDirection: "row", flexWrap: "wrap", gap: 14, marginTop: 12 },
   contactItem: { fontSize: 8, color: "#3D4B5C" },
   resume: { color: "#3D4B5C", marginTop: 18, lineHeight: 1.5 },
   section: { marginTop: 20 },
-  sectionTitre: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, paddingBottom: 6, borderBottom: "1px solid" },
+  sectionTitre: {
+    fontSize: 9,
+    fontWeight: 700,
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    paddingBottom: 6,
+    borderBottomWidth: 1,
+    borderBottomStyle: "solid",
+  },
   itemsWrap: { marginTop: 12 },
   item: { marginBottom: 12 },
   itemHeader: { flexDirection: "row", justifyContent: "space-between" },
@@ -45,12 +61,13 @@ function taillePdf(taille: string): number {
   return correspondances[taille] ?? 10;
 }
 
-export function ExecutifPdf({ informations, sections, couleurAccent, alignementTexte, tailleTexte }: ProprietesTemplate) {
+export function ExecutifPdf({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
+  const familleTexte = obtenirFamillePolicePdf(police);
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, { fontFamily: familleTexte }]}>
         {informations.photoUrl && (
           <View style={styles.photoWrap}>
             {/* eslint-disable-next-line jsx-a11y/alt-text -- Image de @react-pdf/renderer, pas de HTML : pas de prop alt disponible */}

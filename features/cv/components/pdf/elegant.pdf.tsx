@@ -1,17 +1,25 @@
 import { Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/renderer";
 import type { ProprietesTemplate } from "@/features/cv/components/templates/types";
+import { obtenirFamillePolicePdf } from "@/features/cv/components/pdf/registre-polices-pdf";
 
 const styles = StyleSheet.create({
-  page: { fontSize: 10, fontFamily: "Helvetica", color: "#161B22" },
+  page: { fontSize: 10, color: "#161B22" },
   bandeau: { paddingTop: 24, paddingBottom: 28, paddingHorizontal: 36, color: "#FFFFFF" },
   nom: { fontSize: 26, fontWeight: 700 },
   poste: { fontSize: 10, marginTop: 4, opacity: 0.9 },
   contactRow: { flexDirection: "row", gap: 12, marginTop: 12 },
   contactItem: { fontSize: 8.5, opacity: 0.85 },
   photoWrap: { marginTop: -40, marginLeft: 36, marginBottom: 8 },
-  photo: { width: 76, height: 76, borderRadius: 38, border: "3px solid white" },
+  photo: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    borderWidth: 3,
+    borderStyle: "solid",
+    borderColor: "#FFFFFF",
+  },
   contenu: { paddingHorizontal: 36, paddingTop: 16 },
-resume: { color: "#3D4B5C", marginBottom: 20, lineHeight: 1.5, maxWidth: 380 },
+  resume: { color: "#3D4B5C", marginBottom: 20, lineHeight: 1.5, maxWidth: 380 },
   section: { marginBottom: 12 },
   sectionTitreRow: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 10 },
   trait: { width: 18, height: 1 },
@@ -47,12 +55,14 @@ function taillePdf(taille: string): number {
   const correspondances: Record<string, number> = { petite: 8.5, moyenne: 10, grande: 11.5 };
   return correspondances[taille] ?? 10;
 }
-export function ElegantPdf({ informations, sections, couleurAccent, alignementTexte, tailleTexte }: ProprietesTemplate) {
+
+export function ElegantPdf({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
+  const familleTexte = obtenirFamillePolicePdf(police);
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={[styles.page, { fontFamily: familleTexte }]}>
         <View style={[styles.bandeau, { backgroundColor: couleurAccent }]}>
           <Text style={styles.nom}>{nomComplet || "Votre nom"}</Text>
           {informations.titrePoste && <Text style={styles.poste}>{informations.titrePoste}</Text>}
@@ -62,19 +72,19 @@ export function ElegantPdf({ informations, sections, couleurAccent, alignementTe
             {informations.adresse && <Text style={styles.contactItem}>{informations.adresse}</Text>}
           </View>
         </View>
-            {informations.photoUrl && (
-        <View style={styles.photoWrap}>
+        {informations.photoUrl && (
+          <View style={styles.photoWrap}>
             {/* eslint-disable-next-line jsx-a11y/alt-text -- Image de @react-pdf/renderer, pas de HTML : pas de prop alt disponible */}
             <Image src={informations.photoUrl} style={styles.photo} />
-        </View>
-            )}
+          </View>
+        )}
 
         <View style={styles.contenu}>
           {informations.resume && (
-  <Text style={[styles.resume, { textAlign: alignementPdf(alignementTexte), fontSize: taillePdf(tailleTexte) }]}>
-    {informations.resume}
-  </Text>
-)}
+            <Text style={[styles.resume, { textAlign: alignementPdf(alignementTexte), fontSize: taillePdf(tailleTexte) }]}>
+              {informations.resume}
+            </Text>
+          )}
 
           {sections.filter((s) => s.estVisible).map((section) => (
             <View key={section.id} style={styles.section}>
