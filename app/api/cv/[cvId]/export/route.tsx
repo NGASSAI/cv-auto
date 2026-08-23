@@ -7,9 +7,8 @@ import { genererTokenImpression } from "@/features/cv/lib/token-impression";
 
 /**
  * L'URL de base Browserless dépend de la région assignée à ton compte
- * (visible dans ton dashboard Browserless, ex: production-sfo,
- * production-lon, etc.). On la rend configurable via variable
- * d'environnement pour ne pas la coder en dur, avec un défaut au cas où.
+ * (visible dans ton dashboard Browserless). Configurable via variable
+ * d'environnement pour ne pas la coder en dur.
  */
 const URL_BASE_BROWSERLESS = process.env.BROWSERLESS_BASE_URL ?? "https://production-sfo.browserless.io";
 
@@ -50,6 +49,16 @@ export async function GET(
     const tokenImpression = genererTokenImpression(cvId, session.user.id);
     const urlImpression = new URL(`/imprimer/cv/${cvId}`, request.nextUrl.origin);
     urlImpression.searchParams.set("token", tokenImpression);
+
+    // Contourne le mur "Log in to Vercel" sur les déploiements Preview
+    // (Deployment Protection), pour que Browserless puisse atteindre la
+    // page d'impression sans être bloqué. Sans effet en production si
+    // la protection y est désactivée — le paramètre est juste ignoré.
+    const secretBypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    if (secretBypass) {
+      urlImpression.searchParams.set("x-vercel-protection-bypass", secretBypass);
+      urlImpression.searchParams.set("x-vercel-set-bypass-cookie", "true");
+    }
 
     const urlBrowserless = new URL("/pdf", URL_BASE_BROWSERLESS);
     urlBrowserless.searchParams.set("token", tokenBrowserless);
