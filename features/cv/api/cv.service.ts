@@ -107,9 +107,18 @@ export async function creerCV(utilisateurId: string, titre: string) {
 export async function mettreAJourCV(
   cvId: string,
   utilisateurId: string,
-  donnees: { titre?: string; templateId?: string; couleurAccent?: string }
+  donnees: {
+    titre?: string;
+    templateId?: string;
+    couleurAccent?: string;
+    police?: string;
+    alignementTexte?: string;
+    tailleTexte?: string;
+  }
 ) {
-  const cv = await prisma.cV.findUnique({ where: { id: cvId } });
+  const cv = await prisma.cV.findUnique({
+    where: { id: cvId },
+  });
 
   if (!cv) {
     throw new ErreurCV("CV introuvable");
@@ -119,16 +128,20 @@ export async function mettreAJourCV(
     throw new ErreurCV("Vous n'avez pas accès à ce CV");
   }
 
-  if (donnees.templateId) {
-    await verifierAccesPremiumSiNecessaire(utilisateurId, {
-      templateId: donnees.templateId,
-    });
-  }
+  await verifierAccesPremiumSiNecessaire(utilisateurId, {
+    templateId: donnees.templateId,
+    police: donnees.police,
+    alignementTexte: donnees.alignementTexte,
+    tailleTexte: donnees.tailleTexte,
+  });
 
   const miseAJour: {
     titre?: string;
     templateId?: string;
     couleurAccent?: string;
+    police?: string;
+    alignementTexte?: string;
+    tailleTexte?: string;
   } = {};
 
   if (donnees.titre !== undefined) {
@@ -141,6 +154,18 @@ export async function mettreAJourCV(
 
   if (donnees.couleurAccent !== undefined) {
     miseAJour.couleurAccent = donnees.couleurAccent;
+  }
+
+  if (donnees.police !== undefined) {
+    miseAJour.police = donnees.police;
+  }
+
+  if (donnees.alignementTexte !== undefined) {
+    miseAJour.alignementTexte = donnees.alignementTexte;
+  }
+
+  if (donnees.tailleTexte !== undefined) {
+    miseAJour.tailleTexte = donnees.tailleTexte;
   }
 
   return prisma.cV.update({
