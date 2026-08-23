@@ -120,7 +120,6 @@ export async function GET(
             left: "0.3cm",
           },
         },
-        waitFor: 2000, // Attendre 2 secondes pour le chargement des polices
       }),
     });
 
