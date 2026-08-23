@@ -48,7 +48,28 @@ export function EditeurCV({ cvInitial, estPremium, estSuggestionsIA }: EditeurCV
 
       if (!reponse.ok) {
         const donnees = await reponse.json();
-        toast.error(donnees.erreur ?? "Impossible de télécharger le CV");
+        
+        if (donnees.estGratuit && donnees.telechargementsEpuises) {
+          toast.error("Export gratuit épuisé. Passez en Premium pour plus de téléchargements.", {
+            duration: 6000,
+            action: {
+              label: "Voir les offres",
+              onClick: () => {
+                // Ouvrir le dialogue premium si disponible
+                const boutonPremium = document.querySelector('[data-premium-trigger]') as HTMLButtonElement;
+                if (boutonPremium) {
+                  boutonPremium.click();
+                }
+              },
+            },
+          });
+        } else if (donnees.estPremium && donnees.telechargementsEpuises) {
+          toast.error("Limite de téléchargements atteinte. Contactez l'admin.", {
+            duration: 5000,
+          });
+        } else {
+          toast.error(donnees.erreur ?? "Impossible de télécharger le CV");
+        }
         return;
       }
 
@@ -61,6 +82,8 @@ export function EditeurCV({ cvInitial, estPremium, estSuggestionsIA }: EditeurCV
       lien.click();
       document.body.removeChild(lien);
       window.URL.revokeObjectURL(url);
+      
+      toast.success("PDF téléchargé avec succès");
     } catch {
       toast.error("Une erreur est survenue lors du téléchargement");
     } finally {

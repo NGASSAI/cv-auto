@@ -13,12 +13,12 @@ export function TemplateClassique({ informations, sections, couleurAccent, polic
       className="bg-white text-[#161B22] w-full min-h-[297mm] p-8 pt-8"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
-      <header className="text-center pb-4 mb-4" style={{ borderBottom: `2px solid ${couleurAccent}` }}>
-        <h1 className="text-4xl font-medium" style={{ fontFamily: "var(--font-display)" }}>
+      <header className="text-center pb-6 mb-6" style={{ borderBottom: `2px solid ${couleurAccent}` }}>
+        <h1 className="text-5xl font-bold" style={{ fontFamily: "var(--font-display)" }}>
           {nomComplet || "Votre nom"}
         </h1>
         {informations.titrePoste && (
-          <p className="text-base uppercase tracking-widest mt-1 text-[#3D4B5C]">
+          <p className="text-lg uppercase tracking-widest mt-2 text-[#3D4B5C] font-medium">
             {informations.titrePoste}
           </p>
         )}

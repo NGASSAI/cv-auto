@@ -69,15 +69,26 @@ export default async function PageImpressionCV({ params, searchParams }: PageImp
   return (
     <>
       <style>{`
-        @page { size: A4; margin: 0; }
+        @page { 
+          size: A4; 
+          margin: 0.5cm;
+        }
         body {
           margin: 0;
           padding: 0;
           width: 210mm;
-          /* Le contenu peut dépasser 297mm si le CV est long (voir le
-             fix min-h-[297mm] sur les templates) : on ne fixe donc
-             QUE la largeur ici, jamais la hauteur, pour ne pas
-             réintroduire de contenu coupé. */
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          font-smooth: always;
+        }
+        .bg-papier {
+          background-color: #ffffff;
+        }
+        .text-encre {
+          color: #1a1a1a;
+        }
+        .text-ardoise {
+          color: #4a5568;
         }
       `}</style>
       <ComposantTemplate

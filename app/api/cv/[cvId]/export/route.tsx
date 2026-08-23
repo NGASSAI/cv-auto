@@ -43,9 +43,36 @@ export async function GET(
       where: { utilisateurId: session.user.id },
     });
 
+    const estPremium = abonnement && abonnement.statut === "ACTIF" && abonnement.dateFin && abonnement.dateFin > new Date();
+    
+    if (!estPremium) {
+      // Mode gratuit : vérifier si déjà exporté
+      const dejaExporte = await prisma.abonnement.findFirst({
+        where: { 
+          utilisateurId: session.user.id,
+          telechargementsRestants: { lt: 1 }
+        },
+      });
+
+      if (dejaExporte) {
+        return NextResponse.json(
+          { 
+            erreur: "Votre export PDF gratuit a été utilisé. Pour exporter à nouveau, passez en mode Premium avec accès à plusieurs téléchargements.",
+            estGratuit: true,
+            telechargementsEpuises: true
+          },
+          { status: 403 }
+        );
+      }
+    }
+
     if (abonnement && abonnement.telechargementsRestants <= 0) {
       return NextResponse.json(
-        { erreur: "Vous avez atteint votre limite de téléchargements. Contactez l'admin pour augmenter votre quota." },
+        { 
+          erreur: "Vous avez atteint votre limite de téléchargements. Contactez l'admin pour augmenter votre quota ou choisir un abonnement supérieur.",
+          estPremium: true,
+          telechargementsEpuises: true
+        },
         { status: 403 }
       );
     }
@@ -85,6 +112,13 @@ export async function GET(
           format: "A4",
           printBackground: true,
           preferCSSPageSize: true,
+          scale: 1.5, // Améliore la qualité du rendu
+          margin: {
+            top: "0.5cm",
+            right: "0.5cm",
+            bottom: "0.5cm",
+            left: "0.5cm",
+          },
         },
       }),
     });

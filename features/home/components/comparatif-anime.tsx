@@ -7,7 +7,7 @@ const AVANTAGES_GRATUIT = [
   "4 modèles professionnels",
   "Personnalisation de la couleur d'accent",
   "Export PDF illimité",
-  "Sections et expériences illimitées",
+  "Sections et expériences limitées",
 ];
 
 const AVANTAGES_PREMIUM = [

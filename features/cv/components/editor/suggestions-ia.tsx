@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useEditeurCVStore } from "@/features/cv/stores/cv-editor.store";
 
 interface SuggestionsIAProps {
   titrePoste: string | null;
@@ -21,15 +22,15 @@ interface SuggestionsIAProps {
     titrePoste: string | null;
   };
   onResumeChange: (resume: string) => void;
-  onCompetencesChange: (competences: string[]) => void;
 }
 
-export function SuggestionsIA({ titrePoste, informations, onResumeChange, onCompetencesChange }: SuggestionsIAProps) {
+export function SuggestionsIA({ titrePoste, informations, onResumeChange }: SuggestionsIAProps) {
   const [dialogueOuvert, setDialogueOuvert] = useState(false);
   const [generationEnCours, setGenerationEnCours] = useState(false);
   const [suggestionsCompetences, setSuggestionsCompetences] = useState<string[]>([]);
   const [suggestionsResume, setSuggestionsResume] = useState<string>("");
   const [resumeCopie, setResumeCopie] = useState(false);
+  const ajouterCompetences = useEditeurCVStore((etat) => etat.ajouterCompetences);
 
   async function genererSuggestions() {
     if (!titrePoste) {
@@ -96,9 +97,24 @@ export function SuggestionsIA({ titrePoste, informations, onResumeChange, onComp
     setTimeout(() => setResumeCopie(false), 2000);
   }
 
-  function ajouterCompetence(competence: string) {
-    onCompetencesChange([competence]);
-    toast.success(`"${competence}" ajoutée aux compétences`);
+  async function ajouterCompetence(competence: string) {
+    try {
+      await ajouterCompetences([competence]);
+      toast.success(`"${competence}" ajoutée aux compétences`);
+    } catch (error) {
+      console.error("Erreur ajout compétence:", error);
+      toast.error("Erreur lors de l'ajout de la compétence");
+    }
+  }
+
+  async function ajouterToutesCompetences() {
+    try {
+      await ajouterCompetences(suggestionsCompetences);
+      toast.success(`${suggestionsCompetences.length} compétences ajoutées`);
+    } catch (error) {
+      console.error("Erreur ajout compétences:", error);
+      toast.error("Erreur lors de l'ajout des compétences");
+    }
   }
 
   return (
@@ -143,7 +159,16 @@ export function SuggestionsIA({ titrePoste, informations, onResumeChange, onComp
           {/* Suggestions de compétences */}
           {suggestionsCompetences.length > 0 && (
             <div>
-              <h3 className="text-sm font-semibold mb-3">Compétences suggérées</h3>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-semibold">Compétences suggérées</h3>
+                <button
+                  type="button"
+                  onClick={ajouterToutesCompetences}
+                  className="text-xs text-primary hover:underline"
+                >
+                  Ajouter toutes
+                </button>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {suggestionsCompetences.map((competence) => (
                   <button

@@ -38,7 +38,6 @@ export function FormulaireInformations({ estPremium, estSuggestionsIA }: { estPr
             titrePoste={cv.informations.titrePoste}
             informations={cv.informations}
             onResumeChange={(resume) => mettreAJourInformations("resume", resume)}
-            onCompetencesChange={(competences) => ajouterCompetences(competences)}
           />
         </div>
       )}
