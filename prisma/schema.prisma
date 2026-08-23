@@ -65,6 +65,7 @@ model Abonnement {
   stripeSubscriptionId String?          @unique
   dateDebut            DateTime?        // Date d'activation du Premium
   dateFin              DateTime?        // Date d'expiration calculée
+  telechargementsRestants Int           @default(1) // Nombre de téléchargements restants
   creeLe               DateTime         @default(now())
   misAJourLe           DateTime         @updatedAt
   utilisateur          Utilisateur      @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)

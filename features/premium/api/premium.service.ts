@@ -10,7 +10,8 @@ export class ErreurPremium extends Error {}
  */
 export async function creerDemandePremium(
   utilisateurId: string,
-  message?: string
+  message?: string,
+  formule?: string
 ) {
   const demandeExistante = await prisma.demandePremium.findFirst({
     where: {
@@ -27,13 +28,15 @@ export async function creerDemandePremium(
     data: {
       utilisateurId,
       message,
+      noteAdmin: formule, // Utiliser noteAdmin pour stocker la formule demandée
     },
   });
 
   const utilisateur = await prisma.utilisateur.findUnique({ where: { id: utilisateurId } });
+  const formuleLabel = formule ? ` (${formule})` : "";
   await notifierAdmins(
     "Nouvelle demande Premium",
-    `${utilisateur?.nom ?? utilisateur?.email} souhaite passer en Premium`,
+    `${utilisateur?.nom ?? utilisateur?.email} souhaite passer en Premium${formuleLabel}`,
     "/admin/demandes"
   );
 

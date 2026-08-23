@@ -74,7 +74,7 @@ export function TemplatePortfolio({
 
       <div className="px-10 pb-10">
         {informations.resume && (
-          <p className={`${tailleResume(tailleTexte)} ${classeAlignement(alignementTexte)} mb-6 leading-relaxed text-ardoise`}>
+          <p className={`${tailleResume(tailleTexte)} ${classeAlignement(alignementTexte)} mb-6 leading-relaxed text-ardoise whitespace-pre-wrap break-words`}>
             {informations.resume}
           </p>
         )}

@@ -118,7 +118,7 @@ export function CarteSection({ section, poigneeDragProps }: CarteSectionProps) {
       {ouverte && (
         <div className="p-3 space-y-2">
           {section.items.map((item) => (
-            <FormulaireItem key={item.id} sectionId={section.id} item={item} />
+            <FormulaireItem key={item.id} sectionId={section.id} sectionType={section.type} item={item} />
           ))}
 
           <Button

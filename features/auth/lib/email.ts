@@ -5,11 +5,18 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 /**
  * Envoie l'email de réinitialisation de mot de passe
  * contenant le lien avec le token généré.
+ * Retourne true si l'email a été envoyé, false sinon.
  */
 export async function envoyerEmailReinitialisation(
   email: string,
   token: string
-): Promise<void> {
+): Promise<boolean> {
+  // Vérifier si l'API Resend est configurée
+  if (!process.env.RESEND_API_KEY) {
+    console.warn("RESEND_API_KEY n'est pas configuré - email de réinitialisation non envoyé");
+    return false;
+  }
+
   const lienReinitialisation = `${process.env.NEXT_PUBLIC_URL_APP}/reinitialiser/${token}`;
 
   const { error } = await resend.emails.send({
@@ -34,6 +41,9 @@ export async function envoyerEmailReinitialisation(
   });
 
   if (error) {
-    throw new Error(`Échec de l'envoi de l'email : ${error.message}`);
+    console.error(`Échec de l'envoi de l'email via Resend : ${error.message}`);
+    return false;
   }
+
+  return true;
 }

@@ -42,16 +42,16 @@ export function TemplateElegant({ informations, sections, couleurAccent, police,
       </header>
 
       {informations.photoUrl && (
-        <div className="relative -mt-12 ml-10 mb-2">
+        <div className="relative -mt-14 ml-10 mb-4">
           <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg relative">
             <Image src={informations.photoUrl} alt={nomComplet} fill unoptimized className="object-cover" />
           </div>
         </div>
       )}
 
-      <div className={informations.photoUrl ? "px-10 pt-4" : "px-10 pt-10"}>
+      <div className={informations.photoUrl ? "px-10 pt-6" : "px-10 pt-10"}>
         {informations.resume && (
-          <p className={`${tailleResume(tailleTexte)} leading-relaxed ${classeAlignement(alignementTexte)} italic mb-7 text-[#3D4B5C] px-4`}>{informations.resume}</p>
+          <p className={`${tailleResume(tailleTexte)} leading-relaxed ${classeAlignement(alignementTexte)} italic mb-7 text-[#3D4B5C] px-4 whitespace-pre-wrap break-words`}>{informations.resume}</p>
         )}
 
         <div className="space-y-5">

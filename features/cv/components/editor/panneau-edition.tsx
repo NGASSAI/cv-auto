@@ -11,16 +11,16 @@ export function PanneauEdition({ estPremium, estSuggestionsIA }: { estPremium: b
   if (!cv) return null;
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-6 pb-8">
       <section>
-        <h2 className="font-display text-lg font-medium mb-4">
+        <h2 className="font-display text-base font-medium mb-3 text-foreground">
           Informations personnelles
         </h2>
         <FormulaireInformations estPremium={estPremium} estSuggestionsIA={estSuggestionsIA} />
       </section>
 
       <section>
-        <h2 className="font-display text-lg font-medium mb-4">Sections</h2>
+        <h2 className="font-display text-base font-medium mb-3 text-foreground">Sections</h2>
         <ListeSections />
         <div className="mt-3">
           <AjouterSection />

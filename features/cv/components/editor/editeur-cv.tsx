@@ -93,7 +93,7 @@ export function EditeurCV({ cvInitial, estPremium, estSuggestionsIA }: EditeurCV
   <span className="hidden sm:inline">Télécharger</span>
 </Button>
    </div>
-  
+
         </div>
       </header>
 
@@ -102,7 +102,9 @@ export function EditeurCV({ cvInitial, estPremium, estSuggestionsIA }: EditeurCV
           <PanneauEdition estPremium={estPremium} estSuggestionsIA={estSuggestionsIA} />
         </div>
         <div className="flex-1 overflow-y-auto p-8 bg-muted/30">
-          <ApercuLive />
+          <div className="min-h-fit">
+            <ApercuLive />
+          </div>
         </div>
       </div>
 
@@ -117,7 +119,11 @@ export function EditeurCV({ cvInitial, estPremium, estSuggestionsIA }: EditeurCV
         </TabsContent>
 
         <TabsContent value="apercu" className="flex-1 min-h-0 overflow-y-auto p-4 bg-muted/30 mt-0">
-          <ApercuLive />
+          <div className="min-h-fit flex justify-center">
+            <div className="w-full max-w-[600px]">
+              <ApercuLive />
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

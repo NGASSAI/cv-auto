@@ -59,18 +59,39 @@ export async function traiterDemandePremium(
   );
 
   if (decision === "APPROUVEE") {
+    // Récupérer la formule demandée depuis noteAdmin
+    const formuleDemandee = demande.noteAdmin as FormulePremium | null;
+    
+    // Déterminer le nombre de téléchargements selon la formule
+    let telechargementsRestants = 1; // Défaut pour gratuit
+    if (formuleDemandee === "TROIS_JOURS_600") {
+      telechargementsRestants = 1;
+    } else if (formuleDemandee === "DEUX_SEMAINES_1000") {
+      telechargementsRestants = 3;
+    } else if (formuleDemandee === "MENSUEL_1500") {
+      telechargementsRestants = 4;
+    }
+
+    const dateFin = formuleDemandee ? calculerDateExpiration(formuleDemandee) : undefined;
+    
     await prisma.abonnement.upsert({
       where: { utilisateurId: demande.utilisateurId },
       create: {
         utilisateurId: demande.utilisateurId,
         plan: "MENSUEL",
         statut: "ACTIF",
+        formulePremium: formuleDemandee,
         dateDebut: new Date(),
+        dateFin,
+        telechargementsRestants,
       },
       update: {
         plan: "MENSUEL",
         statut: "ACTIF",
+        formulePremium: formuleDemandee,
         dateDebut: new Date(),
+        dateFin,
+        telechargementsRestants,
       },
     });
   }
@@ -121,6 +142,16 @@ export async function togglerPremium(utilisateurId: string, activer: boolean, fo
     // Activation avec formule et dates
     const dateFin = formule ? calculerDateExpiration(formule as FormulePremium) : undefined;
     
+    // Déterminer le nombre de téléchargements selon la formule
+    let telechargementsRestants = 1; // Défaut pour gratuit
+    if (formule === "TROIS_JOURS_600") {
+      telechargementsRestants = 1;
+    } else if (formule === "DEUX_SEMAINES_1000") {
+      telechargementsRestants = 3;
+    } else if (formule === "MENSUEL_1500") {
+      telechargementsRestants = 4;
+    }
+    
     await prisma.abonnement.upsert({
       where: { utilisateurId },
       create: {
@@ -130,6 +161,7 @@ export async function togglerPremium(utilisateurId: string, activer: boolean, fo
         formulePremium: formule as FormulePremium,
         dateDebut: new Date(),
         dateFin,
+        telechargementsRestants,
       },
       update: {
         plan: "MENSUEL",
@@ -137,6 +169,7 @@ export async function togglerPremium(utilisateurId: string, activer: boolean, fo
         formulePremium: formule as FormulePremium,
         dateDebut: new Date(),
         dateFin,
+        telechargementsRestants,
       },
     });
 
@@ -147,13 +180,14 @@ export async function togglerPremium(utilisateurId: string, activer: boolean, fo
       "/dashboard"
     );
   } else {
-    // Désactivation
+    // Désactivation - remettre à l'état gratuit
     await prisma.abonnement.update({
       where: { utilisateurId },
       data: {
         statut: "ANNULE",
         formulePremium: null,
         dateFin: null,
+        telechargementsRestants: 1, // Retour à la limite gratuite
       },
     });
 

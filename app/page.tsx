@@ -50,15 +50,31 @@ export default async function PageAccueil() {
           CV Auto
         </Link>
           <nav className="flex items-center gap-2 sm:gap-4">
-            <Link href="/connexion" className="text-xs sm:text-sm font-medium text-ardoise hover:text-encre">
-              Connexion
-            </Link>
-            <Link
-              href="/inscription"
-              className="rounded-full bg-primary px-3 py-1.5 text-xs sm:px-5 sm:py-2 sm:text-sm font-medium text-white hover:opacity-90"
-            >
-              Créer mon CV
-            </Link>
+            {estConnecte ? (
+              <>
+                <Link href="/dashboard" className="text-xs sm:text-sm font-medium text-ardoise hover:text-encre">
+                  Mon espace
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="rounded-full bg-primary px-3 py-1.5 text-xs sm:px-5 sm:py-2 sm:text-sm font-medium text-white hover:opacity-90"
+                >
+                  Mes CVs
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href="/connexion" className="text-xs sm:text-sm font-medium text-ardoise hover:text-encre">
+                  Connexion
+                </Link>
+                <Link
+                  href="/inscription"
+                  className="rounded-full bg-primary px-3 py-1.5 text-xs sm:px-5 sm:py-2 sm:text-sm font-medium text-white hover:opacity-90"
+                >
+                  Créer mon CV
+                </Link>
+              </>
+            )}
           </nav>
       </header>
 

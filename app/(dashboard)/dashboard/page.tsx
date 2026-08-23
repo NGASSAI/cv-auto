@@ -19,7 +19,7 @@ export default async function PageDashboard() {
     recupererDerniereDemandePremium(session!.user.id),
     prisma.utilisateur.findUnique({
       where: { id: session!.user.id },
-      select: { role: true, abonnement: { select: { statut: true } } },
+      select: { role: true, abonnement: { select: { statut: true, formulePremium: true } } },
     }),
   ]);
 
@@ -42,7 +42,11 @@ export default async function PageDashboard() {
   return (
     <div>
       <div className="flex justify-end mb-6">
-        <BoutonPremium statutInitial={statutInitial} utilisateurId={session!.user.id} />
+        <BoutonPremium 
+          statutInitial={statutInitial} 
+          utilisateurId={session!.user.id}
+          formuleActuelle={utilisateurAvecAbonnement?.abonnement?.formulePremium}
+        />
       </div>
 
       <TableauDeBordCV cvsInitiaux={cvsSerialisables} />

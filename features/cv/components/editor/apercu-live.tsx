@@ -12,7 +12,7 @@ export function ApercuLive() {
   const ComposantTemplate = template.composant;
 
   return (
-    <div className="w-full max-w-600px mx-auto shadow-xl">
+    <div className="w-full max-w-600px mx-auto shadow-xl min-h-fit">
       <ComposantTemplate
   informations={cv.informations}
   sections={cv.sections}

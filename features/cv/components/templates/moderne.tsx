@@ -75,7 +75,7 @@ export function TemplateModerne({ informations, sections, couleurAccent, police,
 
       <main className="flex-1 pt-5 px-7 pb-7">
         {informations.resume && (
-          <p className={`${tailleResume(tailleTexte)} leading-relaxed ${classeAlignement(alignementTexte)} italic mb-7 text-[#3D4B5C] px-4`}>{informations.resume}</p>
+          <p className={`${tailleResume(tailleTexte)} leading-relaxed ${classeAlignement(alignementTexte)} italic mb-7 text-[#3D4B5C] px-4 whitespace-pre-wrap break-words`}>{informations.resume}</p>
         )}
 
         <div className="space-y-4">

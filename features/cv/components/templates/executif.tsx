@@ -51,7 +51,7 @@ export function TemplateExecutif({
 
         {informations.resume && (
           <p
-            className={`${tailleResume(tailleTexte)} ${classeAlignement(alignementTexte)} leading-relaxed text-ardoise`}
+            className={`${tailleResume(tailleTexte)} ${classeAlignement(alignementTexte)} leading-relaxed text-ardoise whitespace-pre-wrap break-words`}
           >
             {informations.resume}
           </p>

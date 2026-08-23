@@ -4,6 +4,7 @@ import { authOptions } from "@/shared/lib/auth";
 import { obtenirParametresSite } from "@/features/admin/api/parametres.service";
 import { recupererCVComplet, ErreurCV } from "@/features/cv/api/cv.service";
 import { genererTokenImpression } from "@/features/cv/lib/token-impression";
+import { prisma } from "@/shared/lib/prisma";
 
 /**
  * L'URL de base Browserless dépend de la région assignée à ton compte
@@ -36,6 +37,18 @@ export async function GET(
     // Vérifie que le CV existe et appartient bien à l'utilisateur avant
     // d'appeler l'API externe (échec rapide, pas d'appel payant inutile).
     const cv = await recupererCVComplet(cvId, session.user.id);
+
+    // Vérifier les limites de téléchargement
+    const abonnement = await prisma.abonnement.findUnique({
+      where: { utilisateurId: session.user.id },
+    });
+
+    if (abonnement && abonnement.telechargementsRestants <= 0) {
+      return NextResponse.json(
+        { erreur: "Vous avez atteint votre limite de téléchargements. Contactez l'admin pour augmenter votre quota." },
+        { status: 403 }
+      );
+    }
 
     const tokenBrowserless = process.env.BROWSERLESS_API_TOKEN;
     if (!tokenBrowserless) {
@@ -87,6 +100,16 @@ export async function GET(
 
     const buffer = await reponseBrowserless.arrayBuffer();
     const nomFichier = `${cv.titre.replace(/[^a-z0-9]/gi, "_")}.pdf`;
+
+    // Décrémenter le compteur de téléchargements
+    if (abonnement && abonnement.telechargementsRestants > 0) {
+      await prisma.abonnement.update({
+        where: { utilisateurId: session.user.id },
+        data: {
+          telechargementsRestants: abonnement.telechargementsRestants - 1,
+        },
+      });
+    }
 
     return new NextResponse(buffer, {
       status: 200,

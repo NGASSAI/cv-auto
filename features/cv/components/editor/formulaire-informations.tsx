@@ -82,6 +82,8 @@ export function FormulaireInformations({ estPremium, estSuggestionsIA }: { estPr
           rows={4}
           value={cv.informations.resume ?? ""}
           onChange={(e) => mettreAJourInformations("resume", e.target.value)}
+          className="resize-none overflow-hidden"
+          style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
         />
       </div>
     </div>

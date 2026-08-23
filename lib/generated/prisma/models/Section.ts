@@ -441,14 +441,6 @@ export type EnumTypeSectionFieldUpdateOperationsInput = {
   set?: $Enums.TypeSection
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type SectionCreateNestedOneWithoutItemsInput = {
   create?: Prisma.XOR<Prisma.SectionCreateWithoutItemsInput, Prisma.SectionUncheckedCreateWithoutItemsInput>
   connectOrCreate?: Prisma.SectionCreateOrConnectWithoutItemsInput

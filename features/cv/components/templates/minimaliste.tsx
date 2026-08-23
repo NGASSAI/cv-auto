@@ -41,7 +41,7 @@ export function TemplateMinimaliste({ informations, sections, couleurAccent, pol
       </header>
 
       {informations.resume && (
-        <p className={`${tailleResume(tailleTexte)} leading-relaxed ${classeAlignement(alignementTexte)} italic mb-7 text-[#3D4B5C] px-4`}>
+        <p className={`${tailleResume(tailleTexte)} leading-relaxed ${classeAlignement(alignementTexte)} italic mb-7 text-[#3D4B5C] px-4 whitespace-pre-wrap break-words`}>
           {informations.resume}
         </p>
       )}

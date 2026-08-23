@@ -20,8 +20,18 @@ export type AbonnementModel = runtime.Types.Result.DefaultSelection<Prisma.$Abon
 
 export type AggregateAbonnement = {
   _count: AbonnementCountAggregateOutputType | null
+  _avg: AbonnementAvgAggregateOutputType | null
+  _sum: AbonnementSumAggregateOutputType | null
   _min: AbonnementMinAggregateOutputType | null
   _max: AbonnementMaxAggregateOutputType | null
+}
+
+export type AbonnementAvgAggregateOutputType = {
+  telechargementsRestants: number | null
+}
+
+export type AbonnementSumAggregateOutputType = {
+  telechargementsRestants: number | null
 }
 
 export type AbonnementMinAggregateOutputType = {
@@ -34,6 +44,7 @@ export type AbonnementMinAggregateOutputType = {
   stripeSubscriptionId: string | null
   dateDebut: Date | null
   dateFin: Date | null
+  telechargementsRestants: number | null
   creeLe: Date | null
   misAJourLe: Date | null
 }
@@ -48,6 +59,7 @@ export type AbonnementMaxAggregateOutputType = {
   stripeSubscriptionId: string | null
   dateDebut: Date | null
   dateFin: Date | null
+  telechargementsRestants: number | null
   creeLe: Date | null
   misAJourLe: Date | null
 }
@@ -62,11 +74,20 @@ export type AbonnementCountAggregateOutputType = {
   stripeSubscriptionId: number
   dateDebut: number
   dateFin: number
+  telechargementsRestants: number
   creeLe: number
   misAJourLe: number
   _all: number
 }
 
+
+export type AbonnementAvgAggregateInputType = {
+  telechargementsRestants?: true
+}
+
+export type AbonnementSumAggregateInputType = {
+  telechargementsRestants?: true
+}
 
 export type AbonnementMinAggregateInputType = {
   id?: true
@@ -78,6 +99,7 @@ export type AbonnementMinAggregateInputType = {
   stripeSubscriptionId?: true
   dateDebut?: true
   dateFin?: true
+  telechargementsRestants?: true
   creeLe?: true
   misAJourLe?: true
 }
@@ -92,6 +114,7 @@ export type AbonnementMaxAggregateInputType = {
   stripeSubscriptionId?: true
   dateDebut?: true
   dateFin?: true
+  telechargementsRestants?: true
   creeLe?: true
   misAJourLe?: true
 }
@@ -106,6 +129,7 @@ export type AbonnementCountAggregateInputType = {
   stripeSubscriptionId?: true
   dateDebut?: true
   dateFin?: true
+  telechargementsRestants?: true
   creeLe?: true
   misAJourLe?: true
   _all?: true
@@ -149,6 +173,18 @@ export type AbonnementAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: AbonnementAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: AbonnementSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: AbonnementMinAggregateInputType
@@ -179,6 +215,8 @@ export type AbonnementGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: AbonnementCountAggregateInputType | true
+  _avg?: AbonnementAvgAggregateInputType
+  _sum?: AbonnementSumAggregateInputType
   _min?: AbonnementMinAggregateInputType
   _max?: AbonnementMaxAggregateInputType
 }
@@ -193,9 +231,12 @@ export type AbonnementGroupByOutputType = {
   stripeSubscriptionId: string | null
   dateDebut: Date | null
   dateFin: Date | null
+  telechargementsRestants: number
   creeLe: Date
   misAJourLe: Date
   _count: AbonnementCountAggregateOutputType | null
+  _avg: AbonnementAvgAggregateOutputType | null
+  _sum: AbonnementSumAggregateOutputType | null
   _min: AbonnementMinAggregateOutputType | null
   _max: AbonnementMaxAggregateOutputType | null
 }
@@ -228,6 +269,7 @@ export type AbonnementWhereInput = {
   stripeSubscriptionId?: Prisma.StringNullableFilter<"Abonnement"> | string | null
   dateDebut?: Prisma.DateTimeNullableFilter<"Abonnement"> | Date | string | null
   dateFin?: Prisma.DateTimeNullableFilter<"Abonnement"> | Date | string | null
+  telechargementsRestants?: Prisma.IntFilter<"Abonnement"> | number
   creeLe?: Prisma.DateTimeFilter<"Abonnement"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"Abonnement"> | Date | string
   utilisateur?: Prisma.XOR<Prisma.UtilisateurScalarRelationFilter, Prisma.UtilisateurWhereInput>
@@ -243,6 +285,7 @@ export type AbonnementOrderByWithRelationInput = {
   stripeSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
   dateDebut?: Prisma.SortOrderInput | Prisma.SortOrder
   dateFin?: Prisma.SortOrderInput | Prisma.SortOrder
+  telechargementsRestants?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   utilisateur?: Prisma.UtilisateurOrderByWithRelationInput
@@ -261,6 +304,7 @@ export type AbonnementWhereUniqueInput = Prisma.AtLeast<{
   formulePremium?: Prisma.EnumFormulePremiumNullableFilter<"Abonnement"> | $Enums.FormulePremium | null
   dateDebut?: Prisma.DateTimeNullableFilter<"Abonnement"> | Date | string | null
   dateFin?: Prisma.DateTimeNullableFilter<"Abonnement"> | Date | string | null
+  telechargementsRestants?: Prisma.IntFilter<"Abonnement"> | number
   creeLe?: Prisma.DateTimeFilter<"Abonnement"> | Date | string
   misAJourLe?: Prisma.DateTimeFilter<"Abonnement"> | Date | string
   utilisateur?: Prisma.XOR<Prisma.UtilisateurScalarRelationFilter, Prisma.UtilisateurWhereInput>
@@ -276,11 +320,14 @@ export type AbonnementOrderByWithAggregationInput = {
   stripeSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
   dateDebut?: Prisma.SortOrderInput | Prisma.SortOrder
   dateFin?: Prisma.SortOrderInput | Prisma.SortOrder
+  telechargementsRestants?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
   _count?: Prisma.AbonnementCountOrderByAggregateInput
+  _avg?: Prisma.AbonnementAvgOrderByAggregateInput
   _max?: Prisma.AbonnementMaxOrderByAggregateInput
   _min?: Prisma.AbonnementMinOrderByAggregateInput
+  _sum?: Prisma.AbonnementSumOrderByAggregateInput
 }
 
 export type AbonnementScalarWhereWithAggregatesInput = {
@@ -296,6 +343,7 @@ export type AbonnementScalarWhereWithAggregatesInput = {
   stripeSubscriptionId?: Prisma.StringNullableWithAggregatesFilter<"Abonnement"> | string | null
   dateDebut?: Prisma.DateTimeNullableWithAggregatesFilter<"Abonnement"> | Date | string | null
   dateFin?: Prisma.DateTimeNullableWithAggregatesFilter<"Abonnement"> | Date | string | null
+  telechargementsRestants?: Prisma.IntWithAggregatesFilter<"Abonnement"> | number
   creeLe?: Prisma.DateTimeWithAggregatesFilter<"Abonnement"> | Date | string
   misAJourLe?: Prisma.DateTimeWithAggregatesFilter<"Abonnement"> | Date | string
 }
@@ -309,6 +357,7 @@ export type AbonnementCreateInput = {
   stripeSubscriptionId?: string | null
   dateDebut?: Date | string | null
   dateFin?: Date | string | null
+  telechargementsRestants?: number
   creeLe?: Date | string
   misAJourLe?: Date | string
   utilisateur: Prisma.UtilisateurCreateNestedOneWithoutAbonnementInput
@@ -324,6 +373,7 @@ export type AbonnementUncheckedCreateInput = {
   stripeSubscriptionId?: string | null
   dateDebut?: Date | string | null
   dateFin?: Date | string | null
+  telechargementsRestants?: number
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -337,6 +387,7 @@ export type AbonnementUpdateInput = {
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dateFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telechargementsRestants?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   utilisateur?: Prisma.UtilisateurUpdateOneRequiredWithoutAbonnementNestedInput
@@ -352,6 +403,7 @@ export type AbonnementUncheckedUpdateInput = {
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dateFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telechargementsRestants?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -366,6 +418,7 @@ export type AbonnementCreateManyInput = {
   stripeSubscriptionId?: string | null
   dateDebut?: Date | string | null
   dateFin?: Date | string | null
+  telechargementsRestants?: number
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -379,6 +432,7 @@ export type AbonnementUpdateManyMutationInput = {
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dateFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telechargementsRestants?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -393,6 +447,7 @@ export type AbonnementUncheckedUpdateManyInput = {
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dateFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telechargementsRestants?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -412,8 +467,13 @@ export type AbonnementCountOrderByAggregateInput = {
   stripeSubscriptionId?: Prisma.SortOrder
   dateDebut?: Prisma.SortOrder
   dateFin?: Prisma.SortOrder
+  telechargementsRestants?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
+}
+
+export type AbonnementAvgOrderByAggregateInput = {
+  telechargementsRestants?: Prisma.SortOrder
 }
 
 export type AbonnementMaxOrderByAggregateInput = {
@@ -426,6 +486,7 @@ export type AbonnementMaxOrderByAggregateInput = {
   stripeSubscriptionId?: Prisma.SortOrder
   dateDebut?: Prisma.SortOrder
   dateFin?: Prisma.SortOrder
+  telechargementsRestants?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
 }
@@ -440,8 +501,13 @@ export type AbonnementMinOrderByAggregateInput = {
   stripeSubscriptionId?: Prisma.SortOrder
   dateDebut?: Prisma.SortOrder
   dateFin?: Prisma.SortOrder
+  telechargementsRestants?: Prisma.SortOrder
   creeLe?: Prisma.SortOrder
   misAJourLe?: Prisma.SortOrder
+}
+
+export type AbonnementSumOrderByAggregateInput = {
+  telechargementsRestants?: Prisma.SortOrder
 }
 
 export type AbonnementCreateNestedOneWithoutUtilisateurInput = {
@@ -488,6 +554,14 @@ export type NullableEnumFormulePremiumFieldUpdateOperationsInput = {
   set?: $Enums.FormulePremium | null
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type AbonnementCreateWithoutUtilisateurInput = {
   id?: string
   plan?: $Enums.PlanAbonnement
@@ -497,6 +571,7 @@ export type AbonnementCreateWithoutUtilisateurInput = {
   stripeSubscriptionId?: string | null
   dateDebut?: Date | string | null
   dateFin?: Date | string | null
+  telechargementsRestants?: number
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -510,6 +585,7 @@ export type AbonnementUncheckedCreateWithoutUtilisateurInput = {
   stripeSubscriptionId?: string | null
   dateDebut?: Date | string | null
   dateFin?: Date | string | null
+  telechargementsRestants?: number
   creeLe?: Date | string
   misAJourLe?: Date | string
 }
@@ -539,6 +615,7 @@ export type AbonnementUpdateWithoutUtilisateurInput = {
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dateFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telechargementsRestants?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -552,6 +629,7 @@ export type AbonnementUncheckedUpdateWithoutUtilisateurInput = {
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dateDebut?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dateFin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telechargementsRestants?: Prisma.IntFieldUpdateOperationsInput | number
   creeLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   misAJourLe?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -568,6 +646,7 @@ export type AbonnementSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   stripeSubscriptionId?: boolean
   dateDebut?: boolean
   dateFin?: boolean
+  telechargementsRestants?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
   utilisateur?: boolean | Prisma.UtilisateurDefaultArgs<ExtArgs>
@@ -583,6 +662,7 @@ export type AbonnementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   stripeSubscriptionId?: boolean
   dateDebut?: boolean
   dateFin?: boolean
+  telechargementsRestants?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
   utilisateur?: boolean | Prisma.UtilisateurDefaultArgs<ExtArgs>
@@ -598,6 +678,7 @@ export type AbonnementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   stripeSubscriptionId?: boolean
   dateDebut?: boolean
   dateFin?: boolean
+  telechargementsRestants?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
   utilisateur?: boolean | Prisma.UtilisateurDefaultArgs<ExtArgs>
@@ -613,11 +694,12 @@ export type AbonnementSelectScalar = {
   stripeSubscriptionId?: boolean
   dateDebut?: boolean
   dateFin?: boolean
+  telechargementsRestants?: boolean
   creeLe?: boolean
   misAJourLe?: boolean
 }
 
-export type AbonnementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "utilisateurId" | "plan" | "statut" | "formulePremium" | "stripeCustomerId" | "stripeSubscriptionId" | "dateDebut" | "dateFin" | "creeLe" | "misAJourLe", ExtArgs["result"]["abonnement"]>
+export type AbonnementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "utilisateurId" | "plan" | "statut" | "formulePremium" | "stripeCustomerId" | "stripeSubscriptionId" | "dateDebut" | "dateFin" | "telechargementsRestants" | "creeLe" | "misAJourLe", ExtArgs["result"]["abonnement"]>
 export type AbonnementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   utilisateur?: boolean | Prisma.UtilisateurDefaultArgs<ExtArgs>
 }
@@ -643,6 +725,7 @@ export type $AbonnementPayload<ExtArgs extends runtime.Types.Extensions.Internal
     stripeSubscriptionId: string | null
     dateDebut: Date | null
     dateFin: Date | null
+    telechargementsRestants: number
     creeLe: Date
     misAJourLe: Date
   }, ExtArgs["result"]["abonnement"]>
@@ -1078,6 +1161,7 @@ export interface AbonnementFieldRefs {
   readonly stripeSubscriptionId: Prisma.FieldRef<"Abonnement", 'String'>
   readonly dateDebut: Prisma.FieldRef<"Abonnement", 'DateTime'>
   readonly dateFin: Prisma.FieldRef<"Abonnement", 'DateTime'>
+  readonly telechargementsRestants: Prisma.FieldRef<"Abonnement", 'Int'>
   readonly creeLe: Prisma.FieldRef<"Abonnement", 'DateTime'>
   readonly misAJourLe: Prisma.FieldRef<"Abonnement", 'DateTime'>
 }

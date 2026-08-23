@@ -78,7 +78,7 @@ export function TemplateDossierStructure({
 
       <div className="mt-8">
         {informations.resume && (
-          <p className={`${tailleResume(tailleTexte)} ${classeAlignement(alignementTexte)} mb-8 leading-relaxed text-ardoise`}>
+          <p className={`${tailleResume(tailleTexte)} ${classeAlignement(alignementTexte)} mb-8 leading-relaxed text-ardoise whitespace-pre-wrap break-words`}>
             {informations.resume}
           </p>
         )}

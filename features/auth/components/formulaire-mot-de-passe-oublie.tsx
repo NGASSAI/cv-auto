@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Loader2, MailCheck } from "lucide-react";
+import { Loader2, MailCheck, Copy, Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,8 @@ import {
 export function FormulaireMotDePasseOublie() {
   const [enChargement, setEnChargement] = useState(false);
   const [emailEnvoye, setEmailEnvoye] = useState<string | null>(null);
+  const [lienReinitialisation, setLienReinitialisation] = useState<string | null>(null);
+  const [copie, setCopie] = useState(false);
 
   const {
     register,
@@ -42,7 +44,11 @@ export function FormulaireMotDePasseOublie() {
         return;
       }
 
+      const donneesReponse = await reponse.json();
+      
       setEmailEnvoye(donnees.email);
+      setLienReinitialisation(donneesReponse.lienSecours);
+      toast.success("Lien de réinitialisation généré");
     } catch {
       toast.error("Une erreur est survenue, réessayez");
     } finally {
@@ -50,20 +56,60 @@ export function FormulaireMotDePasseOublie() {
     }
   }
 
+  function copierLien() {
+    if (lienReinitialisation) {
+      navigator.clipboard.writeText(lienReinitialisation);
+      setCopie(true);
+      toast.success("Lien copié !");
+      setTimeout(() => setCopie(false), 2000);
+    }
+  }
+
   // État de confirmation : remplace le formulaire une fois la demande envoyée
   if (emailEnvoye) {
     return (
-      <div className="text-center space-y-3 py-4">
+      <div className="text-center space-y-4 py-4">
         <div className="mx-auto w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center">
           <MailCheck className="w-6 h-6 text-secondary" />
         </div>
         <h2 className="font-display text-xl font-medium">
-          Vérifiez votre boîte mail
+          Lien de réinitialisation généré
         </h2>
         <p className="text-muted-foreground text-sm max-w-xs mx-auto">
           Si un compte existe pour <span className="font-medium">{emailEnvoye}</span>,
-          un lien de réinitialisation vient d&apos;être envoyé. Il est valable 1 heure.
+          un lien de réinitialisation a été généré (valable 1 heure).
         </p>
+        
+        <div className="space-y-2">
+          <Button 
+            onClick={copierLien}
+            variant="outline"
+            className="w-full"
+          >
+            {copie ? (
+              <>
+                <Check className="w-4 h-4 mr-2" />
+                Copié !
+              </>
+            ) : (
+              <>
+                <Copy className="w-4 h-4 mr-2" />
+                Copier le lien
+              </>
+            )}
+          </Button>
+          
+          <Button 
+            onClick={() => {
+              if (lienReinitialisation) {
+                window.location.href = lienReinitialisation;
+              }
+            }}
+            className="w-full"
+          >
+            Utiliser le lien maintenant
+          </Button>
+        </div>
       </div>
     );
   }

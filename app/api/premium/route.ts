@@ -36,8 +36,9 @@ export async function POST(request: NextRequest) {
   try {
     const corps = await request.json();
     const message = typeof corps?.message === "string" ? corps.message : undefined;
+    const formule = typeof corps?.formule === "string" ? corps.formule : undefined;
 
-    const demande = await creerDemandePremium(session.user.id, message);
+    const demande = await creerDemandePremium(session.user.id, message, formule);
 
     return NextResponse.json({ demande }, { status: 201 });
   } catch (erreur) {
