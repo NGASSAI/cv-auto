@@ -26,7 +26,7 @@ export function TemplateDossierStructure({
 
   return (
     <div
-      className="w-full aspect-210/297 overflow-hidden bg-papier text-encre px-12 py-12"
+    className="w-full min-h-[297mm] bg-papier text-encre px-12 py-12"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       {/* Cadre en-tête avec coin corné */}

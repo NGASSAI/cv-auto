@@ -39,7 +39,7 @@ export function TemplatePortfolio({
 
   return (
     <div
-      className="w-full aspect-210/297 overflow-hidden bg-papier text-encre"
+     className="w-full min-h-[297mm] bg-papier text-encre"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       {/* En-tête pleine largeur */}

@@ -10,7 +10,7 @@ export function TemplateMinimaliste({ informations, sections, couleurAccent, pol
 
   return (
     <div
-      className="bg-white text-[#161B22] w-full aspect-210/297 p-10 pt-9 overflow-hidden"
+      className="bg-white text-[#161B22] w-full min-h-[297mm] p-10 pt-9"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       <header className="mb-7">

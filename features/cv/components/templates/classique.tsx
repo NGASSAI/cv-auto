@@ -10,7 +10,7 @@ export function TemplateClassique({ informations, sections, couleurAccent, polic
 
   return (
     <div
-      className="bg-white text-[#161B22] w-full aspect-210/297 p-8 pt-8 overflow-hidden"
+      className="bg-white text-[#161B22] w-full min-h-[297mm] p-8 pt-8"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       <header className="text-center pb-4 mb-4" style={{ borderBottom: `2px solid ${couleurAccent}` }}>

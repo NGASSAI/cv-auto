@@ -15,7 +15,7 @@ export function TemplateModerne({ informations, sections, couleurAccent, police,
 
   return (
     <div
-      className="bg-white text-[#161B22] w-full aspect-210/297 overflow-hidden flex"
+      className="bg-white text-[#161B22] w-full min-h-[297mm] flex"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       <aside className="w-[34%] p-6 text-white flex flex-col" style={{ backgroundColor: couleurAccent }}>

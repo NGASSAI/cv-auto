@@ -21,7 +21,7 @@ export function TemplateExecutif({
 
   return (
     <div
-      className="relative flex w-full aspect-210/297 overflow-hidden bg-papier text-encre"
+      className="relative flex w-full min-h-[297mm] bg-papier text-encre"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       {informations.photoUrl && (

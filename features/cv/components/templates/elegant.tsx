@@ -11,7 +11,7 @@ export function TemplateElegant({ informations, sections, couleurAccent, police,
 
   return (
     <div
-      className="bg-white text-[#161B22] w-full aspect-210/297 overflow-hidden"
+    className="bg-white text-[#161B22] w-full min-h-[297mm]"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
       <header className="relative pt-8 pb-10 px-10 text-white" style={{ backgroundColor: couleurAccent }}>
