@@ -38,6 +38,12 @@ export async function GET(
       return NextResponse.json({ erreur: "Une erreur interne est survenue" }, { status: 500 });
     }
 
+    // Mode sandbox : les PDF générés ont un filigrane et NE comptent PAS
+    // dans le quota du compte PDFShift. Utile en dev/preview pour ne
+    // pas gaspiller le quota gratuit pendant les tests. À retirer (ou
+    // mettre PDFSHIFT_SANDBOX=false) sur la vraie production.
+    const modeSandbox = process.env.PDFSHIFT_SANDBOX === "true";
+
     // Même page d'impression et même token que la version Puppeteer :
     // PDFShift va simplement ouvrir cette URL lui-même et la convertir.
     const token = genererTokenImpression(cvId, session.user.id);
@@ -55,6 +61,7 @@ export async function GET(
         format: "A4",
         margin: "0",
         use_print: true,
+        sandbox: modeSandbox,
       }),
     });
 
