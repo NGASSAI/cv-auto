@@ -38,6 +38,8 @@ export function SuggestionsIA({ titrePoste, informations, onResumeChange, onComp
     }
 
     setGenerationEnCours(true);
+    setSuggestionsCompetences([]);
+    setSuggestionsResume("");
 
     try {
       // Récupérer les suggestions de compétences
@@ -47,10 +49,13 @@ export function SuggestionsIA({ titrePoste, informations, onResumeChange, onComp
         body: JSON.stringify({ action: "competences", titrePoste }),
       });
 
-      if (reponseCompetences.ok) {
-        const donneesCompetences = await reponseCompetences.json();
-        setSuggestionsCompetences(donneesCompetences.competences);
+      if (!reponseCompetences.ok) {
+        const erreur = await reponseCompetences.json();
+        throw new Error(erreur.erreur || "Erreur lors de la récupération des compétences");
       }
+
+      const donneesCompetences = await reponseCompetences.json();
+      setSuggestionsCompetences(donneesCompetences.competences || []);
 
       // Générer le résumé
       const reponseResume = await fetch("/api/suggestions-ia", {
@@ -59,14 +64,18 @@ export function SuggestionsIA({ titrePoste, informations, onResumeChange, onComp
         body: JSON.stringify({ action: "resume", informations }),
       });
 
-      if (reponseResume.ok) {
-        const donneesResume = await reponseResume.json();
-        setSuggestionsResume(donneesResume.resume);
+      if (!reponseResume.ok) {
+        const erreur = await reponseResume.json();
+        throw new Error(erreur.erreur || "Erreur lors de la génération du résumé");
       }
 
+      const donneesResume = await reponseResume.json();
+      setSuggestionsResume(donneesResume.resume || "");
+
       toast.success("Suggestions générées avec succès");
-    } catch {
-      toast.error("Erreur lors de la génération des suggestions");
+    } catch (error) {
+      console.error("Erreur génération suggestions:", error);
+      toast.error(error instanceof Error ? error.message : "Erreur lors de la génération des suggestions");
     } finally {
       setGenerationEnCours(false);
     }
@@ -88,7 +97,7 @@ export function SuggestionsIA({ titrePoste, informations, onResumeChange, onComp
   }
 
   function ajouterCompetence(competence: string) {
-    onCompetencesChange([...suggestionsCompetences, competence]);
+    onCompetencesChange([competence]);
     toast.success(`"${competence}" ajoutée aux compétences`);
   }
 

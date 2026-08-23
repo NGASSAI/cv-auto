@@ -57,19 +57,14 @@ export function AjouterSection() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button type="button" variant="outline" className="w-full" disabled={enCours}>
-            <Plus className="w-4 h-4" />
-            Ajouter une section
-          </Button>
-        }
-      />
+      <DropdownMenuTrigger className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md transition-colors w-full disabled:opacity-50 disabled:pointer-events-none">
+        <Plus className="w-4 h-4" />
+        Ajouter une section
+      </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-64">
         {TYPES_DISPONIBLES.map((option) => (
           <DropdownMenuItem
             key={option.type}
-            closeOnClick
             onClick={() => gererAjout(option.type, option.label)}
           >
             {option.label}

@@ -42,7 +42,7 @@ export function TemplateElegant({ informations, sections, couleurAccent, police,
       </header>
 
       {informations.photoUrl && (
-        <div className="relative -mt-14 ml-10 mb-4">
+        <div className="relative mt-4 ml-10 mb-4">
           <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg relative">
             <Image src={informations.photoUrl} alt={nomComplet} fill unoptimized className="object-cover" />
           </div>

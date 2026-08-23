@@ -30,6 +30,7 @@ export function CarteSection({ section, poigneeDragProps }: CarteSectionProps) {
   const [ouverte, setOuverte] = useState(true);
   const [dialogueOuvert, setDialogueOuvert] = useState(false);
 
+  const cv = useEditeurCVStore((etat) => etat.cv);
   const mettreAJourTitreSection = useEditeurCVStore(
     (etat) => etat.mettreAJourTitreSection
   );
@@ -40,9 +41,11 @@ export function CarteSection({ section, poigneeDragProps }: CarteSectionProps) {
   const ajouterItem = useEditeurCVStore((etat) => etat.ajouterItem);
 
   async function gererAjoutItem() {
+    if (!cv) return;
+
     try {
       const reponse = await fetch(
-        `/api/cv/sections/${section.id}/items`,
+        `/api/cv/${cv.id}/sections/${section.id}/items`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

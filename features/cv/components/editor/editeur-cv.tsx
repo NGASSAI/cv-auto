@@ -20,6 +20,7 @@ import { PanneauEdition } from "@/features/cv/components/editor/panneau-edition"
 import { ApercuLive } from "@/features/cv/components/editor/apercu-live";
 import { PanneauDesign } from "@/features/cv/components/editor/panneau-design";
 import { IndicateurSauvegarde } from "@/features/cv/components/editor/indicateur-sauvegarde";
+import { AideEditeur } from "@/features/cv/components/editor/aide-editeur";
 
 interface EditeurCVProps {
   cvInitial: CVEditeur;
@@ -83,6 +84,7 @@ export function EditeurCV({ cvInitial, estPremium, estSuggestionsIA }: EditeurCV
           </div>
                         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
   <IndicateurSauvegarde />
+  <AideEditeur />
   <PanneauDesign estPremium={estPremium} />
   <Button variant="default" size="sm" onClick={gererTelechargement} disabled={telechargementEnCours}>
   {telechargementEnCours ? (

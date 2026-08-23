@@ -78,6 +78,7 @@ interface EtatEditeurCV {
   ) => void;
   supprimerItem: (sectionId: string, itemId: string) => void;
   reordonnerItems: (sectionId: string, nouvelOrdreIds: string[]) => void;
+  ajouterCompetences: (competences: string[]) => void;
 }
 
 // Timers de debounce, un par type d'opération pour ne pas se marcher dessus
@@ -401,5 +402,100 @@ export const useEditeurCVStore = create<EtatEditeurCV>((set, get) => ({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sectionId, ordreIds: nouvelOrdreIds }),
     });
+  },
+
+  ajouterCompetences: async (competences: string[]) => {
+    const { cv } = get();
+    if (!cv) return;
+
+    // Trouver ou créer la section COMPETENCES
+    let sectionCompetences = cv.sections.find((s) => s.type === "COMPETENCES");
+    
+    if (!sectionCompetences) {
+      // Créer la section via l'API
+      try {
+        const response = await fetch(`/api/cv/${cv.id}/sections`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: "COMPETENCES",
+            titre: "Compétences",
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Erreur lors de la création de la section");
+        }
+
+        const data = await response.json();
+        sectionCompetences = {
+          id: data.section.id,
+          type: "COMPETENCES",
+          titre: "Compétences",
+          ordre: cv.sections.length,
+          estVisible: true,
+          items: [],
+        };
+
+        set({
+          cv: {
+            ...cv,
+            sections: [...cv.sections, sectionCompetences],
+          },
+          statutSauvegarde: "inactif",
+        });
+      } catch (error) {
+        console.error("Erreur création section compétences:", error);
+        return;
+      }
+    }
+
+    // Ajouter les compétences comme items
+    const nouveauxItems = competences.map((competence, index) => ({
+      id: `comp-item-${Date.now()}-${index}`,
+      ordre: sectionCompetences.items.length + index,
+      titre: competence,
+      sousTitre: null,
+      lieu: null,
+      dateDebut: null,
+      dateFin: null,
+      description: null,
+      donneesJson: null,
+    }));
+
+    set({
+      cv: {
+        ...cv,
+        sections: cv.sections.map((s) =>
+          s.id === sectionCompetences.id
+            ? { ...s, items: [...s.items, ...nouveauxItems] }
+            : s
+        ),
+      },
+      statutSauvegarde: "en_attente",
+    });
+
+    // Sauvegarder les items sur le serveur
+    for (const item of nouveauxItems) {
+      try {
+        await fetch(`/api/cv/${cv.id}/sections/${sectionCompetences.id}/items`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            titre: item.titre,
+            sousTitre: item.sousTitre,
+            lieu: item.lieu,
+            dateDebut: item.dateDebut,
+            dateFin: item.dateFin,
+            description: item.description,
+            donneesJson: item.donneesJson,
+          }),
+        });
+      } catch (error) {
+        console.error("Erreur création item compétence:", error);
+      }
+    }
+
+    set({ statutSauvegarde: "inactif" });
   },
 }));

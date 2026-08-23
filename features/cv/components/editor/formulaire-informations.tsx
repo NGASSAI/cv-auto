@@ -26,6 +26,7 @@ export function FormulaireInformations({ estPremium, estSuggestionsIA }: { estPr
   const mettreAJourInformations = useEditeurCVStore(
     (etat) => etat.mettreAJourInformations
   );
+  const ajouterCompetences = useEditeurCVStore((etat) => etat.ajouterCompetences);
 
   if (!cv) return null;
 
@@ -37,11 +38,7 @@ export function FormulaireInformations({ estPremium, estSuggestionsIA }: { estPr
             titrePoste={cv.informations.titrePoste}
             informations={cv.informations}
             onResumeChange={(resume) => mettreAJourInformations("resume", resume)}
-            onCompetencesChange={(competences) => {
-              // Note: This would need to be implemented in the store
-              // For now, it's just for display
-              console.log("Compétences suggérées:", competences);
-            }}
+            onCompetencesChange={(competences) => ajouterCompetences(competences)}
           />
         </div>
       )}
