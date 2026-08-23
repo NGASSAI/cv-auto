@@ -143,13 +143,14 @@ export function EditeurCV({ cvInitial, estPremium, estSuggestionsIA }: EditeurCV
           <PanneauEdition estPremium={estPremium} estSuggestionsIA={estSuggestionsIA} />
         </TabsContent>
 
-        <TabsContent value="apercu" className="flex-1 min-h-0 overflow-y-auto p-4 bg-muted/30 mt-0">
-          <div className="min-h-fit flex justify-center">
-            <div className="w-full max-w-[600px]">
-              <ApercuLive />
-            </div>
-          </div>
-        </TabsContent>
+        <TabsContent
+  value="apercu"
+  className="flex-1 min-h-0 overflow-y-auto bg-muted/30 mt-0 p-2 sm:p-4"
+>
+  <div className="w-full min-w-0">
+    <ApercuLive />
+  </div>
+</TabsContent>
       </Tabs>
     </div>
   );

@@ -24,7 +24,7 @@ export function TemplateClassique({ informations, sections, couleurAccent, polic
             {informations.titrePoste}
           </p>
         )}
-        <div className="flex justify-center gap-4 mt-3 text-sm text-[#3D4B5C] flex-wrap">
+        <div className="flex justify-center gap-3 mt-3 text-sm text-[#3D4B5C] flex-wrap">
           {informations.email && (
             <span className="flex items-center gap-1">
               <Mail className="w-4 h-4" style={{ color: couleurAccent }} />
