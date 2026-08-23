@@ -71,7 +71,7 @@ export default async function PageImpressionCV({ params, searchParams }: PageImp
       <style>{`
         @page { 
           size: A4; 
-          margin: 0.5cm;
+          margin: 0.3cm;
         }
         body {
           margin: 0;
@@ -90,6 +90,8 @@ export default async function PageImpressionCV({ params, searchParams }: PageImp
         .text-ardoise {
           color: #4a5568;
         }
+        /* Force le chargement des polices Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=Geist+Sans:wght@400;500;600&family=Merriweather:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Manrope:wght@400;500;700&family=Lora:wght@400;500;600&display=swap');
       `}</style>
       <ComposantTemplate
         informations={informations}

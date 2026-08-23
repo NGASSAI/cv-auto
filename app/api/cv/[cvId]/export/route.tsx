@@ -112,14 +112,15 @@ export async function GET(
           format: "A4",
           printBackground: true,
           preferCSSPageSize: true,
-          scale: 1.5, // Améliore la qualité du rendu
+          scale: 1,
           margin: {
-            top: "0.5cm",
-            right: "0.5cm",
-            bottom: "0.5cm",
-            left: "0.5cm",
+            top: "0.3cm",
+            right: "0.3cm",
+            bottom: "0.3cm",
+            left: "0.3cm",
           },
         },
+        waitFor: 2000, // Attendre 2 secondes pour le chargement des polices
       }),
     });
 

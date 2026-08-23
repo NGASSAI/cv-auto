@@ -7,18 +7,20 @@ const TYPES_EN_BADGES = ["COMPETENCES", "LANGUES", "CENTRES_INTERET"];
 
 export function TemplateClassique({ informations, sections, couleurAccent, police, alignementTexte, tailleTexte }: ProprietesTemplate) {
   const nomComplet = [informations.prenom, informations.nom].filter(Boolean).join(" ");
+  
+  console.log("Template params:", { police, alignementTexte, tailleTexte, couleurAccent });
 
   return (
     <div
-      className="bg-white text-[#161B22] w-full min-h-[297mm] p-8 pt-8"
+      className="bg-white text-[#161B22] w-full min-h-[297mm] p-6 pt-6"
       style={{ fontFamily: obtenirVariableCssPolice(police) }}
     >
-      <header className="text-center pb-6 mb-6" style={{ borderBottom: `2px solid ${couleurAccent}` }}>
-        <h1 className="text-5xl font-bold" style={{ fontFamily: "var(--font-display)" }}>
+      <header className="text-center pb-3 mb-3" style={{ borderBottom: `2px solid ${couleurAccent}` }}>
+        <h1 className="text-4xl font-bold" style={{ fontFamily: "var(--font-display)" }}>
           {nomComplet || "Votre nom"}
         </h1>
         {informations.titrePoste && (
-          <p className="text-lg uppercase tracking-widest mt-2 text-[#3D4B5C] font-medium">
+          <p className="text-base uppercase tracking-widest mt-1 text-[#3D4B5C] font-medium">
             {informations.titrePoste}
           </p>
         )}
@@ -45,12 +47,12 @@ export function TemplateClassique({ informations, sections, couleurAccent, polic
       </header>
 
       {informations.resume && (
-        <p className={`${tailleResume(tailleTexte)} leading-relaxed ${classeAlignement(alignementTexte)} italic mb-7 text-[#3D4B5C] px-4 whitespace-pre-wrap break-words`}>
+        <p className={`${tailleResume(tailleTexte)} leading-relaxed ${classeAlignement(alignementTexte)} italic mb-5 text-[#3D4B5C] px-4 whitespace-pre-wrap break-words`}>
           {informations.resume}
         </p>
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {sections
           .filter((s) => s.estVisible)
           .map((section) => (
@@ -75,22 +77,22 @@ export function TemplateClassique({ informations, sections, couleurAccent, polic
                   ))}
                 </div>
               ) : (
-                <div className="space-y-3.5">
+                <div className="space-y-3">
                   {section.items.map((item) => (
                     <div key={item.id} className="pl-3" style={{ borderLeft: `2px solid ${couleurAccent}40` }}>
                       <div className="flex justify-between items-baseline gap-2">
-                        <span className="text-base font-medium">{item.titre}</span>
-                        <span className="text-sm text-[#3D4B5C] shrink-0 whitespace-nowrap">
+                        <span className="text-sm font-medium">{item.titre}</span>
+                        <span className="text-xs text-[#3D4B5C] shrink-0 whitespace-nowrap">
                           {formaterPeriode(item.dateDebut, item.dateFin)}
                         </span>
                       </div>
                       {(item.sousTitre || item.lieu) && (
-                        <p className="text-sm text-[#3D4B5C] mt-0.5">
+                        <p className="text-xs text-[#3D4B5C] mt-0.5">
                           {[item.sousTitre, item.lieu].filter(Boolean).join(" — ")}
                         </p>
                       )}
                       {item.description && (
-                        <p className="text-sm leading-relaxed mt-1.5 text-[#161B22]/85 whitespace-pre-line">
+                        <p className="text-xs leading-relaxed mt-1 text-[#161B22]/85 whitespace-pre-line">
                           {item.description}
                         </p>
                       )}
