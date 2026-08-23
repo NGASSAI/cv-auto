@@ -37,6 +37,12 @@ export default async function PageImpressionCV({ params, searchParams }: PageImp
   let cv;
   try {
     cv = await recupererCVComplet(cvId, charge.userId);
+    console.log("📄 PARAMÈTRES CV POUR PDF :", {
+  police: cv.police,
+  tailleTexte: cv.tailleTexte,
+  alignementTexte: cv.alignementTexte,
+  templateId: cv.templateId,
+});
   } catch (erreur) {
     if (erreur instanceof ErreurCV) {
       notFound();
