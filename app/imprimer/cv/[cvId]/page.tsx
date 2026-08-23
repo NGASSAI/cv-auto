@@ -10,20 +10,20 @@ interface PageImpressionProps {
 
 /**
  * Page interne, non liée dans la navigation, utilisée uniquement par
- * Puppeteer pour générer le PDF (voir app/api/cv/[cvId]/export/route.tsx).
+ * Browserless pour générer le PDF (voir app/api/cv/[cvId]/export/route.tsx).
  *
- * Accès protégé par un token signé à courte durée de vie (pas par la
- * session NextAuth habituelle, puisque Puppeteer n'a pas de cookie de
- * navigateur) — voir features/cv/lib/token-impression.ts.
+ * Accès protégé par un token signé à courte durée de vie — voir
+ * features/cv/lib/token-impression.ts.
  *
  * IMPORTANT : ne PAS mettre de balises <html>/<body> ici — le layout
- * racine (app/layout.tsx) les fournit déjà, avec l'import de
- * globals.css et les variables de police. Les dupliquer casse le CSS
- * (HTML invalide) et empêche Tailwind de s'appliquer correctement.
+ * racine (app/layout.tsx) les fournit déjà. Les dupliquer casse le CSS.
  *
- * Affiche EXACTEMENT le même composant de template que l'aperçu live
- * de l'éditeur (apercu-live.tsx) : c'est ce qui garantit que le PDF
- * est pixel-perfect identique à ce que l'utilisateur voit à l'écran.
+ * IMPORTANT #2 : la largeur du <body> DOIT être fixée à 210mm (largeur
+ * physique d'une page A4). Sans ça, le navigateur headless de
+ * Browserless rend la page à sa largeur de fenêtre par défaut (souvent
+ * plus large qu'un A4), et le moteur d'impression compresse ensuite
+ * tout le contenu — y compris le texte — pour tenir dans une page A4,
+ * ce qui donne un texte visuellement trop petit dans le PDF final.
  */
 export default async function PageImpressionCV({ params, searchParams }: PageImpressionProps) {
   const { cvId } = await params;
@@ -68,14 +68,17 @@ export default async function PageImpressionCV({ params, searchParams }: PageImp
 
   return (
     <>
-      {/*
-        @page force Puppeteer (avec preferCSSPageSize: true) à générer
-        une page PDF exactement au format A4, sans marge — le template
-        gère lui-même son padding interne.
-      */}
       <style>{`
         @page { size: A4; margin: 0; }
-        body { margin: 0; padding: 0; }
+        body {
+          margin: 0;
+          padding: 0;
+          width: 210mm;
+          /* Le contenu peut dépasser 297mm si le CV est long (voir le
+             fix min-h-[297mm] sur les templates) : on ne fixe donc
+             QUE la largeur ici, jamais la hauteur, pour ne pas
+             réintroduire de contenu coupé. */
+        }
       `}</style>
       <ComposantTemplate
         informations={informations}
