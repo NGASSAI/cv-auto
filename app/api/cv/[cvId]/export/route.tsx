@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { renderToBuffer } from "@react-pdf/renderer";
 import { authOptions } from "@/shared/lib/auth";
 import { obtenirParametresSite } from "@/features/admin/api/parametres.service";
 import { recupererCVComplet, ErreurCV } from "@/features/cv/api/cv.service";
-import { obtenirComposantPdf } from "@/features/cv/components/pdf/registre-pdf";
-import { enregistrerPolicesPdf } from "@/features/cv/components/pdf/registre-polices-pdf";
+import { genererTokenImpression } from "@/features/cv/lib/token-impression";
+
+const URL_PDFSHIFT = "https://api.pdfshift.io/v3/convert/pdf";
 
 export async function GET(
   request: NextRequest,
@@ -28,49 +28,49 @@ export async function GET(
       );
     }
 
-    // Doit être appelé avant tout renderToBuffer() : enregistre les
-    // polices custom (Fraunces, Geist, Merriweather, Playfair, Manrope,
-    // Lora) auprès de @react-pdf/renderer. Idempotent.
-    enregistrerPolicesPdf();
-
+    // Vérifie que le CV existe et appartient bien à l'utilisateur avant
+    // d'appeler l'API externe (échec rapide, pas d'appel payant inutile).
     const cv = await recupererCVComplet(cvId, session.user.id);
 
-    const ComposantPdf = obtenirComposantPdf(cv.templateId);
+    const cleApi = process.env.PDFSHIFT_API_KEY;
+    if (!cleApi) {
+      console.error("PDFSHIFT_API_KEY n'est pas définie dans les variables d'environnement.");
+      return NextResponse.json({ erreur: "Une erreur interne est survenue" }, { status: 500 });
+    }
 
-    const sectionsFormatees = cv.sections.map((section) => ({
-      ...section,
-      items: section.items.map((item) => ({
-        ...item,
-        dateDebut: item.dateDebut ? item.dateDebut.toISOString().split("T")[0] : null,
-        dateFin: item.dateFin ? item.dateFin.toISOString().split("T")[0] : null,
-      })),
-    }));
+    // Même page d'impression et même token que la version Puppeteer :
+    // PDFShift va simplement ouvrir cette URL lui-même et la convertir.
+    const token = genererTokenImpression(cvId, session.user.id);
+    const urlImpression = new URL(`/imprimer/cv/${cvId}`, request.nextUrl.origin);
+    urlImpression.searchParams.set("token", token);
 
-    const buffer = await renderToBuffer(
-      <ComposantPdf
-        informations={
-          cv.informations ?? {
-            prenom: null,
-            nom: null,
-            titrePoste: null,
-            email: null,
-            telephone: null,
-            adresse: null,
-            photoUrl: null,
-            resume: null,
-          }
-        }
-        sections={sectionsFormatees}
-        couleurAccent={cv.couleurAccent}
-        police={cv.police}
-        alignementTexte={cv.alignementTexte}
-        tailleTexte={cv.tailleTexte}
-      />
-    );
+    const reponsePdfShift = await fetch(URL_PDFSHIFT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${Buffer.from(`${cleApi}:`).toString("base64")}`,
+      },
+      body: JSON.stringify({
+        source: urlImpression.toString(),
+        format: "A4",
+        margin: "0",
+        use_print: true,
+      }),
+    });
 
+    if (!reponsePdfShift.ok) {
+      const detailErreur = await reponsePdfShift.text();
+      console.error("Erreur PDFShift :", reponsePdfShift.status, detailErreur);
+      return NextResponse.json(
+        { erreur: "La génération du PDF a échoué" },
+        { status: 502 }
+      );
+    }
+
+    const buffer = await reponsePdfShift.arrayBuffer();
     const nomFichier = `${cv.titre.replace(/[^a-z0-9]/gi, "_")}.pdf`;
 
-    return new NextResponse(new Uint8Array(buffer), {
+    return new NextResponse(buffer, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
