@@ -5,7 +5,7 @@ import { obtenirParametresSite } from "@/features/admin/api/parametres.service";
 import { recupererCVComplet, ErreurCV } from "@/features/cv/api/cv.service";
 import { genererTokenImpression } from "@/features/cv/lib/token-impression";
 
-/**
+/**Preview
  * L'URL de base Browserless dépend de la région assignée à ton compte
  * (visible dans ton dashboard Browserless). Configurable via variable
  * d'environnement pour ne pas la coder en dur.
@@ -50,10 +50,10 @@ export async function GET(
     const urlImpression = new URL(`/imprimer/cv/${cvId}`, request.nextUrl.origin);
     urlImpression.searchParams.set("token", tokenImpression);
 
-    // Contourne le mur "Log in to Vercel" sur les déploiements Preview
+    // Contourne le mur "Log in to Vercel" sur les déploiements 
     // (Deployment Protection), pour que Browserless puisse atteindre la
     // page d'impression sans être bloqué. Sans effet en production si
-    // la protection y est désactivée — le paramètre est juste ignoré.
+    // la protection y est désactivée 
     const secretBypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
     if (secretBypass) {
       urlImpression.searchParams.set("x-vercel-protection-bypass", secretBypass);
