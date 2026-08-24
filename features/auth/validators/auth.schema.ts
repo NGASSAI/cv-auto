@@ -46,9 +46,21 @@ export type DonneesDemandeReinitialisation = z.infer<typeof schemaDemandeReiniti
 /**
  * Schéma pour la réinitialisation effective du mot de passe
  */
-export const schemaReinitialisation = z.object({
-  token: z.string().min(1, "Token manquant"),
-  nouveauMotDePasse: schemaMotDePasse,
-});
+export const schemaReinitialisation = z
+  .object({
+    token: z.string().min(1, "Token manquant"),
+    nouveauMotDePasse: schemaMotDePasse,
+    confirmationMotDePasse: z
+      .string()
+      .min(1, "La confirmation du mot de passe est requise"),
+  })
+  .refine(
+    (donnees) =>
+      donnees.nouveauMotDePasse === donnees.confirmationMotDePasse,
+    {
+      message: "Les mots de passe ne correspondent pas",
+      path: ["confirmationMotDePasse"],
+    }
+  );
 
 export type DonneesReinitialisation = z.infer<typeof schemaReinitialisation>;

@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +20,7 @@ import {
 export function FormulaireInscription() {
   const router = useRouter();
   const [enChargement, setEnChargement] = useState(false);
+  const [jetonTurnstile, setJetonTurnstile] = useState("");
 
   const {
     register,
@@ -29,13 +31,21 @@ export function FormulaireInscription() {
   });
 
   async function onSubmit(donnees: DonneesInscription) {
+    if (!jetonTurnstile) {
+      toast.error("Veuillez vérifier le CAPTCHA");
+      return;
+    }
+
     setEnChargement(true);
 
     try {
       const reponse = await fetch("/api/auth/inscription", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(donnees),
+        body: JSON.stringify({
+          ...donnees,
+          jetonTurnstile,
+        }),
       });
 
       const resultat = await reponse.json();
@@ -46,8 +56,6 @@ export function FormulaireInscription() {
         return;
       }
 
-      // Connexion automatique juste après l'inscription,
-      // pour éviter à l'utilisateur de ressaisir ses identifiants
       const connexion = await signIn("credentials", {
         email: donnees.email,
         motDePasse: donnees.motDePasse,
@@ -123,6 +131,19 @@ export function FormulaireInscription() {
         )}
       </div>
 
+      {/* CAPTCHA Cloudflare Turnstile */}
+      <div className="flex justify-center">
+        <Turnstile
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+          onSuccess={(token) => setJetonTurnstile(token)}
+          onExpire={() => setJetonTurnstile("")}
+          onError={() => {
+            setJetonTurnstile("");
+            toast.error("Le CAPTCHA n'a pas pu être chargé");
+          }}
+        />
+      </div>
+
       <Button type="submit" className="w-full" disabled={enChargement}>
         {enChargement && <Loader2 className="animate-spin" />}
         Créer mon compte
@@ -130,7 +151,10 @@ export function FormulaireInscription() {
 
       <p className="text-sm text-center text-muted-foreground">
         Déjà un compte ?{" "}
-        <a href="/connexion" className="text-secondary hover:underline font-medium">
+        <a
+          href="/connexion"
+          className="text-secondary hover:underline font-medium"
+        >
           Se connecter
         </a>
       </p>

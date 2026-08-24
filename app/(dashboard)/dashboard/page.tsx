@@ -44,7 +44,7 @@ export default async function PageDashboard() {
       <div className="flex justify-end mb-6">
         <BoutonPremium 
           statutInitial={statutInitial} 
-          utilisateurId={session!.user.id}
+          
           formuleActuelle={utilisateurAvecAbonnement?.abonnement?.formulePremium}
         />
       </div>

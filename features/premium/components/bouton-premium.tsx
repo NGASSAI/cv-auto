@@ -21,7 +21,6 @@ type StatutDemande = "EN_ATTENTE" | "APPROUVEE" | "REFUSEE" | null;
 
 interface BoutonPremiumProps {
   statutInitial: StatutDemande;
-  utilisateurId: string;
   formuleActuelle?: FormulePremium | null;
 }
 
@@ -29,7 +28,7 @@ const NUMERO_WHATSAPP = "242066817726";
 const NUMERO_TELEPHONE = "+242 06 681 77 26";
 const LIEN_TEL = `tel:${NUMERO_TELEPHONE.replace(/\s/g, "")}`;
 
-export function BoutonPremium({ statutInitial, utilisateurId, formuleActuelle }: BoutonPremiumProps) {
+export function BoutonPremium({ statutInitial, formuleActuelle }: BoutonPremiumProps) {
   const [statut, setStatut] = useState<StatutDemande>(statutInitial);
   const [dialogueOuvert, setDialogueOuvert] = useState(false);
   const [formuleSelectionnee, setFormuleSelectionnee] = useState<FormulePremium | null>(null);
@@ -209,7 +208,7 @@ export function BoutonPremium({ statutInitial, utilisateurId, formuleActuelle }:
 
           {/* Message optionnel */}
           <div className="space-y-2">
-            <p className="text-sm font-medium">Message pour l'admin (optionnel)</p>
+            <p className="text-sm font-medium">Message pour l&apos;admin  (optionnel)</p>
             <Textarea
               placeholder="Précisez vos besoins ou posez vos questions..."
               value={message}

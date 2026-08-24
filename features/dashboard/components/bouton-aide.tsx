@@ -79,10 +79,11 @@ export function BoutonAide() {
       </DialogTrigger>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <HelpCircle className="w-5 h-5 text-primary" />
-            Guide d'utilisation
-          </DialogTitle>
+         
+         <DialogTitle className="flex items-center gap-2">
+  <HelpCircle className="w-5 h-5 text-primary" />
+  Guide d&apos;utilisation
+</DialogTitle>
           <DialogDescription>
             Apprenez à naviguer dans CV Builder et créer votre CV professionnel
           </DialogDescription>

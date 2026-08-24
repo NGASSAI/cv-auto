@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
 import { X } from "lucide-react";
-import { INFORMATIONS_EXEMPLE, SECTIONS_EXEMPLE } from "@/features/cv/lib/donnees-exemple";
+import {
+  INFORMATIONS_EXEMPLE,
+  SECTIONS_EXEMPLE,
+} from "@/features/cv/lib/donnees-exemple";
+import type { ProprietesTemplate } from "@/features/cv/components/templates/types";
 
 interface ModaleApercuTemplateProps {
   ouvert: boolean;
@@ -11,7 +15,7 @@ interface ModaleApercuTemplateProps {
   template: {
     cle: string;
     nom: string;
-    composant: React.ComponentType<any>;
+    composant: React.ComponentType<ProprietesTemplate>;
     estPremium: boolean;
   };
   couleur?: string;
@@ -36,6 +40,7 @@ export function ModaleApercuTemplate({
           <div className="bg-gradient-to-r from-primary/10 to-secondary/10 px-6 py-4 border-b">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">{template.nom}</h2>
+
               {template.estPremium && (
                 <span className="px-3 py-1 text-xs font-medium bg-primary text-white rounded-full animate-pulse">
                   Premium
@@ -45,15 +50,15 @@ export function ModaleApercuTemplate({
           </div>
 
           <div className="flex justify-center p-4 md:p-8 overflow-auto">
-            <div 
+            <div
               className="transform transition-transform duration-500 hover:scale-[1.02]"
-              style={{ 
-                width: '100%',
-                maxWidth: '550px',
-                aspectRatio: '210/297',
+              style={{
+                width: "100%",
+                maxWidth: "550px",
+                aspectRatio: "210/297",
               }}
             >
-              <div style={{ width: '100%', height: '100%' }}>
+              <div style={{ width: "100%", height: "100%" }}>
                 <Composant
                   informations={INFORMATIONS_EXEMPLE}
                   sections={SECTIONS_EXEMPLE}

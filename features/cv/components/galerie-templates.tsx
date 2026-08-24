@@ -4,13 +4,20 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { listerTemplates } from "@/features/cv/components/templates/registre-templates";
 import { ModaleApercuTemplate } from "@/features/cv/components/modale-apercu-template";
-import { INFORMATIONS_EXEMPLE, SECTIONS_EXEMPLE } from "@/features/cv/lib/donnees-exemple";
+import {
+  INFORMATIONS_EXEMPLE,
+  SECTIONS_EXEMPLE,
+} from "@/features/cv/lib/donnees-exemple";
 
 const PALETTE_APERCU = ["#E8992D", "#2D5A4A", "#1E5F8C", "#8B3A3A"];
 
 export function GalerieTemplates() {
-  const [templateSelectionne, setTemplateSelectionne] = useState<any>(null);
   const templates = listerTemplates();
+
+  type Template = (typeof templates)[number];
+
+  const [templateSelectionne, setTemplateSelectionne] =
+    useState<Template | null>(null);
 
   return (
     <>
@@ -18,14 +25,25 @@ export function GalerieTemplates() {
         {templates.map((template, index) => {
           const Composant = template.composant;
           const couleur = PALETTE_APERCU[index % PALETTE_APERCU.length];
+
           const largeurApercuMobile = 190;
           const largeurApercuDesktop = 280;
           const largeurReelle = 800;
-          const hauteurApercuMobile = largeurApercuMobile * (297 / 210);
-          const hauteurApercuDesktop = largeurApercuDesktop * (297 / 210);
+
+          const hauteurApercuMobile =
+            largeurApercuMobile * (297 / 210);
+
+          const hauteurApercuDesktop =
+            largeurApercuDesktop * (297 / 210);
+
           const hauteurReelle = largeurReelle * (297 / 210);
-          const echelleMobile = largeurApercuMobile / largeurReelle;
-          const echelleDesktop = largeurApercuDesktop / largeurReelle;
+
+          const echelleMobile =
+            largeurApercuMobile / largeurReelle;
+
+          const echelleDesktop =
+            largeurApercuDesktop / largeurReelle;
+
           return (
             <motion.div
               key={template.cle}
@@ -39,14 +57,18 @@ export function GalerieTemplates() {
                 onClick={() => setTemplateSelectionne(template)}
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative overflow-hidden rounded-lg border border-ardoise/15 shadow-sm hover:border-primary transition-all duration-300 cursor-pointer hover:shadow-xl block md:hidden"
-                style={{ width: largeurApercuMobile, height: hauteurApercuMobile }}
+                className="relative block cursor-pointer overflow-hidden rounded-lg border border-ardoise/15 shadow-sm transition-all duration-300 hover:border-primary hover:shadow-xl md:hidden"
+                style={{
+                  width: largeurApercuMobile,
+                  height: hauteurApercuMobile,
+                }}
               >
                 {template.estPremium && (
                   <span className="absolute right-1.5 top-1.5 z-10 rounded-full bg-primary px-2 py-0.5 text-[9px] font-medium text-white">
                     Premium
                   </span>
                 )}
+
                 <div
                   style={{
                     width: largeurReelle,
@@ -66,18 +88,23 @@ export function GalerieTemplates() {
                   />
                 </div>
               </motion.button>
+
               <motion.button
                 onClick={() => setTemplateSelectionne(template)}
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative overflow-hidden rounded-lg border border-ardoise/15 shadow-sm hover:border-primary transition-all duration-300 cursor-pointer hover:shadow-xl hidden md:block"
-                style={{ width: largeurApercuDesktop, height: hauteurApercuDesktop }}
+                className="relative hidden cursor-pointer overflow-hidden rounded-lg border border-ardoise/15 shadow-sm transition-all duration-300 hover:border-primary hover:shadow-xl md:block"
+                style={{
+                  width: largeurApercuDesktop,
+                  height: hauteurApercuDesktop,
+                }}
               >
                 {template.estPremium && (
                   <span className="absolute right-1.5 top-1.5 z-10 rounded-full bg-primary px-2 py-0.5 text-[9px] font-medium text-white">
                     Premium
                   </span>
                 )}
+
                 <div
                   style={{
                     width: largeurReelle,
@@ -97,7 +124,10 @@ export function GalerieTemplates() {
                   />
                 </div>
               </motion.button>
-              <span className="text-xs text-ardoise">{template.nom}</span>
+
+              <span className="text-xs text-ardoise">
+                {template.nom}
+              </span>
             </motion.div>
           );
         })}
@@ -108,7 +138,12 @@ export function GalerieTemplates() {
           ouvert={!!templateSelectionne}
           onFermer={() => setTemplateSelectionne(null)}
           template={templateSelectionne}
-          couleur={PALETTE_APERCU[templates.indexOf(templateSelectionne) % PALETTE_APERCU.length]}
+          couleur={
+            PALETTE_APERCU[
+              templates.indexOf(templateSelectionne) %
+                PALETTE_APERCU.length
+            ]
+          }
         />
       )}
     </>

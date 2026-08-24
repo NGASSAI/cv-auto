@@ -38,7 +38,7 @@ export function FormulaireReinitialisation({
     setEnChargement(true);
 
     try {
-      const reponse = await fetch("/api/auth/reinitialiser", {
+      const reponse = await fetch("/api/auth/reinitialiser/confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(donnees),
@@ -76,6 +76,25 @@ export function FormulaireReinitialisation({
           aria-invalid={!!errors.nouveauMotDePasse}
           {...register("nouveauMotDePasse")}
         />
+        <div className="space-y-2">
+  <Label htmlFor="confirmationMotDePasse">
+    Confirmer le mot de passe
+  </Label>
+
+  <Input
+    id="confirmationMotDePasse"
+    type="password"
+    autoComplete="new-password"
+    aria-invalid={!!errors.confirmationMotDePasse}
+    {...register("confirmationMotDePasse")}
+  />
+
+  {errors.confirmationMotDePasse && (
+    <p className="text-sm text-destructive">
+      {errors.confirmationMotDePasse.message}
+    </p>
+  )}
+</div>
         {errors.nouveauMotDePasse ? (
           <p className="text-sm text-destructive">
             {errors.nouveauMotDePasse.message}
